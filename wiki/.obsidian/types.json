@@ -1,0 +1,12 @@
+{
+  "types": {
+    "aliases": "aliases",
+    "cssclasses": "multitext",
+    "tags": "tags",
+    "roles": "multitext",
+    "dev": "checkbox",
+    "Developer": "checkbox",
+    "Operations": "checkbox",
+    "Backend": "checkbox"
+  }
+}

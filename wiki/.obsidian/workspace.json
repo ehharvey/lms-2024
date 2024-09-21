@@ -1,0 +1,156 @@
+{
+  "main": {
+    "id": "83b5f0fe930a71bb",
+    "type": "split",
+    "children": [
+      {
+        "id": "a844251584c0fb98",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3f892a1f31d4fa4b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "contributors/Emil Harvey.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4044c08c1ae7df05",
+    "type": "split",
+    "children": [
+      {
+        "id": "9d5d43dd1789bfb5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c4d6de19cfa4419d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "0aa3dbba8aec177d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "970e060ef615c2e4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5a419bf844d85539",
+    "type": "split",
+    "children": [
+      {
+        "id": "009f05d75abfa4dd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f63cfa011593bee0",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "contributors/Emil Harvey.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "fc11f2b8176856f9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "contributors/Emil Harvey.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "92fa1b392b8176e1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "ce067c4f9f72a849",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "contributors/Emil Harvey.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "3f892a1f31d4fa4b",
+  "lastOpenFiles": [
+    "contributors/Emil Harvey.md",
+    "contributors",
+    "create a link.md",
+    "Welcome.md"
+  ]
+}
