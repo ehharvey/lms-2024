@@ -3,6 +3,7 @@ on:
   push:
     branches-ignore: 
       - main
+permissions: write-all
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
