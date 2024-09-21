@@ -1,0 +1,16 @@
+name: Automatically create pull requests
+on:
+  push:
+    branches-ignore: 
+      - main
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create pull request
+        run: gh pr create --title "$(git branch --show-current)" --body "TBD"  --draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+
