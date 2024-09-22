@@ -1,0 +1,29 @@
+name: Create subissues for issues tagged with 'everyone'
+on:
+  issues:
+    types: [labeled, assigned]
+permissions: write-all
+
+jobs:
+    createSubissues:
+        runs-on: ubuntu-latest
+        if: contains(github.event.issue.labels.*.name, 'everyone')
+        strategy:
+            matrix:
+                assignee: ${{ github.event.issue.assignees.*.login }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Create subissue
+              run: gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}" --assignee "${{ matrix.assignee }}" > subissue.txt
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              continue-on-error: true
+              id: createSubissues
+
+            - name: Add subissue link as comment to parent issue
+              run: gh issue comment "${{ github.event.issue.number }}" -b "${{ matrix.assignee }} generated-subissue $(cat subissue.txt)"
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              continue-on-error: true
+              id: addSubissueLink
