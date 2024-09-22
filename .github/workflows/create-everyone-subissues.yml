@@ -22,7 +22,7 @@ jobs:
               id: createSubissues
 
             - name: Add subissue link as comment to parent issue
-              run: gh issue comment "${{ github.event.issue.number }}" -b "${{ matrix.assignee }} generated-subissue $(cat subissue.txt)"
+              run: gh issue comment "${{ github.event.issue.number }}" -b "@${{ matrix.assignee }} generated-subissue $(cat subissue.txt)"
               env:
                   GH_TOKEN: ${{ github.token }}
               continue-on-error: true
