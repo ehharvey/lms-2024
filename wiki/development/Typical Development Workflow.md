@@ -1,7 +1,7 @@
 This page describes how development takes place here!
 # Overview
 * This project uses **weekly** sprints/iterations. Sprints are when code changes can happen and start on **Wednesday** and end on **Tuesday**
-* Changes occur through **pull requests only**. This means you cannot push straight to `main`. Instead, you will create a `git` branch, make changes there, and then create a pull request for others to review
+* Changes occur through **pull requests only**. This means you cannot push straight to `main`. Instead, you will create a `git` branch and make changes there. This repository automatically creates a pull request for you :)
 * Work should be organised via **GitHub Issues**. This means that people should assign themselves to an issue before starting work. This is to prevent 2 people from working on the same thing!
 * Currently, Emil (@ehharvey) is the one creating issues and managing the direction of the project. As time goes on, this could change!
 # Process Specifics
