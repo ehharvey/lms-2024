@@ -40,7 +40,7 @@ jobs:
 
             - name: Assign collaborator to issue
               run: |
-                  issue_number=$(echo ${{ toJson(matrix.issue) }} | jq -r '.number')
-                  collaborator=$(echo ${{ toJson(matrix.collaborator) }} | jq -r '.login')
+                  issue_number=$(echo '${{ toJson(matrix.issue) }}' | jq -r '.number')
+                  collaborator=$(echo '${{ toJson(matrix.collaborator) }}' | jq -r '.login')
                   gh issue edit $issue_number --add-assignee $collaborator
 
