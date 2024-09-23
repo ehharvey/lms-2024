@@ -30,13 +30,13 @@ jobs:
         working-directory: quartz
       
       - name: Upload wiki
-        uses: actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: 'wiki-public'
           name: wiki
        
       - name: Deploy wiki
-        uses: actions/deploy-pages
+        uses: actions/deploy-pages@v4.0.5
         with:
           artifact_name: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
