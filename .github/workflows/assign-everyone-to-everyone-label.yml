@@ -35,6 +35,7 @@ jobs:
             matrix:
                 issue: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.issues) }}
                 collaborator: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.collaborators) }}
+            max-parallel: 1
         steps:
             - uses: actions/checkout@v4
 
