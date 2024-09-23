@@ -11,8 +11,8 @@ jobs:
     fetchCurrentIssuesAndCollaborators:
         runs-on: ubuntu-latest
         outputs:
-            issues: ${{ fromJson(steps.fetch-issues.outputs.issues) }}
-            collaborators: ${{ fromJson(steps.fetch-collaborators.outputs.collaborators) }}
+            issues: ${{ steps.fetch-issues.outputs.issues }}
+            collaborators: ${{ steps.fetch-collaborators.outputs.collaborators }}
         steps:
             - uses: actions/checkout@v4
 
@@ -33,8 +33,8 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                issue: ${{needs.fetchCurrentIssuesAndCollaborators.outputs.issues}}
-                collaborator: ${{needs.fetchCurrentIssuesAndCollaborators.outputs.collaborators}}
+                issue: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.issues) }}
+                collaborator: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.collaborators) }}
         steps:
             - uses: actions/checkout@v4
 
