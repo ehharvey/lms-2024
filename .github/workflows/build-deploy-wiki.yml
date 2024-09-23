@@ -1,0 +1,42 @@
+name: Build and deploy wiki
+on:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'wiki/**'
+  workflow_dispatch:
+permissions: write-all
+jobs:
+  buildWiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout quartz
+        uses: actions/checkout@v4
+        with:
+          repository: 'jackyzha0/quartz'
+          # v4.3.1 tag
+          ref: 'v4.3.1'
+          path: 'quartz'
+      
+      - name: Install dependencies
+        run: npm install
+        working-directory: quartz
+      
+      - name: Build wiki
+        run: npx quartz build -d '../wiki' -o './wiki-public'
+        working-directory: quartz
+      
+      - name: Upload wiki
+        uses: actions/upload-pages-artifact
+        with:
+          path: 'wiki-public'
+          name: wiki
+       
+      - name: Deploy wiki
+        uses: actions/deploy-pages
+        with:
+          artifact_name: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
