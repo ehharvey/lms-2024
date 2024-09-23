@@ -29,7 +29,8 @@ jobs:
               run: |
                   for issue in ${{ steps.fetch-issues.outputs.issues }}; do
                       for collaborator in ${{ steps.fetch-collaborators.outputs.collaborators }}; do
-                          gh issue edit 
+                          echo "Assigning $collaborator to issue $issue"
+                          gh issue edit $issue --add-assignees $collaborator
                       done
                   done
 
