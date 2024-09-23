@@ -6,12 +6,18 @@ on:
     paths: 
       - 'wiki/**'
   workflow_dispatch:
-permissions: write-all
+permissions: 
+    actions: read
+    pages: write
 jobs:
   buildWiki:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4.0.4
+        with:
+            node-version: 20
 
       - name: Checkout quartz
         uses: actions/checkout@v4
@@ -20,13 +26,14 @@ jobs:
           # v4.3.1 tag
           ref: 'v4.3.1'
           path: 'quartz'
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Install dependencies
         run: npm install
         working-directory: quartz
       
       - name: Build wiki
-        run: npx quartz build -d '../wiki' -o './wiki-public'
+        run: npx quartz build -d '../wiki' -o '../wiki-public'
         working-directory: quartz
       
       - name: Upload wiki
