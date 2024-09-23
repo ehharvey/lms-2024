@@ -15,7 +15,7 @@ jobs:
       - name: Fetch current pull requests
         run: |
           pull_requests=$(gh pr list --json headRefName --jq '.[] | .headRefName')
-          echo "pull_requests=$(echo $pull_requests | tr '\n' ' ')" >> $GITHUB_ENV
+          echo "pull_requests=$(echo $pull_requests | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
         id: fetchCurrentPullRequests
