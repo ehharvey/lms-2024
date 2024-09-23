@@ -24,5 +24,4 @@ jobs:
         run: gh pr create --title "$(git branch --show-current)" --body "TBD"  --draft
         env:
           GH_TOKEN: ${{ github.token }}
-        continue-on-error: true
         if: ${{ !contains(steps.fetchCurrentPullRequests.outputs.pull_requests, github.ref_name) }}
