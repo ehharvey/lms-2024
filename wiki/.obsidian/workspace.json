@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a844251584c0fb98",
+        "id": "127b5da92bd0fa9a",
         "type": "tabs",
         "children": [
           {
-            "id": "fd6d53343faccdc5",
+            "id": "279246194ced8bbf",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -147,15 +147,15 @@
       "publish:Publish changes...": false
     }
   },
-  "active": "fd6d53343faccdc5",
+  "active": "279246194ced8bbf",
   "lastOpenFiles": [
+    "development/Typical Development Workflow.md",
     "index.md",
     "Index.md",
     "v4.3.1",
     "screenshots/Pasted image 20240922184542.png",
     "screenshots/Pasted image 20240922184538.png",
     "screenshots",
-    "development/Typical Development Workflow.md",
     "development/Getting Started.md",
     "development",
     "GitHub CLI.md",
