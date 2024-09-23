@@ -20,13 +20,13 @@ jobs:
               id: fetch-issues
               run: |
                   issues=$(gh issue list --label everyone --json number | jq -c)
-                  echo "issues=$issues" >> $GITHUB_ENV
+                  echo "issues=$issues" >> $GITHUB_OUTPUT
 
             - name: Fetch collaborators
               id: fetch-collaborators
               run: |
                   collaborators=$(gh api repos/${{ github.repository }}/collaborators | jq -c)
-                  echo "collaborators=$collaborators" >> $GITHUB_ENV
+                  echo "collaborators=$collaborators" >> $GITHUB_OUTPUT
 
     assignCollaboratorsToIssues:
         needs: fetchCurrentIssuesAndCollaborators
