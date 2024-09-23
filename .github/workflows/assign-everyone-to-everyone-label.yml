@@ -1,0 +1,35 @@
+name: Assign all collaborators to issues with 'everyone' label
+on:
+    schedule:
+        - cron: '0 * * * *' # Every hour
+    workflow_dispatch:
+permissions:
+    issues: write
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+    assignCollaboratorsToEveryoneLabel:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Fetch issues with 'everyone' label
+              id: fetch-issues
+              run: |
+                  issues=$(gh issue list --label everyone --json number --jq '.[].number' | tr '\n' ' ')
+                  echo "issues=$issues" >> $GITHUB_ENV
+
+            - name: Fetch collaborators
+              id: fetch-collaborators
+              run: |
+                  collaborators=$(gh api repos/${{ github.repository }}/collaborators --jq '.[].login' | tr '\n' ' ')
+                  echo "collaborators=$collaborators" >> $GITHUB_ENV
+
+            - name: Assign collaborators to issues
+              run: |
+                  for issue in $issues; do
+                      for collaborator in $collaborators; do
+                          gh issue edit 
+                      done
+                  done
+
