@@ -5,9 +5,32 @@ on:
 permissions: write-all
 
 jobs:
+    fetchCurrentSubissues:
+        runs-on: ubuntu-latest
+        if: contains(github.event.issue.labels.*.name, 'everyone')
+        outputs:
+            subissues: ${{ steps.fetchCurrentSubissues.outputs.subissues }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Ensure label exists
+              run: gh label create 'generated-subissue-${{ github.event.issue.id }}' --color 000000 --description 'Generated subissue label'
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              continue-on-error: true
+
+            - name: Fetch subissues
+              run: |
+                  subissues=$(gh issue list --label 'generated-subissue-${{ github.event.issue.id }}' --state all --json assignees --jq '.[] | .assignees.[].login')
+                  echo "subissues=$(echo $subissues | tr '\n' ' ')" >> $GITHUB_OUTPUT
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              id: fetchCurrentSubissues
+
     createSubissues:
         runs-on: ubuntu-latest
         if: contains(github.event.issue.labels.*.name, 'everyone')
+        needs: fetchCurrentSubissues
         strategy:
             matrix:
                 assignee: ${{ github.event.issue.assignees.*.login }}
@@ -15,15 +38,22 @@ jobs:
             - uses: actions/checkout@v4
 
             - name: Create subissue
-              run: gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}" --assignee "${{ matrix.assignee }}" > subissue.txt
+              run: >-
+                   gh issue create --title "${{ github.event.issue.title }}" 
+                   --body "${{ github.event.issue.body }}" 
+                   --assignee "${{ matrix.assignee }}" 
+                   --milestone "${{ github.event.issue.milestone.title }}"
+                   --label 'generated-subissue-${{ github.event.issue.id }}'
+                   > subissue.txt
               env:
                   GH_TOKEN: ${{ github.token }}
               continue-on-error: true
               id: createSubissues
+              if: ${{ !contains(needs.fetchCurrentSubissues.outputs.subissues, matrix.assignee) }}
 
             - name: Add subissue link as comment to parent issue
               run: gh issue comment "${{ github.event.issue.number }}" -b "@${{ matrix.assignee }} generated-subissue $(cat subissue.txt)"
               env:
                   GH_TOKEN: ${{ github.token }}
-              continue-on-error: true
               id: addSubissueLink
+              if: ${{ !contains(needs.fetchCurrentSubissues.outputs.subissues, matrix.assignee) }}
