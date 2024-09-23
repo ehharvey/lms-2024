@@ -1,16 +1,28 @@
 name: Automatically create pull requests
-on: [create]
+on:
+  push:
+    branches-ignore: 
+      - main
+    tags-ignore:
+      - "*"
 permissions: write-all
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
-    if: github.event_name == 'create' && github.ref_type == 'branch'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Fetch current pull requests
+        run: |
+          pull_requests=$(gh pr list --json headRefName --jq '.[] | .headRefName')
+          echo "pull_requests=$(echo $pull_requests | tr '\n' ' ')" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: fetchCurrentPullRequests
 
       - name: Create pull request
         run: gh pr create --title "$(git branch --show-current)" --body "TBD"  --draft
         env:
           GH_TOKEN: ${{ github.token }}
         continue-on-error: true
-
+        if: ${{ !contains(steps.fetchCurrentPullRequests.outputs.pull_requests, github.ref_name) }}
