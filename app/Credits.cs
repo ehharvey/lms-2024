@@ -7,9 +7,13 @@ class Credits {
     private String EhharveyCredits() {
         return "Emil Harvey";
     }
+    private String GhostCredits(){
+        return "Parth Gajjar";
+    }
     public String[] GetCredits() {
         return new string[] {
-            EhharveyCredits()
+            EhharveyCredits(),
+            GhostCredits(),
         };
     }
 
