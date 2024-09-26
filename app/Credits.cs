@@ -10,10 +10,19 @@ class Credits {
     private String BoaCredits() {
         return "Boa Im";
     }
+    private String NimeshCredits()
+    {
+        return "Nimeshkumar Chaudhari";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
+<<<<<<< Updated upstream
             BoaCredits()
+=======
+            GhostCredits(),
+            NimeshCredits(),
+>>>>>>> Stashed changes
         };
     }
 
