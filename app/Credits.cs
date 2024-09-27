@@ -10,10 +10,14 @@ class Credits {
     private String GhostCredits(){
         return "Parth Gajjar";
     }
+    private String BoaCredits() {
+        return "Boa Im";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
             GhostCredits(),
+            BoaCredits()
         };
     }
 
