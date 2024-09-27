@@ -10,6 +10,9 @@ class Credits {
     private String GhostCredits(){
         return "Parth Gajjar";
     }
+    private String BoaCredits() {
+        return "Boa Im";
+    }
     private String NimeshCredits()
     {
         return "Nimeshkumar Chaudhari";
@@ -18,6 +21,7 @@ class Credits {
         return new string[] {
             EhharveyCredits(),
             GhostCredits(),
+            BoaCredits(),
             NimeshCredits()
         };
     }
