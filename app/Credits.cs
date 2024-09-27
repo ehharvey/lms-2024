@@ -13,11 +13,16 @@ class Credits {
     private String BoaCredits() {
         return "Boa Im";
     }
+    private String NimeshCredits()
+    {
+        return "Nimeshkumar Chaudhari";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
             GhostCredits(),
-            BoaCredits()
+            BoaCredits(),
+            NimeshCredits()
         };
     }
 
