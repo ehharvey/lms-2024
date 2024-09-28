@@ -4,7 +4,15 @@ This page describes how development takes place here!
 * Changes occur through **pull requests only**. This means you cannot push straight to `main`. Instead, you will create a `git` branch and make changes there. This repository automatically creates a pull request for you :)
 * Work should be organised via **GitHub Issues**. This means that people should assign themselves to an issue before starting work. This is to prevent 2 people from working on the same thing!
 * Currently, Emil (@ehharvey) is the one creating issues and managing the direction of the project. As time goes on, this could change!
-# Process Specifics
+# Process steps
+Below is a table listing what people should do each week :)
+
+| Day(s)            | Instructions                                                                                                                                                                      |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sunday            | Emil will finalize the work needed for next week.<br><br>(Other people can offer suggestions! Anyone can make an issue or reach out to Emil over Slack or the GitHub discussions) |
+| Monday<br>Tuesday | Folks should look over the issues created and assign themselves to the ones they want to complete! Also be sure to use the comments to discuss.                                   |
+| Wednesday         | Iteration starts! People should create a **branch** for their issue. This can be done from the Issue web page or via `git`. All branches should be based off `main`               |
+
 1. Issues are the work to be completed in a given iteration. They will be finalised by Sunday.
 2. Monday and Tuesday should be for people to discuss and assign themselves to issues. In general, **one person should work on one issue**,  but this can change.
 	* Some issues are an 'everyone' issue, meaning that everyone will have identical work to complete. There will be 1 sub-issue per person.
