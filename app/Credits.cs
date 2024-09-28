@@ -17,12 +17,16 @@ class Credits {
     {
         return "Nimeshkumar Chaudhari";
     }
+    private String DaphneCredits() {
+        return "Daphne Duong";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
             GhostCredits(),
             BoaCredits(),
-            NimeshCredits()
+            NimeshCredits(),
+            DaphneCredits()
         };
     }
 
