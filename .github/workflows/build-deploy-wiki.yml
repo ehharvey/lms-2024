@@ -5,9 +5,6 @@ on:
       - main
     paths: 
       - 'wiki/**'
-  pull_request:
-    paths: 
-      - 'wiki/**'
   workflow_dispatch:
 permissions: 
     actions: read
@@ -35,21 +32,22 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: quartz
+
+      - name: Copy quarts.config.ts from wiki
+        run: cp wiki/quartz.config.ts quartz/quartz.config.ts
       
       - name: Build wiki
         run: npx quartz build -d '../wiki' -o '../wiki-public'
         working-directory: quartz
-
-      - name: Preview wiki
-        uses: rossjrw/pr-preview-action@v1.4.8
-        if: github.event_name == 'pull_request'
+      
+      - name: Upload wiki
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          source-dir: 'wiki-public'
-
+          path: 'wiki-public'
+          name: wiki
+       
       - name: Deploy wiki
         uses: actions/deploy-pages@v4.0.5
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:
           artifact_name: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
