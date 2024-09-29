@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: quartz
+
+      - name: Copy quarts.config.ts from wiki
+        run: cp wiki/quartz.config.ts quartz/quartz.config.ts
       
       - name: Build wiki
         run: npx quartz build -d '../wiki' -o '../wiki-public'
