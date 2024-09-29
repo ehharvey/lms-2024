@@ -52,6 +52,8 @@ jobs:
     needs: buildWiki
     if: github.ref != 'refs/heads/main'
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v3.0.1
         with:
           name: wiki
