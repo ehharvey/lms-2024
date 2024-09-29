@@ -1,6 +1,11 @@
 name: Build and deploy wiki
 on:
   push:
+    branches:
+      - main
+    paths: 
+      - 'wiki/**'
+  pull_request:
     paths: 
       - 'wiki/**'
   workflow_dispatch:
