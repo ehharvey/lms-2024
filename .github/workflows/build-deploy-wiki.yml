@@ -57,13 +57,12 @@ jobs:
       - uses: actions/download-artifact@v3.0.1
         with:
           name: wiki
-          path: wiki-public
 
       - name: Preview wiki
         uses: rossjrw/pr-preview-action@v1.4.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          source-dir: 'wiki-public'
+          source-dir: 'wiki'
 
   deployWiki:
     runs-on: ubuntu-latest
