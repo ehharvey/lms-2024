@@ -40,37 +40,16 @@ jobs:
         run: npx quartz build -d '../wiki' -o '../wiki-public'
         working-directory: quartz
 
-      - name: Upload wiki
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          path: 'wiki-public'
-          name: wiki
-          retention-days: 1
-  
-  previewDeploy:
-    runs-on: ubuntu-latest
-    needs: buildWiki
-    if: github.ref != 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v3.0.1
-        with:
-          name: wiki
-
       - name: Preview wiki
         uses: rossjrw/pr-preview-action@v1.4.8
+        if: github.event_name == 'pull_request'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          source-dir: 'wiki'
+          source-dir: 'wiki-public'
 
-  deployWiki:
-    runs-on: ubuntu-latest
-    needs: buildWiki
-    if: github.ref == 'refs/heads/main'
-    steps:
       - name: Deploy wiki
         uses: actions/deploy-pages@v4.0.5
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:
           artifact_name: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
