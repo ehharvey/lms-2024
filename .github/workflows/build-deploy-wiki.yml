@@ -1,8 +1,6 @@
 name: Build and deploy wiki
 on:
   push:
-    branches:
-      - main
     paths: 
       - 'wiki/**'
   workflow_dispatch:
@@ -36,13 +34,35 @@ jobs:
       - name: Build wiki
         run: npx quartz build -d '../wiki' -o '../wiki-public'
         working-directory: quartz
-      
+
       - name: Upload wiki
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: 'wiki-public'
           name: wiki
-       
+          retention-days: 1
+  
+  previewDeploy:
+    runs-on: ubuntu-latest
+    needs: buildWiki
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/download-artifact@v3.0.1
+        with:
+          name: wiki
+          path: wiki-public
+
+      - name: Preview wiki
+        uses: rossjrw/pr-preview-action@v1.4.8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          source-dir: 'wiki-public'
+
+  deployWiki:
+    runs-on: ubuntu-latest
+    needs: buildWiki
+    if: github.ref == 'refs/heads/main'
+    steps:
       - name: Deploy wiki
         uses: actions/deploy-pages@v4.0.5
         with:
