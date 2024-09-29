@@ -30,9 +30,6 @@ jobs:
         steps:
         - uses: actions/checkout@v4
 
-        - name: Ensure dependencies is installed
-          run: apt-get update && apt-get install -y curl libicu*
-
         - uses: actions/setup-dotnet@v4.0.1
           with:
             dotnet-version: 8.0.402
