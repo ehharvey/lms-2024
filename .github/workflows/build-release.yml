@@ -1,0 +1,77 @@
+name: Build and release application
+on:
+    push:
+        branches:
+        - main
+        paths:
+        - 'app/**'
+        - 'lms-2024.sln'
+    workflow_dispatch:
+    pull_request:
+        paths:
+        - 'app/**'
+        - 'lms-2024.sln'
+jobs:
+    build:
+        strategy:
+            matrix:
+                target_platform:
+                    - linux-x64
+                    - linux-arm
+                    - linux-arm64
+                    - linux-musl-x64
+                    - linux-musl-arm64
+                    - linux-bionic-arm64
+                    - win-x64
+                    - win-arm64
+                    - osx-x64
+                    - osx-arm64
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: Ensure dependencies is installed
+          run: apt-get update && apt-get install -y curl libicu*
+
+        - uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: 8.0.402
+
+        - name: Install dependencies
+          run: dotnet restore
+          working-directory: app
+
+        - name: Build
+          run: >-
+            dotnet publish app/ 
+            -o ./publish/ 
+            -c Release
+            --runtime ${{ matrix.target_platform }}
+        
+        - name: Upload artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: lms-${{ matrix.target_platform }}
+            path: ./publish/
+        
+    release:
+        permissions: 
+            packages: write
+            contents: read
+        needs: build
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        steps:
+        - name: Download all artifacts
+          uses: actions/download-artifact@v4
+          with:
+            pattern: lms-*
+            merge-multiple: false
+            path: ./publish
+
+        - name: Create release
+          run: |
+            git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
+            gh release create "prerelease-$git_short_hash" --latest=false --generate-notes -p -t "Pre Release $git_short_hash" ./publish/*
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
