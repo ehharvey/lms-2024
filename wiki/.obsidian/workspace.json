@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
+                "file": "contributors/Daphne Duong.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
+                "file": "contributors/Daphne Duong.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
+                "file": "contributors/Daphne Duong.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md"
+                "file": "contributors/Daphne Duong.md"
               }
             }
           }
@@ -149,6 +149,7 @@
   "active": "279246194ced8bbf",
   "lastOpenFiles": [
     "development/Typical Development Workflow.md",
+    "quartz.config.ts",
     "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
     "development/quartz-wiki-dev",
     "screenshots/Pasted image 20240928150358.png",
