@@ -67,10 +67,17 @@ jobs:
             pattern: lms-*
             merge-multiple: false
             path: ./publish
+        
+        - name: Zip all artifacts
+          run: |
+            mkdir -p ./release
+            for file in ./publish/*; do
+              zip -r9 ./release/$(basename $file).zip $file
+            done
 
         - name: Create release
           run: |
             git_short_hash=$(git rev-parse --short "$GITHUB_SHA")
-            gh release create "prerelease-$git_short_hash" --latest=false --generate-notes -p -t "Pre Release $git_short_hash" ./publish/*
+            gh release create "prerelease-$git_short_hash" --latest=false --generate-notes -p -t "Pre Release $git_short_hash" ./release/*.zip
           env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
