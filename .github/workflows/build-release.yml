@@ -38,11 +38,15 @@ jobs:
           run: dotnet restore
           working-directory: app
 
+        - name: Run tests
+          run: dotnet test
+
         - name: Build
           run: >-
             dotnet publish app/ 
             -o ./publish/ 
             -c Release
+            --self-contained true
             --runtime ${{ matrix.target_platform }}
         
         - name: Upload artifact
