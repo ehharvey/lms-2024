@@ -17,19 +17,19 @@ public class CommandLineParserTests
     }
 
     [Fact]
-    public void TestParseVerbInvalid()
+    public void TestParseVerbInvalidNoun()
     {
-        Assert.Throws<ArgumentException>(() => parser.ParseVerb("invalid", Noun.Credits));
+        Assert.Equal(Verb.Invalid, parser.ParseVerb("list", Noun.Invalid));
     }
 
     [Fact]
-    public void TestParseVerbInvalidForNoun()
+    public void TestParseVerbInvalidVerb()
     {
-        Assert.Throws<ArgumentException>(() => parser.ParseVerb("invalid", Noun.Credits));
+        Assert.Equal(Verb.Invalid, parser.ParseVerb("abc", Noun.Credits));
     }
 
     [Fact]
-    public void TestParse()
+    public void TestParseCredits()
     {
         string[] args = { "credits", "list" };
         (Noun noun, Verb verb) = parser.Parse(args);
