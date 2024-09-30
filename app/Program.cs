@@ -1,9 +1,38 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Learning Management System");
-Console.WriteLine("--------------------------\n");
+﻿CommandLineParser parser = new CommandLineParser();
 
-Console.WriteLine("Hello, World!\n");
+(Noun noun, Verb verb) = parser.Parse(args);
 
-var credits = new Credits();
+if (noun == Noun.Invalid)
+{
+    Console.WriteLine("Invalid noun.");
+    return 400; // 400 Bad Request
+}
 
-credits.DisplayCredits();
+if (verb == Verb.Invalid)
+{
+    Console.WriteLine($"""
+    Invalid verb for {noun}.
+    """);
+    return 400;
+}
+
+switch (noun)
+{
+    case Noun.Invalid:
+        Console.WriteLine("Invalid noun.");
+        return 400; // 400 Bad Request
+    case Noun.Credits:
+        Credits credits = new Credits(); // initialize here to avoid unnecessary instantiation
+        credits.Execute(verb);
+        return 200; // 200 OK
+    default:
+        Console.WriteLine(
+            $"""
+            Invalid noun.
+            
+            Valid nouns:
+            {string.Join(", ", Enum.GetNames(typeof(Noun)).Where(n => n != "Invalid"))}
+            """
+        );
+        return 400; // 400 Bad Request
+}
