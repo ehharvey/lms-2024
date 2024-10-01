@@ -8,6 +8,7 @@ on:
 permissions: write-all
 jobs:
   createPullRequest:
+    if: ${{ github.actor == 'ehharvey' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
