@@ -41,13 +41,17 @@ class Credits : ICommand {
     private String DaphneCredits() {
         return "Daphne Duong";
     }
+    private String SyedCredits() {
+        return "Shaik Mathar Syed";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
             GhostCredits(),
             BoaCredits(),
             NimeshCredits(),
-            DaphneCredits()
+            DaphneCredits(),
+            SyedCredits()
         };
     }
 
