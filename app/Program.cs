@@ -1,4 +1,6 @@
-﻿CommandLineParser parser = new CommandLineParser();
+﻿using Microsoft.EntityFrameworkCore.Sqlite;
+
+CommandLineParser parser = new CommandLineParser();
 
 (Noun noun, Verb verb) = parser.Parse(args);
 
@@ -15,6 +17,10 @@ if (verb == Verb.Invalid)
     """);
     return 400;
 }
+
+// Initialize DB connection
+var db = new DbContext(new SqliteConnection("Data Source=app.db"));
+
 
 switch (noun)
 {
