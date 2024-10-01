@@ -18,10 +18,6 @@ if (verb == Verb.Invalid)
     return 400;
 }
 
-// Initialize DB connection
-var db = new DbContext(new SqliteConnection("Data Source=app.db"));
-
-
 switch (noun)
 {
     case Noun.Invalid:
