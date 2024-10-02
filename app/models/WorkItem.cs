@@ -4,7 +4,7 @@ public class WorkItem
 {
     public int Id { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.Now;
 
     public DateTime? DueAt { get; set; }
     public required string Title { get; set; }

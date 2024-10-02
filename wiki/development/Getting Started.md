@@ -26,6 +26,7 @@ This project uses:
 * You can also use the terminal:
 	1. Navigate to `app`
 	2. Run `dotnet run`
+* If you receive an error about the database, you may need to run `dotnet ef database update` before running the project.
 ## Wiki
 1. Open Obsidian
 2. Click 'Open folder as vault'

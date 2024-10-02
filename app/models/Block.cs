@@ -3,9 +3,8 @@ namespace Lms.Models;
 public class Block
 {
     public int Id { get; set; }
-    public required string Title { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; } = DateTime.Now;
 
     public string? Description { get; set; }
 

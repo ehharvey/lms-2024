@@ -3,7 +3,19 @@ This module is responsible for the credits screen.
 It was created to fulfill #16
 */
 
+using Lms;
+
 class Credits : ICommand {
+    private LmsDbContext? db;
+
+    public Credits() {
+        this.db =  null;
+    }
+
+    public Credits(LmsDbContext db) {
+        this.db = db;
+    }
+
     public string GetHelp() {
         return $"""
         Credits
