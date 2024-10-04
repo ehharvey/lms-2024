@@ -1,4 +1,6 @@
-﻿CommandLineParser parser = new CommandLineParser();
+﻿using Lms;
+
+CommandLineParser parser = new CommandLineParser();
 
 (Noun noun, Verb verb) = parser.Parse(args);
 
@@ -16,13 +18,16 @@ if (verb == Verb.Invalid)
     return 400;
 }
 
+
+var dbContext = new LmsDbContext();
+
 switch (noun)
 {
     case Noun.Invalid:
         Console.WriteLine("Invalid noun.");
         return 400; // 400 Bad Request
     case Noun.Credits:
-        Credits credits = new Credits(); // initialize here to avoid unnecessary instantiation
+        Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
         credits.Execute(verb);
         return 200; // 200 OK
     default:
