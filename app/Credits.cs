@@ -61,6 +61,9 @@ class Credits : ICommand {
         return "Bharat Chauhan";
     }
     
+    private String PrabhdeepSinghCredits() {
+        return "Prabhdeep Singh";
+    }
     public String[] GetCredits() {
         return new string[] {
             EhharveyCredits(),
@@ -70,6 +73,7 @@ class Credits : ICommand {
             DaphneCredits(),
             SyedCredits(),
             BharatCredits(),
+            PrabhdeepSinghCredits()
         };
     }
 
