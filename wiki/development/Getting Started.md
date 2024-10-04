@@ -27,6 +27,9 @@ This project uses:
 	1. Navigate to `app`
 	2. Run `dotnet run`
 * If you receive an error about the database, you may need to run `dotnet ef database update` before running the project.
+
+Note: the CLI for this app has yet to be documented (tracked by [#95](https://github.com/ehharvey/lms-2024/issues/95)). In the meantime, check out this discussion post: [#96](https://github.com/ehharvey/lms-2024/discussions/96)
+
 ## Wiki
 1. Open Obsidian
 2. Click 'Open folder as vault'
