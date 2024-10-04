@@ -27,5 +27,6 @@ public class CreditsTests
         Assert.Equal("Shaik Mathar Syed", credits.GetCredits()[5]);
         Assert.Equal("Bharat Chauhan", credits.GetCredits()[6]);
         Assert.Equal("Prabhdeep Singh", credits.GetCredits()[7]);
+        Assert.Equal("Zumhliansang Lung Ler", credits.GetCredits()[8]);
     }
 }
