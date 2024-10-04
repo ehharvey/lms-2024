@@ -61,6 +61,10 @@ class Credits : ICommand {
         return "Bharat Chauhan";
     }
     
+    private String ZumhliansangLungLerCredits() {
+        return "Zumhliansang Lung Ler";
+    }
+
     private String PrabhdeepSinghCredits() {
         return "Prabhdeep Singh";
     }
@@ -73,7 +77,8 @@ class Credits : ICommand {
             DaphneCredits(),
             SyedCredits(),
             BharatCredits(),
-            PrabhdeepSinghCredits()
+            PrabhdeepSinghCredits(),
+            ZumhliansangLungLerCredits()
         };
     }
 
