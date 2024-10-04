@@ -56,6 +56,11 @@ class Credits : ICommand {
     private String SyedCredits() {
         return "Shaik Mathar Syed";
     }
+
+    private String BharatCredits() {
+        return "Bharat Chauhan";
+    }
+    
     private String PrabhdeepSinghCredits() {
         return "Prabhdeep Singh";
     }
@@ -67,6 +72,7 @@ class Credits : ICommand {
             NimeshCredits(),
             DaphneCredits(),
             SyedCredits(),
+            BharatCredits(),
             PrabhdeepSinghCredits()
         };
     }
