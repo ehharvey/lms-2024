@@ -8,4 +8,4 @@ Welcome to the wiki!
 * [[Typical Development Workflow]]
 
 # Announcements
-See the latest announcements [[here|announcements]].
+See the latest [[announcements]].
