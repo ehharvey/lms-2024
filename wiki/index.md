@@ -1,3 +1,4 @@
+
 # Welcome
 Welcome to the wiki!
 
@@ -5,3 +6,6 @@ Welcome to the wiki!
 * [[Getting Started]]
 * [[GitHub CLI]]
 * [[Typical Development Workflow]]
+
+# Announcements
+See the latest announcements [[here|announcements]].
