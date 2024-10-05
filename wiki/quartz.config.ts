@@ -15,7 +15,6 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    baseUrl: "emilharvey.ca/lms-2024",
     pageTitle: "LMS 2024 Wiki",
     enableSPA: true,
     enablePopovers: true,
