@@ -1,5 +1,6 @@
 ---
-date: 2024-09-26
+date: 2024-09-
+title: Midweek Checkin
 ---
 Hi everyone!
 

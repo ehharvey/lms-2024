@@ -1,5 +1,6 @@
 ---
 date: 2024-09-22
+title: What should our first steps be?
 ---
 
 Hello, everyone! Welcome.
