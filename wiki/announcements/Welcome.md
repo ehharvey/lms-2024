@@ -1,5 +1,6 @@
 ---
 date: 2024-09-22
+title: Welcome!
 ---
 
 Welcome to lms-2024! This is a software project for rookies, maintained by rookies :) It will be a Learning Management System (e.g., for elearning).
