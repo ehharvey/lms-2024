@@ -1,7 +1,7 @@
 name: Assign all collaborators to issues with 'everyone' label
 on:
     schedule:
-        - cron: '0 * * * *' # Every hour
+        - cron: '0 0 * * *' # Every day at midnight
     workflow_dispatch:
 permissions:
     issues: write
@@ -41,47 +41,3 @@ jobs:
 
             - name: Assign collaborator to issue
               run: gh issue edit '${{ matrix.issue.number }}' --add-assignee '${{ matrix.collaborator.login }}'
-
-    createSubissues:
-        runs-on: ubuntu-latest
-        needs: fetchCurrentIssuesAndCollaborators
-        strategy:
-            matrix:
-                issue: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.issues) }}
-                collaborator: ${{ fromJson(needs.fetchCurrentIssuesAndCollaborators.outputs.collaborators) }}
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Ensure label exists
-              run: gh label create 'generated-subissue-${{ matrix.issue.id }}' --color 000000 --description 'Generated subissue label'
-              env:
-                  GH_TOKEN: ${{ github.token }}
-              continue-on-error: true
-            
-            - name: Fetch subissues
-              run: |
-                  subissues=$(gh issue list --label 'generated-subissue-${{ matrix.issue.id }}' --state all --json assignees --jq '.[] | .assignees.[].login')
-                  echo "subissues=$(echo $subissues | tr '\n' ' ')" >> $GITHUB_OUTPUT
-              env:
-                  GH_TOKEN: ${{ github.token }}
-              id: fetchCurrentSubissues
-
-            - name: Create subissue
-              run: >-
-                   gh issue create --title "${{ matrix.issue.title }}"
-                   --body "${{ matrix.issue.body }}"
-                   --assignee  "${{ matrix.collaborator.login }}"
-                   --milestone "${{ matrix.issue.milestone.title }}"
-                   --label 'generated-subissue-${{ matrix.issue.id }}'
-                   > subissue.txt
-              env:
-                  GH_TOKEN: ${{ github.token }}
-              id: createSubissues
-              if: ${{ !contains(steps.fetchCurrentSubissues.outputs.subissues, matrix.collaborator.login) }}
-
-            - name: Add subissue link as comment to parent issue
-              run: gh issue comment "${{ matrix.issue.number }}" -b "@${{ matrix.collaborator.login }} generated-subissue $(cat subissue.txt)"
-              env:
-                  GH_TOKEN: ${{ github.token }}
-              id: addSubissueLink
-              if: ${{ !contains(steps.fetchCurrentSubissues.outputs.subissues, matrix.collaborator.login) }}
