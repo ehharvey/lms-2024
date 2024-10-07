@@ -67,6 +67,10 @@ class Credits : ICommand {
     private String TaoBoyceCredits() {
         return "Tao Boyce";
     }
+    private String ZumhliansangLungLerCredits()
+    {
+        return "Zumhliansang Lung Ler";
+    }
     private String DaeseongCredits() {
         return "Daeseong Yu";
     }
@@ -81,6 +85,7 @@ class Credits : ICommand {
             BharatCredits(),
             PrabhdeepSinghCredits(),
             TaoBoyceCredits(),
+            ZumhliansangLungLerCredits(),
             DaeseongCredits()
         };
     }
