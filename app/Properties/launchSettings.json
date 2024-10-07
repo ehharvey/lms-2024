@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "app": {
+    "showCredits": {
       "commandName": "Project",
       "commandLineArgs": "Credits List"
     }
