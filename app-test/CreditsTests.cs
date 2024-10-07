@@ -13,7 +13,7 @@ public class CreditsTests
     [Fact]
     public void TestGetCreditsLength()
     {
-        Assert.Equal(9, credits.GetCredits().Length);
+        Assert.Equal(10, credits.GetCredits().Length);
     }
 
     [Fact]
