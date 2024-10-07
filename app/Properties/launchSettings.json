@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "app": {
+      "commandName": "Project",
+      "commandLineArgs": "Credits List"
+    }
+  }
+}
