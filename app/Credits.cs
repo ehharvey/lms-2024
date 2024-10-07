@@ -70,6 +70,7 @@ class Credits : ICommand {
     private String ZumhliansangLungLerCredits()
     {
         return "Zumhliansang Lung Ler";
+    }
     private String DaeseongCredits() {
         return "Daeseong Yu";
     }
