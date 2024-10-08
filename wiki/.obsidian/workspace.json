@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "contributors/Daphne Duong.md",
+                "file": "development/CLI Standards.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "contributors/Daphne Duong.md",
+                "file": "development/CLI Standards.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "contributors/Daphne Duong.md",
+                "file": "development/CLI Standards.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "contributors/Daphne Duong.md"
+                "file": "development/CLI Standards.md"
               }
             }
           }
@@ -148,6 +148,8 @@
   },
   "active": "279246194ced8bbf",
   "lastOpenFiles": [
+    "contributors/Daphne Duong.md",
+    "development/CLI Standards.md",
     "development/Typical Development Workflow.md",
     "quartz.config.ts",
     "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
@@ -163,7 +165,6 @@
     "screenshots/Pasted image 20240928145157.png",
     "screenshots/Pasted image 20240928145033.png",
     "development/How to complete issues.md",
-    "contributors/Daphne Duong.md",
     "GitHub CLI.md",
     "Git.md",
     "development/Getting Started.md",

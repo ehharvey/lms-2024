@@ -36,4 +36,38 @@ public class CommandLineParserTests
         Assert.Equal(Noun.Credits, noun);
         Assert.Equal(Verb.List, verb);
     }
+
+    [Fact]
+    public void TestCommandLineArgs()
+    {
+        string[] args = { "credits", "list" };
+        string[] commandLineArgs = parser.GetCommandLineArgs(args);
+        Assert.Equal(new string[] {}, commandLineArgs);
+    }
+
+    [Fact]
+    public void TestCommandLineArgsMultiple()
+    {
+        string[] args = { "credits", "list", "abc" };
+        string[] commandLineArgs = parser.GetCommandLineArgs(args);
+        Assert.Equal(new string[] { "abc" }, commandLineArgs);
+    }
+
+    [Fact]
+    public void TestCommandLineArgsInvalid()
+    {
+        string[] args = { "credits" };
+        string[] commandLineArgs = parser.GetCommandLineArgs(args);
+        Assert.Equal(new string[] {}, commandLineArgs);
+    }
+
+    [Fact]
+    public void TestParseWithArgs()
+    {
+        string[] args = { "credits", "list", "abc" };
+        ((Noun noun, Verb verb), string[] commandLineArgs) = parser.ParseWithArgs(args);
+        Assert.Equal(Noun.Credits, noun);
+        Assert.Equal(Verb.List, verb);
+        Assert.Equal(new string[] { "abc" }, commandLineArgs);
+    }
 }

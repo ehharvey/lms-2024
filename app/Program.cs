@@ -2,7 +2,7 @@
 
 CommandLineParser parser = new CommandLineParser();
 
-(Noun noun, Verb verb) = parser.Parse(args);
+((Noun noun, Verb verb), string[] command_args) = parser.ParseWithArgs(args);
 
 if (noun == Noun.Invalid)
 {
