@@ -55,7 +55,9 @@ class CommandLineParser : ICommandLineParser
 {
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
+        // Credits supports just the List verb.
         { Noun.Credits, new HashSet<Verb> { Verb.List } }
+        // Add more Nuons and Verbs here to support more commands.
     };
 
     public CommandLineParser()
@@ -103,5 +105,23 @@ class CommandLineParser : ICommandLineParser
         Verb verb = ParseVerb(args[1], noun);
 
         return (noun, verb);
+    }
+
+    public string[] GetCommandLineArgs(string[] args)
+    {
+        if (args.Length < 2)
+        {
+            return new string[0];
+        }
+
+        return args.Skip(2).ToArray();
+    }
+
+    public ((Noun noun, Verb verb), string[] commandLineArgs) ParseWithArgs(string[] args)
+    {
+        (Noun noun, Verb verb) = Parse(args);
+        string[] commandLineArgs = GetCommandLineArgs(args);
+
+        return ((noun, verb), commandLineArgs);
     }
 }
