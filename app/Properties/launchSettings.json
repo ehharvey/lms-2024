@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "showCredits": {
+      "commandName": "Project",
+      "commandLineArgs": "Credits List"
+    }
+  }
+}
