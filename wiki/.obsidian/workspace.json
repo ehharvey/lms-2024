@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "GitHub CLI.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 258.5
+    "width": 200
   },
   "right": {
     "id": "5a419bf844d85539",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "GitHub CLI.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "GitHub CLI.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md"
+                "file": "GitHub CLI.md"
               }
             }
           }
@@ -148,8 +148,8 @@
   },
   "active": "c7ac859ec6905a17",
   "lastOpenFiles": [
-    "overview.md",
     "index.md",
+    "overview.md",
     "development/CLI Standards.md",
     "contributors/Daphne Duong.md",
     "development/Typical Development Workflow.md",
