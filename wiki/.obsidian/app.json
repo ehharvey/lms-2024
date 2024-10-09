@@ -1,5 +1,6 @@
 {
   "autoPairMarkdown": false,
   "attachmentFolderPath": "screenshots",
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "readableLineLength": false
 }

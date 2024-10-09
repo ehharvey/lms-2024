@@ -1,1 +1,5 @@
-{}
+{
+  "enabledCssSnippets": [
+    "line_spacing"
+  ]
+}
