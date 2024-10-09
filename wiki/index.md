@@ -1,11 +1,6 @@
-
-# Welcome
-Welcome to the wiki!
-
-# Quick links
-* [[Getting Started]]
-* [[GitHub CLI]]
-* [[Typical Development Workflow]]
-
-# Announcements
-See the latest [[announcements/]].
+---
+title: Home
+---
+Welcome to the wiki! This wiki contains design information, how-tos, and other documentation for the LMS-2024 project :)
+ - [[announcements/|Announcements]]
+ - [[overview|Project Overview]]
