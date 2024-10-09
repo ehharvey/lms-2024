@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GitHub CLI.md",
+                "file": "announcements/Iteration 3 starting soon.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "GitHub CLI.md",
+                "file": "announcements/Iteration 3 starting soon.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "GitHub CLI.md",
+                "file": "announcements/Iteration 3 starting soon.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "GitHub CLI.md"
+                "file": "announcements/Iteration 3 starting soon.md"
               }
             }
           }
@@ -149,6 +149,8 @@
   "active": "c7ac859ec6905a17",
   "lastOpenFiles": [
     "index.md",
+    "announcements/Iteration 3 starting soon.md",
+    "GitHub CLI.md",
     "overview.md",
     "development/CLI Standards.md",
     "contributors/Daphne Duong.md",
@@ -167,7 +169,6 @@
     "screenshots/Pasted image 20240928145157.png",
     "screenshots/Pasted image 20240928145033.png",
     "development/How to complete issues.md",
-    "GitHub CLI.md",
     "Git.md",
     "development/Getting Started.md",
     "contributors/Parth Gajjar.md",
