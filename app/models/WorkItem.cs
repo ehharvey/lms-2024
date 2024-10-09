@@ -12,4 +12,6 @@ public class WorkItem
     public List<Block> Blocks { get; set; } = new List<Block>();
 
     public List<Progress> Progresses { get; set; } = new List<Progress>();
+
+    public string? Description { get; set; }
 }

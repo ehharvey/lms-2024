@@ -5,8 +5,9 @@
 /// </summary>
 enum Noun
 {
-    Credits, // Represents the "credits" noun.
-    Invalid // Represents an invalid noun.
+    Credits,  // Represents the "credits" noun.
+    Workitems, // Represents the "Workitem" noun.
+    Invalid,  // Represents an invalid noun.
 }
 
 /// <summary>
@@ -17,9 +18,9 @@ enum Noun
 /// </summary>
 enum Verb
 {
-    List, // Represents the "list" verb. This should list all data items of the Noun.
+    List,   // Represents the "list" verb. This should list all data items of the Noun.
+    Create, // Represents teh "Create" verb. This should create a new item of the Noun.
     Invalid // Represents an invalid verb.
-
 }
 
 interface ICommandLineParser
@@ -31,7 +32,6 @@ interface ICommandLineParser
     /// <param name="args">The command line arguments.</param>
     /// <returns>The Noun and Verb that the command is acting on.</returns>
     (Noun noun, Verb verb) Parse(string[] args);
-
     /// <summary>
     /// Parses the Noun from the command line arguments.
     /// </summary>
@@ -49,13 +49,15 @@ interface ICommandLineParser
     /// <exception cref="ArgumentException">Thrown when the Verb is invalid for the Noun.</exception>
     /// <exception cref="ArgumentException">Thrown when the Verb is invalid.</exception>
     Verb ParseVerb(string verb, Noun noun);
+
 }
 
 class CommandLineParser : ICommandLineParser
 {
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
-        { Noun.Credits, new HashSet<Verb> { Verb.List } }
+        { Noun.Credits, new HashSet<Verb> { Verb.List } },
+        { Noun.Workitems, new HashSet<Verb> {Verb.List, Verb.Create} },
     };
 
     public CommandLineParser()
@@ -66,7 +68,6 @@ class CommandLineParser : ICommandLineParser
     {
         ValidVerbs = validVerbs;
     }
-
     public Noun ParseNoun(string noun)
     {
         if (Enum.TryParse<Noun>(noun, true, out Noun parsedNoun))

@@ -21,3 +21,8 @@ interface ICommand
     /// <exception cref="Exception">Thrown when an error occurs during execution.</exception>
     void Execute(Verb verb);
 }
+
+interface IContainsArguements
+{
+    void Execute(string[] args, Verb verb);
+}

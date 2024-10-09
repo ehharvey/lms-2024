@@ -1,4 +1,6 @@
-﻿using Lms;
+﻿using lms;
+using Lms;
+using Lms.Models;
 
 CommandLineParser parser = new CommandLineParser();
 
@@ -19,7 +21,7 @@ if (verb == Verb.Invalid)
 }
 
 
-var dbContext = new LmsDbContext();
+var dbContext = new LmsDbContext(DbDriver.Sqlite);
 
 switch (noun)
 {
@@ -29,6 +31,18 @@ switch (noun)
     case Noun.Credits:
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
         credits.Execute(verb);
+        return 200; // 200 OK
+    case Noun.Workitems:
+        WorkItems workItems = new WorkItems(dbContext);
+        if(args.Length == 2)
+        {
+            workItems.Execute(verb);
+        }
+        else
+        {
+            workItems.Execute(args, verb);
+
+        }
         return 200; // 200 OK
     default:
         Console.WriteLine(
