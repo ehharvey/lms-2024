@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "127b5da92bd0fa9a",
+        "id": "015f111417cf249a",
         "type": "tabs",
         "children": [
           {
-            "id": "279246194ced8bbf",
+            "id": "c7ac859ec6905a17",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "development/CLI Standards.md",
+                "file": "index.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "development/CLI Standards.md",
+                "file": "index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "development/CLI Standards.md",
+                "file": "index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "development/CLI Standards.md"
+                "file": "index.md"
               }
             }
           }
@@ -146,10 +146,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "279246194ced8bbf",
+  "active": "c7ac859ec6905a17",
   "lastOpenFiles": [
-    "contributors/Daphne Duong.md",
+    "overview.md",
+    "index.md",
     "development/CLI Standards.md",
+    "contributors/Daphne Duong.md",
     "development/Typical Development Workflow.md",
     "quartz.config.ts",
     "development/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
@@ -172,7 +174,6 @@
     "contributors/Emil Harvey.md",
     "contributors/Boa Im.md",
     "Hello World.md",
-    "index.md",
     "Index.md",
     "v4.3.1",
     "screenshots",
