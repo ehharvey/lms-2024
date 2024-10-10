@@ -29,10 +29,22 @@ public class CommandLineParserTests
     }
 
     [Fact]
+    public void TestParseOption()
+    {
+        Assert.Equal(Option.Description, parser.ParseOption("description"));
+    }
+
+    [Fact]
+    public void TestParseOptionInvalidOption()
+    {
+        Assert.Equal(Option.Invalid, parser.ParseOption("abc"));
+    }
+
+    [Fact]
     public void TestParseCredits()
     {
         string[] args = { "credits", "list" };
-        (Noun noun, Verb verb) = parser.Parse(args);
+        (Noun noun, Verb verb, Dictionary<Option, List<string>> options) = parser.Parse(args);
         Assert.Equal(Noun.Credits, noun);
         Assert.Equal(Verb.List, verb);
     }
