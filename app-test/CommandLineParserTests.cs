@@ -32,7 +32,7 @@ public class CommandLineParserTests
     public void TestParseCredits()
     {
         string[] args = { "credits", "list" };
-        (Noun noun, Verb verb) = parser.Parse(args);
+        (Noun noun, Verb verb, Dictionary<Option, List<string>> options) = parser.Parse(args);
         Assert.Equal(Noun.Credits, noun);
         Assert.Equal(Verb.List, verb);
     }
