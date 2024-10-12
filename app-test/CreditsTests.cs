@@ -13,7 +13,7 @@ public class CreditsTests
     [Fact]
     public void TestGetCreditsLength()
     {
-        Assert.Equal(11, credits.GetCredits().Length);
+        Assert.Equal(12, credits.GetCredits().Length);
     }
 
     [Fact]
@@ -30,5 +30,6 @@ public class CreditsTests
         Assert.Equal("Tao Boyce", credits.GetCredits()[8]);
         Assert.Equal("Zumhliansang Lung Ler", credits.GetCredits()[9]);
         Assert.Equal("Daeseong Yu", credits.GetCredits()[10]);
+        Assert.Equal("Tian Yang", credits.GetCredits()[11]);
     }
 }
