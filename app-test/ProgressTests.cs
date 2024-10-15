@@ -32,7 +32,7 @@ public class ProgressTests
         
 
         // Assert
-        Assert.Equal(expectedTable, progresses.DisplayProgressSummary());
+        Assert.Equal(expectedTable, progresses.GetDisplayProgressSummary());
     }
     [Fact]
     public void TestGetProgressViewType()

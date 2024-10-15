@@ -31,6 +31,11 @@ switch (noun)
         credits.Execute(verb);
         return 200; // 200 OK
 
+    case Noun.Progress:
+        ProgressView progress = new ProgressView();
+        progress.DisplayProgressSummary();
+        return 200;
+
     default:
         Console.WriteLine(
             $"""

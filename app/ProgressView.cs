@@ -1,11 +1,16 @@
 ﻿
 using Lms.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 public interface IProgressView
 {
 
     List<Progress> GetProgresses(); // Return a list of Progress
-    string DisplayProgressSummary(); // Updated to accept multiple progresses
+    string GetDisplayProgressSummary(); // Updated to accept multiple progresses
+
+    void DisplayProgressSummary();
 }
 
 public class ProgressView : IProgressView
@@ -20,6 +25,7 @@ public class ProgressView : IProgressView
         }
     };
 
+    private string[] headers = new[] { "Id", "Description", "WorkItem", "CreatedAt" };
 
 
     // Method to generate multiple Progress instances in a loop
@@ -28,59 +34,96 @@ public class ProgressView : IProgressView
 
         return progresses;
     }
-
-    public string DisplayProgressSummary()
+    public void DisplayProgressSummary()
     {
-        // Calculate the maximum lengths for each column
-        int maxIdLength = "Id".Length; 
-        int maxDescriptionLength = "Description".Length;
-        int maxWorkItemLength = "WorkItem".Length;
-        int maxCreatedAtLength = "CreatedAt".Length;
+        
+        Console.Write(GetDisplayProgressSummary());
+    }
 
-        foreach (var progress in progresses)
+    public string GetDisplayProgressSummary()
+    {
+        List<Progress> rows = progresses;
+        var maxWidths = GetMaxColumnWidths(headers, rows);
+        var sb = new StringBuilder();
+
+        sb.Append(PrintSeparator(maxWidths) + "\n");
+        sb.Append(PrintRow(headers, maxWidths, true) + "\n"); // Center headers
+        sb.Append(PrintSeparator(maxWidths) + "\n");
+
+        foreach (var row in rows)
         {
-            maxIdLength = Math.Max(maxIdLength, progress.Id.ToString().Length);  
-            maxDescriptionLength = Math.Max(maxDescriptionLength, (progress.Description ?? "No description").Length);
-            maxWorkItemLength = Math.Max(maxWorkItemLength, (progress.WorkItem?.Title ?? "No work item").Length);
-            maxCreatedAtLength = Math.Max(maxCreatedAtLength, progress.CreatedAt.ToString("yyyy-MM-dd").Length);
-        }
-
-        // Helper function to center-align text within a given width
-        string PadBoth(string text, int width, bool takeExtraPadding = false)
-        {
-            int padding = width - text.Length;
-            int padLeft = padding / 2;
-            int padRight = padding - padLeft;
-
-            // If this column should take the extra padding (in the case of uneven spacing)
-            if (takeExtraPadding)
+            var rowData = new string[]
             {
-                padRight++;
-            }
-
-            return text.PadLeft(text.Length + padLeft).PadRight(width);
+            $"p{row.Id}",  // Prefix 'p' to the Id value
+            row.Description,
+            row.WorkItem?.Title ?? "No WorkItem",
+            row.CreatedAt.ToString("yyyy-MM-dd")
+            };
+            sb.Append(PrintRow(rowData, maxWidths) + "\n");
         }
 
-        // Create the table header with dynamic widths
-        string table =
-            $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n" +
-            $"| {PadBoth("Id", maxIdLength)} | {PadBoth("Description", maxDescriptionLength)} | {PadBoth("WorkItem", maxWorkItemLength)} | {PadBoth("CreatedAt", maxCreatedAtLength, true)} |\n" + // Extra padding goes to "CreatedAt"
-            $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n";
+        sb.Append(PrintSeparator(maxWidths) + "\n");
 
-        // Add each progress entry to the table
-        foreach (var progress in progresses)
+        return sb.ToString();
+    }
+
+    int[] GetMaxColumnWidths(string[] headers, IEnumerable<Progress> rows)
+    {
+        var maxWidths = new int[headers.Length];
+
+        // Determine maximum widths based on headers
+        for (int i = 0; i < headers.Length; i++)
         {
-            string description = progress.Description ?? "No description";
-            string workItemTitle = progress.WorkItem?.Title ?? "No work item";
-
-            // Include the 'p' character before the Id and adjust padding
-            table += $"| p{PadBoth(progress.Id.ToString(), maxIdLength - 1)} | {PadBoth(description, maxDescriptionLength)} | {PadBoth(workItemTitle, maxWorkItemLength)} | {PadBoth(progress.CreatedAt.ToString("yyyy-MM-dd"), maxCreatedAtLength, true)} |\n"; // Extra padding for "CreatedAt"
+            maxWidths[i] = headers[i].Length;
         }
 
-        // Add the table footer
-        table += $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n";
+        // Determine maximum widths based on the row contents
+        foreach (var row in rows)
+        {
+            maxWidths[0] = Math.Max(maxWidths[0], $"p{row.Id}".Length);  // Add 'p' to the Id length
+            maxWidths[1] = Math.Max(maxWidths[1], row.Description?.Length ?? 0);
+            maxWidths[2] = Math.Max(maxWidths[2], row.WorkItem?.Title?.Length ?? 0);
+            maxWidths[3] = Math.Max(maxWidths[3], row.CreatedAt.ToString("yyyy-MM-dd").Length);
+        }
 
-        return table;
+        return maxWidths;
+    }
+
+    string PrintRow(string[] row, int[] maxWidths, bool isHeader = false)
+    {
+        var formattedRow = new string[row.Length];
+        for (int i = 0; i < row.Length; i++)
+        {
+            if (isHeader)
+            {
+                // Center header by padding manually
+                formattedRow[i] = CenterText(row[i], maxWidths[i]);
+            }
+            else
+            {
+                // Left-align for data rows
+                formattedRow[i] = String.Format($"{{0,-{maxWidths[i]}}}", row[i]);
+            }
+        }
+        return "| " + string.Join(" | ", formattedRow) + " |";
+    }
+
+    string PrintSeparator(int[] maxWidths)
+    {
+        // Use String.Format to simplify separator generation
+        var separatorParts = new string[maxWidths.Length];
+        for (int i = 0; i < maxWidths.Length; i++)
+        {
+            separatorParts[i] = new string('-', maxWidths[i] + 2);
+        }
+        return "+" + string.Join("+", separatorParts) + "+";
+    }
+
+    // Helper method to center text within a given width
+    string CenterText(string text, int width)
+    {
+        int padding = (width - text.Length) / 2;
+        return text.PadLeft(text.Length + padding).PadRight(width);
     }
 
 }
