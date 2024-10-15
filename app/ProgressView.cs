@@ -3,50 +3,84 @@ using Lms.Models;
 
 public interface IProgressView
 {
+
     List<Progress> GetProgresses(); // Return a list of Progress
-    string DisplayProgressSummary(List<Progress> progresses); // Updated to accept multiple progresses
+    string DisplayProgressSummary(); // Updated to accept multiple progresses
 }
 
 public class ProgressView : IProgressView
 {
+    private List<Progress> progresses = new List<Progress>
+    {
+        new Progress
+        {
+            Id = 0,
+            Description = "MyDescription",
+            WorkItem = new WorkItem { Id = 0, Title = "Assignment 2" }
+        }
+    };
+
+
+
     // Method to generate multiple Progress instances in a loop
     public List<Progress> GetProgresses()
     {
-        List<Progress> progresses = new List<Progress>();
-
-        // Loop to create multiple Progress instances
-        for (int i = 1; i <= 1; i++) // Example: generates 5 progresses
-        {
-            progresses.Add(new Progress
-            {
-                Id = i,
-                Description = $"Task {i} completed",
-                WorkItem = new WorkItem { Id = i, Title = $"WorkItem {i}" },
-                // CreatedAt will automatically be set to DateTime.Now due to the model
-            });
-        }
 
         return progresses;
     }
 
-    // Method to display the progress summary for multiple progresses in a table format
-    public string DisplayProgressSummary(List<Progress> progresses)
+    public string DisplayProgressSummary()
     {
-        string table =
-            "+----+---------------+--------------+------------+\n" +
-            "| Id |  Description  |   WorkItem   | CreatedAt  |\n" +
-            "+----+---------------+--------------+------------+\n";
+        // Calculate the maximum lengths for each column
+        int maxIdLength = "Id".Length; 
+        int maxDescriptionLength = "Description".Length;
+        int maxWorkItemLength = "WorkItem".Length;
+        int maxCreatedAtLength = "CreatedAt".Length;
 
+        foreach (var progress in progresses)
+        {
+            maxIdLength = Math.Max(maxIdLength, progress.Id.ToString().Length);  
+            maxDescriptionLength = Math.Max(maxDescriptionLength, (progress.Description ?? "No description").Length);
+            maxWorkItemLength = Math.Max(maxWorkItemLength, (progress.WorkItem?.Title ?? "No work item").Length);
+            maxCreatedAtLength = Math.Max(maxCreatedAtLength, progress.CreatedAt.ToString("yyyy-MM-dd").Length);
+        }
+
+        // Helper function to center-align text within a given width
+        string PadBoth(string text, int width, bool takeExtraPadding = false)
+        {
+            int padding = width - text.Length;
+            int padLeft = padding / 2;
+            int padRight = padding - padLeft;
+
+            // If this column should take the extra padding (in the case of uneven spacing)
+            if (takeExtraPadding)
+            {
+                padRight++;
+            }
+
+            return text.PadLeft(text.Length + padLeft).PadRight(width);
+        }
+
+        // Create the table header with dynamic widths
+        string table =
+            $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n" +
+            $"| {PadBoth("Id", maxIdLength)} | {PadBoth("Description", maxDescriptionLength)} | {PadBoth("WorkItem", maxWorkItemLength)} | {PadBoth("CreatedAt", maxCreatedAtLength, true)} |\n" + // Extra padding goes to "CreatedAt"
+            $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n";
+
+        // Add each progress entry to the table
         foreach (var progress in progresses)
         {
             string description = progress.Description ?? "No description";
             string workItemTitle = progress.WorkItem?.Title ?? "No work item";
 
-            table += $"| {progress.Id,-3} | {description,-13} | {workItemTitle,-12} | {progress.CreatedAt.ToString("yyyy-MM-dd"),-10} |\n";
+            // Include the 'p' character before the Id and adjust padding
+            table += $"| p{PadBoth(progress.Id.ToString(), maxIdLength - 1)} | {PadBoth(description, maxDescriptionLength)} | {PadBoth(workItemTitle, maxWorkItemLength)} | {PadBoth(progress.CreatedAt.ToString("yyyy-MM-dd"), maxCreatedAtLength, true)} |\n"; // Extra padding for "CreatedAt"
         }
 
-        table += "+----+---------------+--------------+------------+\n";
+        // Add the table footer
+        table += $"+-{new string('-', maxIdLength)}-+-{new string('-', maxDescriptionLength)}-+-{new string('-', maxWorkItemLength)}-+-{new string('-', maxCreatedAtLength)}-+\n";
 
         return table;
     }
+
 }

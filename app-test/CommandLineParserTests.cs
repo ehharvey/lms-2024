@@ -14,7 +14,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseVerb()
     {
-        Assert.Equal(Verb.View, parser.ParseVerb("view", Noun.Progress));
+        Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Progress));
         Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Credits));
     }
 
@@ -47,10 +47,10 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseProgress()
     {
-        string[] args = { "progress", "view" };
+        string[] args = { "progress", "list" };
         (Noun noun, Verb verb) = parser.Parse(args);
         Assert.Equal(Noun.Progress, noun);
-        Assert.Equal(Verb.View, verb);
+        Assert.Equal(Verb.List, verb);
     }
 
     [Fact]

@@ -19,7 +19,6 @@ enum Noun
 enum Verb
 {
     List, // Represents the "list" verb. This should list all data items of the Noun.
-    View,
     Invalid // Represents an invalid verb.
 
 }
@@ -59,7 +58,7 @@ class CommandLineParser : ICommandLineParser
     {
         // Credits supports just the List verb.
         { Noun.Credits, new HashSet<Verb> { Verb.List } },
-        { Noun.Progress, new HashSet<Verb> { Verb.View } }
+        { Noun.Progress, new HashSet<Verb> { Verb.List } }
         // Add more Nuons and Verbs here to support more commands.
     };
 
