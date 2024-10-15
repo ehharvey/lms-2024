@@ -32,7 +32,7 @@ switch (noun)
         return 200; // 200 OK
 
     case Noun.Progress:
-        ProgressView progress = new ProgressView();
+        ProgressList progress = new ProgressList();
         progress.DisplayProgressSummary();
         return 200;
 

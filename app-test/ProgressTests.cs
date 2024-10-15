@@ -1,12 +1,29 @@
-﻿using Lms.Models;
+﻿/*
+ Author: Lian
+    Date: 10/15/2024
+    File: ProgressTests.cs
+    Description: 
+        This file contains the implementation of the ProgressTests class, 
+        which is responsible for testing the ProgressList class.
+ */
+
+using Lms.Models;
 
 namespace progress_tests;
 
+
+ 
+/// <summary>
+/// This class contains unit tests for the ProgressList class.
+/// </summary>
 public class ProgressTests
 {
-    ProgressView progresses = new ProgressView { };
-  
+    ProgressList progresses = new ProgressList { };
 
+    /// <summary>
+    /// Method to get the first progress.
+    /// </summary>
+    /// <returns>The first progress.</returns>
     public Progress GetFirstProgress()
     {
         var progressList = progresses.GetProgresses();
@@ -19,6 +36,10 @@ public class ProgressTests
         Progress currentProgress = progressList[0];
         return currentProgress;
     }
+
+    /// <summary>
+    /// Test method to display progress summary.
+    /// </summary>
     [Fact]
     public void TestDisplayProgressSummary()
     {
@@ -29,46 +50,49 @@ public class ProgressTests
             "| p0 | MyDescription | Assignment 2 | " + DateTime.Now.ToString("yyyy-MM-dd") + " |\n" +
             "+----+---------------+--------------+------------+\n";
 
-        
-
         // Assert
         Assert.Equal(expectedTable, progresses.GetDisplayProgressSummary());
     }
+
+    /// <summary>
+    /// Test method to get the progress view type.
+    /// </summary>
     [Fact]
     public void TestGetProgressViewType()
     {
         Assert.True(typeof(List<Progress>) == progresses.GetProgresses().GetType());
     }
 
-    
-    //Test for Creating Progress Model
+    /// <summary>
+    /// Test method to create a progress with correct fields.
+    /// </summary>
     [Fact]
     public void ShouldCreateProgressWithCorrectFields()
     {
-
         // Assert
         Assert.Equal("MyDescription", GetFirstProgress().Description);
         Assert.Equal(0, GetFirstProgress().WorkItem.Id);
         Assert.Equal(DateTime.Now.Date, GetFirstProgress().CreatedAt.Date);  // Compare dates only to avoid time differences
     }
-  
-    // Test for CreatedAt Field Default Value
+
+    /// <summary>
+    /// Test method to ensure CreatedAt field has default value of current date.
+    /// </summary>
     [Fact]
     public void ShouldSetCreatedAtToCurrentDateWhenProgressIsCreated()
     {
-   
         // Assert
         Assert.Equal(DateTime.Now.Date, GetFirstProgress().CreatedAt.Date); // Ensure CreatedAt is set to today's date
     }
 
-    // Test for ForeignKey WorkItemId
+    /// <summary>
+    /// Test method to ensure WorkItem has foreign key.
+    /// </summary>
     [Fact]
     public void ShouldHaveWorkItemForeignKey()
     {
-        
         // Act & Assert
         Assert.NotNull(GetFirstProgress().WorkItem);
         Assert.Equal(0, GetFirstProgress().WorkItem.Id);
     }
-
 }
