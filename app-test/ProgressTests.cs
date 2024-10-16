@@ -18,13 +18,13 @@ namespace progress_tests;
 /// </summary>
 public class ProgressTests
 {
-    ProgressList progresses = new ProgressList { };
+    Progresses progresses = new Progresses();
 
     /// <summary>
     /// Method to get the first progress.
     /// </summary>
     /// <returns>The first progress.</returns>
-    public Progress GetFirstProgress()
+    public Lms.Models.Progress GetFirstProgress()
     {
         var progressList = progresses.GetProgresses();
 
@@ -33,7 +33,7 @@ public class ProgressTests
             throw new InvalidOperationException("No progresses available.");
         }
 
-        Progress currentProgress = progressList[0];
+        Lms.Models.Progress currentProgress = progressList[0];
         return currentProgress;
     }
 
@@ -60,7 +60,7 @@ public class ProgressTests
     [Fact]
     public void TestGetProgressViewType()
     {
-        Assert.True(typeof(List<Progress>) == progresses.GetProgresses().GetType());
+        Assert.True(typeof(List<Lms.Models.Progress>) == progresses.GetProgresses().GetType());
     }
 
     /// <summary>

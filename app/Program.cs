@@ -32,8 +32,8 @@ switch (noun)
         return 200; // 200 OK
 
     case Noun.Progress:
-        ProgressList progress = new ProgressList();
-        progress.DisplayProgressSummary();
+        Progresses progress = new Progresses(dbContext);
+        progress.Execute(verb);
         return 200;
 
     default:

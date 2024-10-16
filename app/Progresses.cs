@@ -4,78 +4,122 @@
   Date: 10/15/2024
   File: ProgressView.cs
   Description: 
-    This file contains the implementation of the ProgressView class, 
-    which is responsible for displaying progress information in a formatted manner.
+    This file contains the implementation of the Progresses class, 
+    which is responsible for displaying, editing, deleting and creating progress information in a formatted manner.
 
  */
-
+using Lms;
 using Lms.Models;
 using System.Text;
 
-public interface IProgressList
+// This progresses class is responsible for displaying the progress information in a formatted manner.
+class Progresses : ICommand
 {
+    private LmsDbContext? db;
+    private List<Lms.Models.Progress> progresses;
     /// <summary>
-    /// Retrieves a list of progress objects.
+    /// Initializes a new instance of the Progresses class.
     /// </summary>
-    /// <returns>A list of Progress objects.</returns>
-    List<Progress> GetProgresses();
+    public Progresses()
+    {
+        this.db = null;
+    }
 
     /// <summary>
-    /// Generates a formatted string representation of the progress summary.
+    /// Initializes a new instance of the Progresses class with the specified LmsDbContext.
     /// </summary>
-    /// <returns>A formatted string representation of the progress summary.</returns>
-    string GetDisplayProgressSummary();
+    /// <param name="db">The LmsDbContext to use.</param>
+    public Progresses(LmsDbContext db)
+    {
+        this.db = db;
+        //progresses = db.Progresses.ToList();
+    }
+
+    /// <summary>
+    /// Gets the help information for the Progresses command.
+    /// </summary>
+    /// <returns>A string containing the help information.</returns>
+    public string GetHelp()
+    {
+        return $"""
+        Progresses
+
+        Description:
+        The progresses for assignments.
+        Verbs:
+        - list: {GetHelp(Verb.List)}
+        """;
+        //- edit: {GetHelp(Verb.Edit)}
+        //- delete: {GetHelp(Verb.Delete)}
+
+    }
+
+    public string GetHelp(Verb verb)
+    {
+        switch (verb)
+        {
+            case Verb.List:
+                return "Lists the progresses for a assignments.";
+            default:
+                throw new ArgumentException("Invalid verb.");
+        }
+    }
+
+
+    /// <summary>
+    /// Executes the specified verb.
+    /// </summary>
+    /// <param name="verb">The verb to execute.</param>
+    public void Execute(Verb verb)
+    {
+        switch (verb)
+        {
+            case Verb.List:
+                DisplayProgressSummary();
+                break;
+            default:
+                throw new ArgumentException("Invalid verb.");
+        }
+    }
 
     /// <summary>
     /// Displays the progress summary.
     /// </summary>
-    void DisplayProgressSummary();
-}
-
-/*
-    The ProgressView class is an implementation of the IProgressView interface. 
-    It represents a view that displays progress information. 
-    This class provides methods to retrieve a list of progress objects, display a summary of the progress, and 
-    generate a formatted string representation of the progress summary.
-    The ProgressView class maintains a list of Progress objects and an array of headers for the progress summary table. It calculates the maximum column widths based on the headers and the data in the progress objects. The class also includes helper methods to format and print rows and separators for the progress summary table.
-    Overall, the ProgressView class encapsulates the logic for retrieving progress data, generating a summary, and 
-    displaying it in a formatted manner. It provides a convenient way to visualize progress information.
- */
-public class ProgressList : IProgressList
-{
-
-    private List<Progress> progresses = new List<Progress>
+    private void DisplayProgressSummary()
     {
-        new Progress
-        {
-            Id = 0,
-            Description = "MyDescription",
-            WorkItem = new WorkItem { Id = 0, Title = "Assignment 2" }
-        }
-    };
+        Console.Write(GetDisplayProgressSummary());
+    }
 
-    private string[] headers = new[] { "Id", "Description", "WorkItem", "CreatedAt" };
-
-
-    // Method to generate multiple Progress instances in a loop
+    /// <summary>
+    /// Method to generate multiple Progress instances in a loop
+    /// </summary>
     /// <inheritdoc/>
-    public List<Progress> GetProgresses()
+    public List<Lms.Models.Progress> GetProgresses()
     {
+        progresses = new List<Lms.Models.Progress>
+        {
+            new Lms.Models.Progress
+            {
+                Id = 0,
+                Description = "MyDescription",
+                WorkItem = new WorkItem { Id = 0, Title = "Assignment 2" }
+            }
+        };
 
         return progresses;
     }
 
-    /// <inheritdoc/>
-    public void DisplayProgressSummary()
-    {
-
-        Console.Write(GetDisplayProgressSummary());
-    }
-
-    /// <inheritdoc/>
+    
+    ///<summary>
+    /// Displays the progress summary.
+    /// </summary>
+    /// <returns>A formatted string representing the progress summary.</returns>
     public string GetDisplayProgressSummary()
     {
-        List<Progress> rows = progresses;
+        List<Progress> rows = GetProgresses();
+
+        string[] headers = new[] { "Id", "Description", "WorkItem", "CreatedAt" };
+
         var maxWidths = GetMaxColumnWidths(headers, rows);
         var sb = new StringBuilder();
 
@@ -106,7 +150,7 @@ public class ProgressList : IProgressList
     /// <param name="headers">The array of headers for the progress summary table.</param>
     /// <param name="rows">The list of progress objects.</param>
     /// <returns>An array of integers representing the maximum column widths.</returns>
-    int[] GetMaxColumnWidths(string[] headers, IEnumerable<Progress> rows)
+    private int[] GetMaxColumnWidths(string[] headers, IEnumerable<Lms.Models.Progress> rows)
     {
         var maxWidths = new int[headers.Length];
 
@@ -135,7 +179,7 @@ public class ProgressList : IProgressList
     /// <param name="maxWidths">The array of maximum column widths.</param>
     /// <param name="isHeader">A flag indicating whether the row is a header row.</param>
     /// <returns>A formatted string representing the row.</returns>
-    string PrintRow(string[] row, int[] maxWidths, bool isHeader = false)
+    private string PrintRow(string[] row, int[] maxWidths, bool isHeader = false)
     {
         var formattedRow = new string[row.Length];
         for (int i = 0; i < row.Length; i++)
@@ -159,7 +203,7 @@ public class ProgressList : IProgressList
     /// </summary>
     /// <param name="maxWidths">The array of maximum column widths.</param>
     /// <returns>A formatted string representing the separator line.</returns>
-    string PrintSeparator(int[] maxWidths)
+    private string PrintSeparator(int[] maxWidths)
     {
         // Use String.Format to simplify separator generation
         var separatorParts = new string[maxWidths.Length];
@@ -176,7 +220,7 @@ public class ProgressList : IProgressList
     /// <param name="text">The text to be centered.</param>
     /// <param name="width">The width of the text.</param>
     /// <returns>A string representing the centered text.</returns>
-    string CenterText(string text, int width)
+    private string CenterText(string text, int width)
     {
         int padding = (width - text.Length) / 2;
         return text.PadLeft(text.Length + padding).PadRight(width);
