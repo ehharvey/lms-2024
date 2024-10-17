@@ -21,7 +21,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseVerbInvalidNoun()
     {
-        Assert.Equal(Verb.Invalid, parser.ParseVerb("progress", Noun.Invalid));
+        Assert.Equal(Verb.Invalid, parser.ParseVerb("delete", Noun.Invalid));
         Assert.Equal(Verb.Invalid, parser.ParseVerb("list", Noun.Invalid));
     }
 
