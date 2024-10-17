@@ -6,6 +6,7 @@
 enum Noun
 {
     Credits, // Represents the "credits" noun.
+    WorkItem, // Represents work item
     Invalid // Represents an invalid noun.
 }
 
@@ -56,7 +57,8 @@ class CommandLineParser : ICommandLineParser
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
         // Credits supports just the List verb.
-        { Noun.Credits, new HashSet<Verb> { Verb.List } }
+        { Noun.Credits, new HashSet<Verb> { Verb.List } },
+        { Noun.WorkItem, new HashSet<Verb> { Verb.List } },
         // Add more Nuons and Verbs here to support more commands.
     };
 
