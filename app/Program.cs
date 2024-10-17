@@ -30,6 +30,10 @@ switch (noun)
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
         credits.Execute(verb);
         return 200; // 200 OK
+    case Noun.WorkItem:
+        WorkItem work_item = new WorkItem(dbContext);
+        work_item.Execute(verb);
+        return 200;
     default:
         Console.WriteLine(
             $"""
