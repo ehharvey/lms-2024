@@ -11,8 +11,7 @@
 using ConsoleTables;
 using Lms;
 using Lms.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
+
 
 
 // This progresses class is responsible for displaying the progress information in a formatted manner.
