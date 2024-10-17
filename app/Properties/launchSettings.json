@@ -2,7 +2,7 @@
   "profiles": {
     "showCredits": {
       "commandName": "Project",
-      "commandLineArgs": "Credits List"
+      "commandLineArgs": "Progress List"
     }
   }
 }

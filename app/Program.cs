@@ -30,6 +30,12 @@ switch (noun)
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
         credits.Execute(verb);
         return 200; // 200 OK
+
+    case Noun.Progress:
+        Progresses progress = new Progresses(dbContext);
+        progress.Execute(verb);
+        return 200; // 200 OK
+
     default:
         Console.WriteLine(
             $"""
