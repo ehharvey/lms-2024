@@ -8,10 +8,10 @@
     which is responsible for displaying, editing, deleting and creating progress information in a formatted manner.
 
  */
-using lms.Utilities;
+using ConsoleTables;
 using Lms;
 using Lms.Models;
-
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 
@@ -35,7 +35,7 @@ class Progresses : ICommand
     public Progresses(LmsDbContext db)
     {
         this.db = db;
-        //progresses = db.Progresses.ToList();
+        //  List<Progress> progresses = db.Progresses.Include(p => p.WorkItem).ToList();
     }
 
     /// <summary>
@@ -85,13 +85,7 @@ class Progresses : ICommand
         }
     }
 
-    /// <summary>
-    /// Displays the progress summary.
-    /// </summary>
-    private void DisplayProgressSummary()
-    {
-        Console.Write(GetDisplayProgressSummary());
-    }
+   
 
     /// <summary>
     /// Method to generate multiple Progress instances in a loop
@@ -99,6 +93,7 @@ class Progresses : ICommand
     /// <inheritdoc/>
     public List<Lms.Models.Progress> GetProgresses()
     {
+        
         // this is for temporary data
         progresses = new List<Lms.Models.Progress>
         {
@@ -113,40 +108,43 @@ class Progresses : ICommand
         return progresses;
     }
 
-    
+
     ///<summary>
     /// Displays the progress summary.
     /// </summary>
-    /// <returns>A formatted string representing the progress summary.</returns>
-    public string GetDisplayProgressSummary()
+    public void DisplayProgressSummary()
     {
-        List<Progress> rows = GetProgresses();
-        Table table = new Table();
 
-        string[] headers = new[] { "Id", "Description", "WorkItem", "CreatedAt" };
+        List<Progress> progresses = GetProgresses();
 
-        var maxWidths = table.GetMaxColumnWidths(headers, rows);
-        var sb = new StringBuilder();
 
-        sb.Append(table.PrintSeparator(maxWidths) + "\n");
-        sb.Append(table.PrintRow(headers, maxWidths, true) + "\n"); // Center headers
-        sb.Append(table.PrintSeparator(maxWidths) + "\n");
+        var table = new ConsoleTable("Id", "Description", "WorkItem", "CreatedAt");
 
-        foreach (var row in rows)
+
+
+        foreach (var progress in progresses)
         {
-            var rowData = new string[]
-            {
-                $"p{row.Id}",  // Prefix 'p' to the Id value
-                row.Description ?? string.Empty,
-                row.WorkItem?.Title ?? "No WorkItem",
-                row.CreatedAt.ToString("yyyy-MM-dd")
-            };
-            sb.Append(table.PrintRow(rowData, maxWidths) + "\n");
+            // string workItems = string.Join(", ", progress.WorkItems.Select(w => w.Title));
+
+            table.AddRow($"p{progress.Id}",  // Prefix 'p' to the Id value
+                progress.Description ?? string.Empty,
+                progress.WorkItem?.Title ?? "No WorkItem",
+                progress.CreatedAt.ToString("yyyy-MM-dd"));
+
+
         }
 
-        sb.Append(table.PrintSeparator(maxWidths) + "\n");
 
-        return sb.ToString();
+        table.Configure(o =>
+        {
+            o.NumberAlignment = Alignment.Left;  // Ensure Alignment.Left is recognized
+
+        }).Write(Format.Alternative);
+
+       
+
+       
+        
     }
 
 

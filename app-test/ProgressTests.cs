@@ -37,22 +37,7 @@ public class ProgressTests
         return currentProgress;
     }
 
-    /// <summary>
-    /// Test method to display progress summary.
-    /// </summary>
-    [Fact]
-    public void TestDisplayProgressSummary()
-    {
-        var expectedTable =
-            "+----+---------------+--------------+------------+\n" +
-            "| Id |  Description  |   WorkItem   | CreatedAt  |\n" +
-            "+----+---------------+--------------+------------+\n" +
-            "| p0 | MyDescription | Assignment 2 | " + DateTime.Now.ToString("yyyy-MM-dd") + " |\n" +
-            "+----+---------------+--------------+------------+\n";
-
-        // Assert
-        Assert.Equal(expectedTable, progresses.GetDisplayProgressSummary());
-    }
+  
 
     /// <summary>
     /// Test method to get the progress view type.
