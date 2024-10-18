@@ -6,6 +6,7 @@
 enum Noun
 {
     Credits, // Represents the "credits" noun.
+    Block, // Represents the "blockers" noun.
     Invalid // Represents an invalid noun.
 }
 
@@ -18,6 +19,9 @@ enum Noun
 enum Verb
 {
     List, // Represents the "list" verb. This should list all data items of the Noun.
+    Create, // Represents the "Create" verb. This should create a new data item of the Noun.
+    Edit, // Represents the "Create" verb. This should edit the existing data item of the Noun.
+    Delete, // Represents the "Create" verb. This should delete the existing data item of the Noun.
     Invalid // Represents an invalid verb.
 
 }
@@ -30,7 +34,7 @@ interface ICommandLineParser
     /// </summary>
     /// <param name="args">The command line arguments.</param>
     /// <returns>The Noun and Verb that the command is acting on.</returns>
-    (Noun noun, Verb verb) Parse(string[] args);
+    (Noun noun, Verb verb, string[] args) Parse(string[] args);
 
     /// <summary>
     /// Parses the Noun from the command line arguments.
@@ -55,9 +59,8 @@ class CommandLineParser : ICommandLineParser
 {
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
-        // Credits supports just the List verb.
-        { Noun.Credits, new HashSet<Verb> { Verb.List } }
-        // Add more Nuons and Verbs here to support more commands.
+        { Noun.Credits, new HashSet<Verb> { Verb.List } },
+        { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } }
     };
 
     public CommandLineParser()
@@ -94,17 +97,20 @@ class CommandLineParser : ICommandLineParser
         return Verb.Invalid;
     }
 
-    public (Noun noun, Verb verb) Parse(string[] args)
+    public (Noun noun, Verb verb, string[] args) Parse(string[] args)
     {
         if (args.Length < 2)
         {
-            return (Noun.Invalid, Verb.Invalid);
+            return (Noun.Invalid, Verb.Invalid, args);
         }
 
         Noun noun = ParseNoun(args[0]);
         Verb verb = ParseVerb(args[1], noun);
-
-        return (noun, verb);
+        
+        if(args.Length == 2) {
+            return (noun, verb, args);
+        }
+        return (noun, verb, args);
     }
 
     public string[] GetCommandLineArgs(string[] args)
@@ -119,7 +125,7 @@ class CommandLineParser : ICommandLineParser
 
     public ((Noun noun, Verb verb), string[] commandLineArgs) ParseWithArgs(string[] args)
     {
-        (Noun noun, Verb verb) = Parse(args);
+        (Noun noun, Verb verb, string[] Args) = Parse(args);
         string[] commandLineArgs = GetCommandLineArgs(args);
 
         return ((noun, verb), commandLineArgs);

@@ -103,7 +103,7 @@ class Credits : ICommand {
         }
     }
 
-    public void Execute(Verb verb) {
+    public void Execute(Verb verb, string[] args) {
         switch (verb) {
             case Verb.List:
                 DisplayCredits();

@@ -2,7 +2,7 @@
 
 CommandLineParser parser = new CommandLineParser();
 
-((Noun noun, Verb verb), string[] command_args) = parser.ParseWithArgs(args);
+(Noun noun, Verb verb, string[] commandArgs) = parser.Parse(args);
 
 if (noun == Noun.Invalid)
 {
@@ -28,7 +28,12 @@ switch (noun)
         return 400; // 400 Bad Request
     case Noun.Credits:
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
-        credits.Execute(verb);
+        credits.Execute(verb, commandArgs);
+        return 200; // 200 OK
+    case Noun.Block:
+        Blockers blockers = new Blockers(dbContext);
+        blockers.Execute(verb, commandArgs);
+        
         return 200; // 200 OK
     default:
         Console.WriteLine(
