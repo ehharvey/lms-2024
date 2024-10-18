@@ -11,6 +11,12 @@ public class CommandLineParserTests
     }
 
     [Fact]
+    public void TestParseNounWithBlock()
+    {
+        Assert.Equal(Noun.Block, parser.ParseNoun("block"));
+    }
+
+    [Fact]
     public void TestParseVerb()
     {
         Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Credits));
@@ -29,23 +35,20 @@ public class CommandLineParserTests
     }
 
     [Fact]
-    public void TestParseOption()
-    {
-        Assert.Equal(Option.Description, parser.ParseOption("description"));
-    }
-
-    [Fact]
-    public void TestParseOptionInvalidOption()
-    {
-        Assert.Equal(Option.Invalid, parser.ParseOption("abc"));
-    }
-
-    [Fact]
     public void TestParseCredits()
     {
         string[] args = { "credits", "list" };
-        (Noun noun, Verb verb, Dictionary<Option, List<string>> options) = parser.Parse(args);
+        (Noun noun, Verb verb, string[] commandArgs) = parser.Parse(args);
         Assert.Equal(Noun.Credits, noun);
+        Assert.Equal(Verb.List, verb);
+    }
+
+    [Fact]
+    public void TestParseBlock()
+    {
+        string[] args = { "block", "list" };
+        (Noun noun, Verb verb, string[] commandArgs) = parser.Parse(args);
+        Assert.Equal(Noun.Block, noun);
         Assert.Equal(Verb.List, verb);
     }
 

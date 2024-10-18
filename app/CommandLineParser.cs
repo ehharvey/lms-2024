@@ -6,7 +6,7 @@
 enum Noun
 {
     Credits, // Represents the "credits" noun.
-    Blockers, // Represents the "blockers" noun.
+    Block, // Represents the "blockers" noun.
     Invalid // Represents an invalid noun.
 }
 
@@ -26,14 +26,6 @@ enum Verb
 
 }
 
-enum Option 
-{
-    Description,
-    WorkItemId,
-    BlockerId,
-    Invalid
-}
-
 interface ICommandLineParser
 {
     /// <summary>
@@ -42,7 +34,7 @@ interface ICommandLineParser
     /// </summary>
     /// <param name="args">The command line arguments.</param>
     /// <returns>The Noun and Verb that the command is acting on.</returns>
-    (Noun noun, Verb verb, Dictionary<Option, List<string>>? options) Parse(string[] args);
+    (Noun noun, Verb verb, string[] args) Parse(string[] args);
 
     /// <summary>
     /// Parses the Noun from the command line arguments.
@@ -68,7 +60,7 @@ class CommandLineParser : ICommandLineParser
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
         { Noun.Credits, new HashSet<Verb> { Verb.List } },
-        { Noun.Blockers, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } }
+        { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } }
     };
 
     public CommandLineParser()
@@ -105,53 +97,20 @@ class CommandLineParser : ICommandLineParser
         return Verb.Invalid;
     }
 
-    public Option ParseOption(string option) {
-        if (Enum.TryParse<Option>(option, true, out Option parsedOption))
-        {
-            return parsedOption;
-        }
-
-        return Option.Invalid;
-    }
-
-    public (Noun noun, Verb verb, Dictionary<Option, List<string>>? options) Parse(string[] args)
+    public (Noun noun, Verb verb, string[] args) Parse(string[] args)
     {
         if (args.Length < 2)
         {
-            var invalidOptions = new Dictionary<Option, List<string>>
-            {
-                { Option.Invalid, new List<string>() }
-            };
-            return (Noun.Invalid, Verb.Invalid, invalidOptions);
+            return (Noun.Invalid, Verb.Invalid, args);
         }
 
         Noun noun = ParseNoun(args[0]);
         Verb verb = ParseVerb(args[1], noun);
         
         if(args.Length == 2) {
-            return (noun, verb, null);
+            return (noun, verb, args);
         }
-
-        Dictionary<Option, List<string>> options = new Dictionary<Option, List<string>>();
-
-        for (int i = 2; i < args.Length; i++)
-        {
-            if (args[i].StartsWith("--"))
-            {
-                Option option = ParseOption(args[i].Substring(2));
-                List<string> optionValues = new List<string>();
-
-                for (int j = i + 1; j < args.Length && !args[j].StartsWith("--"); j++)
-                {
-                    optionValues.Add(args[j]);
-                    i = j;
-                }
-
-                options.Add(option, optionValues);
-            }
-        }
-
-        return (noun, verb, options);
+        return (noun, verb, args);
     }
 
     public string[] GetCommandLineArgs(string[] args)
@@ -166,7 +125,7 @@ class CommandLineParser : ICommandLineParser
 
     public ((Noun noun, Verb verb), string[] commandLineArgs) ParseWithArgs(string[] args)
     {
-        (Noun noun, Verb verb, Dictionary<Option, List<string>> options) = Parse(args);
+        (Noun noun, Verb verb, string[] Args) = Parse(args);
         string[] commandLineArgs = GetCommandLineArgs(args);
 
         return ((noun, verb), commandLineArgs);

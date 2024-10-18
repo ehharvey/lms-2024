@@ -2,7 +2,7 @@
 
 CommandLineParser parser = new CommandLineParser();
 
-(Noun noun, Verb verb, Dictionary<Option, List<string>> options) = parser.Parse(args);
+(Noun noun, Verb verb, string[] commandArgs) = parser.Parse(args);
 
 if (noun == Noun.Invalid)
 {
@@ -18,13 +18,6 @@ if (verb == Verb.Invalid)
     return 400;
 }
 
-if (options != null && options.ContainsKey(Option.Invalid)) {
-    Console.WriteLine($"""
-    Invalid option.
-    """);
-    return 400;
-}
-
 
 var dbContext = new LmsDbContext();
 
@@ -35,15 +28,11 @@ switch (noun)
         return 400; // 400 Bad Request
     case Noun.Credits:
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
-        credits.Execute(verb);
+        credits.Execute(verb, commandArgs);
         return 200; // 200 OK
-    case Noun.Blockers:
+    case Noun.Block:
         Blockers blockers = new Blockers(dbContext);
-        if(args.Length == 2) {
-            blockers.Execute(verb);
-        }else {
-            blockers.Execute(verb, options);
-        }
+        blockers.Execute(verb, commandArgs);
         
         return 200; // 200 OK
     default:
