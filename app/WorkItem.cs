@@ -9,20 +9,45 @@ class WorkItem : ICommand {
 
     public string GetHelp() {
         return $"""
-        WorkItem
+        WorkItem 
 
         Description:
         Tracks Work Items for the program. A Work Item is something like an assignment or quiz.
-        
+
         Verbs:
-        - Create: {GetHelp(Verb.Create)}
+        - list: {GetHelp(Verb.List)}
         """;
     }
 
-    public string GetHelp(Verb verb) {
+    public string GetHelp(Verb verb)
+    {
         switch (verb) {
-            case Verb.Create:
-                return "Create a new WorkItem";
+            case Verb.List:
+                return "List the WorkItems recorded previously.";
+            default:
+                throw new ArgumentException("Invalid Verb");
+        }
+    }
+
+    public IEnumerable<Lms.Models.WorkItem> GetWorkItems()
+    {
+        return db.WorkItems.AsEnumerable();
+    }
+
+    public void Execute(Verb verb)
+    {
+        switch (verb) {
+            case Verb.List:
+                var work_items = GetWorkItems();
+                Console.WriteLine("------------------------------");
+                Console.WriteLine("| id | Title         | CreatedAt       | DueAt        | Description                       |");
+                work_items.ToList().ForEach(
+                    (wi) => {
+                        Console.WriteLine($"| w{wi.Id} | {wi.Title} | {wi.CreatedAt:yyyy-MM-dd} | {wi.DueAt:yyyy-MM-dd} |");
+                    }
+                );
+                Console.WriteLine("------------------------------");
+                break;
             default:
                 throw new ArgumentException("Invalid Verb");
         }
@@ -47,14 +72,13 @@ class WorkItem : ICommand {
         return result;
     }
 
-    public void Execute(Verb verb) {
-        throw new ArgumentException("Execute must be called with command_args");
-    }
-
     public void Execute(Verb verb, string[] command_args)
     {
         switch (verb) 
         {
+            case Verb.List:
+                Execute(verb);
+                break;
             case Verb.Create:
                 if (command_args.Count() < 1)
                 {
