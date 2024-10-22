@@ -5,7 +5,7 @@ namespace db_tests;
 
 public class DbTests
 {
-    LmsDbContext db = new LmsDbContext(DbDriver.Memory);
+    LmsDbContext db = new LmsDbContext(DbDriver.Memory, "DbTests");
 
     [Fact]
     public void TestAddBlock()
@@ -28,7 +28,7 @@ public class DbTests
     [Fact]
     public void TestAddWorkItem()
     {
-        WorkItem workItem = new WorkItem { Title = "Test Work Item" };
+        Lms.Models.WorkItem workItem = new Lms.Models.WorkItem { Title = "Test Work Item" };
         db.WorkItems.Add(workItem);
         db.SaveChanges();
         Assert.NotEqual(0, workItem.Id);
@@ -37,7 +37,7 @@ public class DbTests
     [Fact]
     public void TestAddWorkItemWithBlock()
     {
-        WorkItem workItem = new WorkItem { Title = "Test Work Item" };
+        Lms.Models.WorkItem workItem = new Lms.Models.WorkItem { Title = "Test Work Item" };
         Block block = new Block();
         workItem.Blocks.Add(block);
         db.WorkItems.Add(workItem);
@@ -47,7 +47,7 @@ public class DbTests
 
         // Ignore the warning about the following line because we
         // immediately check for null in the next line.
-        WorkItem workItem2 = db.WorkItems.Find(workItem.Id);
+        Lms.Models.WorkItem workItem2 = db.WorkItems.Find(workItem.Id);
         Assert.NotNull(workItem2);
         Assert.Single(workItem2.Blocks);
     }
