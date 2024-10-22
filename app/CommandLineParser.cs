@@ -21,6 +21,7 @@ enum Verb
     List, // Represents the "list" verb. This should list all data items of the Noun.
     Create, // Represents the "create" verb. Creates a new entity of a noun and persists.
     Edit,
+    Delete,
     Invalid // Represents an invalid verb.
 
 }
@@ -60,7 +61,7 @@ class CommandLineParser : ICommandLineParser
     {
         // Credits supports just the List verb.
         { Noun.Credits, new HashSet<Verb> { Verb.List } },
-        { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit } },
+        { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         // Add more Nuons and Verbs here to support more commands.
     };
 

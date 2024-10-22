@@ -1,4 +1,5 @@
-﻿using Lms;
+﻿using System.Dynamic;
+using Lms;
 
 CommandLineParser parser = new CommandLineParser();
 

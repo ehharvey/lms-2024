@@ -23,6 +23,7 @@ class WorkItem : ICommand {
         - list: {GetHelp(Verb.List)}
         - edit: {GetHelp(Verb.Edit)}
         - create: {GetHelp(Verb.Create)}
+        - delete: {GetHelp(Verb.Delete)}
         """;
     }
 
@@ -35,6 +36,8 @@ class WorkItem : ICommand {
                 return "Edit an existing WorkItem";
             case Verb.List:
                 return "List the WorkItems recorded previously.";
+            case Verb.Delete:
+                return "Delete a new WorkItem";
             default:
                 throw new ArgumentException("Invalid Verb");
         }
@@ -89,6 +92,20 @@ class WorkItem : ICommand {
         {
             case Verb.List:
                 Execute(verb);
+                break;
+            case Verb.Delete:
+                if (command_args.Count() < 1) {
+                    throw new ArgumentException("Delete requires an ID!");
+                }
+
+                var delete_result = Delete(command_args[0]);
+
+                Console.WriteLine("----------------");
+                Console.WriteLine($"ID: {delete_result.Id}");
+                Console.WriteLine($"Title: {delete_result.Title}");
+                Console.WriteLine($"CreatedAt: {delete_result.CreatedAt}");
+                Console.WriteLine($"DueAt: {delete_result.DueAt}");
+                Console.WriteLine("----------------");
                 break;
             case Verb.Edit:
                 if (command_args.Count() < 3) {
@@ -171,5 +188,22 @@ class WorkItem : ICommand {
         db.SaveChanges();
 
         return result;      
+    }
+    public Lms.Models.WorkItem Delete(string id) {
+        int parsed_id;
+        if (!int.TryParse(id, out parsed_id)) {
+            throw new ArgumentException("Invalid Id -- not an integer");
+        }
+
+        var result = db.WorkItems.Find(parsed_id);
+
+        if (result == null) {
+            throw new ArgumentException("Invalid Id -- WorkItem does not exist");
+        }
+
+        db.WorkItems.Remove(result);
+        db.SaveChanges();
+
+        return result;
     }
 }
