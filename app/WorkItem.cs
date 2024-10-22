@@ -1,5 +1,10 @@
 using Lms;
 
+enum Field {
+    Title,
+    DueAt
+}
+
 class WorkItem : ICommand {
     private LmsDbContext db;
 
@@ -16,12 +21,18 @@ class WorkItem : ICommand {
 
         Verbs:
         - list: {GetHelp(Verb.List)}
+        - edit: {GetHelp(Verb.Edit)}
+        - create: {GetHelp(Verb.Create)}
         """;
     }
 
     public string GetHelp(Verb verb)
     {
         switch (verb) {
+            case Verb.Create:
+                return "Create a new WorkItem";
+            case Verb.Edit:
+                return "Edit an existing WorkItem";
             case Verb.List:
                 return "List the WorkItems recorded previously.";
             default:
@@ -79,6 +90,21 @@ class WorkItem : ICommand {
             case Verb.List:
                 Execute(verb);
                 break;
+            case Verb.Edit:
+                if (command_args.Count() < 3) {
+                    throw new ArgumentException("3 arguments: Id, Field, and Value!");
+                }
+
+                var edit_result = Edit(command_args[0], command_args[1], command_args[2]);
+
+                Console.WriteLine("------------------------");
+                Console.WriteLine($"Id: {edit_result.Id}");
+                Console.WriteLine($"Title: {edit_result.Title}");
+                Console.WriteLine($"CreatedAt: {edit_result.CreatedAt}");
+                Console.WriteLine($"DueAt: {edit_result.DueAt}");
+                Console.WriteLine("------------------------");
+
+                break;
             case Verb.Create:
                 if (command_args.Count() < 1)
                 {
@@ -88,17 +114,62 @@ class WorkItem : ICommand {
                 var title = command_args[0];
                 string? due_at = command_args.ElementAtOrDefault(1);
 
-                var result = Create(title, due_at);
+                var create_result = Create(title, due_at);
 
                 Console.WriteLine("----------------------");
-                Console.WriteLine($"Id: {result.Id}");
-                Console.WriteLine($"Title: {result.Title}");
-                Console.WriteLine($"CreatedAt: {result.CreatedAt}");
-                Console.WriteLine($"DueAt: {result.DueAt}");
+                Console.WriteLine($"Id: {create_result.Id}");
+                Console.WriteLine($"Title: {create_result.Title}");
+                Console.WriteLine($"CreatedAt: {create_result.CreatedAt}");
+                Console.WriteLine($"DueAt: {create_result.DueAt}");
                 break;
                 
             default:
                 throw new ArgumentException("Invalid Verb");
         }
+    }
+
+    public Lms.Models.WorkItem Edit(string id, string field, string value) {
+        int parsed_id = -1;
+        
+        try {
+            parsed_id = int.Parse(id);
+        } catch {
+            throw new ArgumentException("Invalid Id -- not an integer");
+        }
+
+        var result = db.WorkItems.Find(parsed_id);
+
+        if (result == null) {
+            throw new ArgumentException("Invalid Id -- WorkItem does not exist");
+        }
+
+        Field f;
+        if (!Enum.TryParse<Field>(field, out f)) {
+            throw new ArgumentException("Invalid field");
+        }
+
+        switch (f) {
+            case Field.Title:
+                result.Title = value;
+                break;
+            case Field.DueAt:
+                DateTime parsed_due_at;
+
+                if (DateTime.TryParse(value, out parsed_due_at))
+                {
+                    result.DueAt = parsed_due_at;
+                }
+                else {
+                    throw new ArgumentException("Invalid DueAt value provided");
+                }
+                break;
+            default:
+                throw new ArgumentException("Invalid Field");
+        }
+
+        db.WorkItems.Update(result);
+        db.SaveChanges();
+
+        return result;      
     }
 }
