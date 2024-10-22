@@ -113,7 +113,7 @@ class Blockers : ICommand {
 
                 // to check if the work item id is null
                 if(args[4] == "-") {
-                    existBlock.WorkItems = new List<WorkItem>();
+                    existBlock.WorkItems = new List<Lms.Models.WorkItem>();
                 }else {
                     existBlock.WorkItems = ConvertWorkItemList(args, 4);
                 }
@@ -145,12 +145,12 @@ class Blockers : ICommand {
                 throw new ArgumentException("Invalid verb.");
         }
     }
-    private List<WorkItem> ConvertWorkItemList(string[] args, int argumentIndex) {
+    private List<Lms.Models.WorkItem> ConvertWorkItemList(string[] args, int argumentIndex) {
         List<string> workItemIds = args[argumentIndex].Split(',').ToList();
-        List<WorkItem> workItems = new List<WorkItem>();
+        List<Lms.Models.WorkItem> workItems = new List<Lms.Models.WorkItem>();
         foreach(string workitemid in workItemIds) {
             if(int.TryParse(workitemid, out int id)) {
-                WorkItem workItem = db.WorkItems.Where(w => w.Id == Convert.ToInt32(id)).FirstOrDefault();
+                Lms.Models.WorkItem workItem = db.WorkItems.Where(w => w.Id == Convert.ToInt32(id)).FirstOrDefault();
                 if(workItem != null) {
                     workItems.Add(workItem);
                 }
@@ -160,5 +160,9 @@ class Blockers : ICommand {
             }
         }
         return workItems;
+    }
+
+    public void Execute(Verb verb) {
+        throw new NotImplementedException();
     }
 }

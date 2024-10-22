@@ -103,7 +103,7 @@ class Credits : ICommand {
         }
     }
 
-    public void Execute(Verb verb, string[] args) {
+    public void Execute(Verb verb) {
         switch (verb) {
             case Verb.List:
                 DisplayCredits();
@@ -111,5 +111,9 @@ class Credits : ICommand {
             default:
                 throw new ArgumentException("Invalid verb.");
         }
+    }
+
+    public void Execute(Verb verb, string[] command_args) {
+        Execute(verb);
     }
 }

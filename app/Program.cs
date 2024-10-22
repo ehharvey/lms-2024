@@ -1,8 +1,9 @@
-﻿using Lms;
+﻿using System.Dynamic;
+using Lms;
 
 CommandLineParser parser = new CommandLineParser();
 
-(Noun noun, Verb verb, string[] commandArgs) = parser.Parse(args);
+((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
 
 if (noun == Noun.Invalid)
 {
@@ -35,6 +36,10 @@ switch (noun)
         blockers.Execute(verb, commandArgs);
         
         return 200; // 200 OK
+    case Noun.WorkItem:
+        WorkItem work_item = new WorkItem(dbContext);
+        work_item.Execute(verb, commandArgs);
+        return 200;
     default:
         Console.WriteLine(
             $"""
