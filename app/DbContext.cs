@@ -17,7 +17,7 @@ public enum DbDriver
 public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public DbSet<Progress> Progresses { get; set; }
-    public DbSet<Lms.Models.WorkItem> WorkItems { get; set; }
+    public DbSet<Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }
 
     public DbDriver Driver { get; private set; } = DbDriver.Sqlite;
@@ -40,7 +40,7 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
         this.Driver = driver;
     }
 
-    public LmsDbContext(DbDriver driver, string dbPath)
+    public LmsDbContext(DbDriver driver, string dbPath = "lms")
     {
         this.Driver = driver;
         this.DbPath = dbPath;
