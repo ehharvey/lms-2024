@@ -112,4 +112,8 @@ class Credits : ICommand {
                 throw new ArgumentException("Invalid verb.");
         }
     }
+
+    public void Execute(Verb verb, string[] command_args) {
+        Execute(verb);
+    }
 }

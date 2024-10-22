@@ -17,7 +17,7 @@ public enum DbDriver
 public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public DbSet<Progress> Progresses { get; set; }
-    public DbSet<WorkItem> WorkItems { get; set; }
+    public DbSet<Lms.Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }
 
     public DbDriver Driver { get; private set; } = DbDriver.Sqlite;
@@ -60,7 +60,7 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
             case DbDriver.SqlServer:
                 throw new NotImplementedException();
             case DbDriver.Memory:
-                optionsBuilder.UseInMemoryDatabase("lms");
+                optionsBuilder.UseInMemoryDatabase(DbPath);
                 break;
             default:
                 throw new NotImplementedException();
