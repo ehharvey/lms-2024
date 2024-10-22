@@ -20,4 +20,14 @@ interface ICommand
     /// <exception cref="NotImplementedException">Thrown when the verb is not implemented.</exception>
     /// <exception cref="Exception">Thrown when an error occurs during execution.</exception>
     void Execute(Verb verb);
+
+    /// <summary>
+    /// Executes the command with the given verb.
+    /// </summary>
+    /// <param name="verb">The verb to execute.</param>
+    /// <param name="command_args">Arguments for the command.</param>
+    /// <exception cref="ArgumentException">Thrown when the verb is invalid.</exception>
+    /// <exception cref="NotImplementedException">Thrown when the verb is not implemented.</exception>
+    /// <exception cref="Exception">Thrown when an error occurs during execution.</exception>
+    void Execute(Verb verb, string[] command_args);
 }

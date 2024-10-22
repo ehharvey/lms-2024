@@ -8,10 +8,6 @@ on:
         - 'lms-2024.sln'
     workflow_dispatch:
     pull_request:
-        paths:
-        - 'app/**'
-        - 'lms-2024.sln'
-        - 'app-test/**'
 jobs:
     build:
         strategy:

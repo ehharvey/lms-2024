@@ -1,4 +1,5 @@
-﻿using Lms;
+﻿using System.Dynamic;
+using Lms;
 
 CommandLineParser parser = new CommandLineParser();
 
@@ -36,6 +37,10 @@ switch (noun)
         progress.Execute(verb);
         return 200; // 200 OK
 
+    case Noun.WorkItem:
+        WorkItem work_item = new WorkItem(dbContext);
+        work_item.Execute(verb, command_args);
+        return 200;
     default:
         Console.WriteLine(
             $"""
