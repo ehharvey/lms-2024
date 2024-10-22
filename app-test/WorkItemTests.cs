@@ -63,4 +63,45 @@ public class WorkItemTests : IDisposable
         Assert.Equal(expected_one, actual.First());
         Assert.Equal(expected_two, actual.Skip(1).First());
     }
+
+    [Fact]
+    public void CreateOneWorkItem()
+    {
+        // Arrange
+        string title = "WorkItemOne";
+        string? due_at = null;
+
+        // Act
+        var actual = work_item.Create(title, due_at);
+
+        // Assert
+        Assert.Equal(title, actual.Title);
+    }
+
+    [Fact]
+    public void CreateOneWorkItemWithValidDate()
+    {
+        // Arrange
+        string title = "WorkItemTwo";
+        string due_at = "2024-10-02";
+        DateTime expected_parsed_due_at = DateTime.Parse(due_at);
+
+        // Act
+        var actual = work_item.Create(title, due_at);
+
+        // Assert
+        Assert.Equal(title, actual.Title);
+        Assert.Equal(expected_parsed_due_at, actual.DueAt);
+    }
+
+    [Fact]
+    public void CreateOneWorkItemWithInvalidDate()
+    {
+        // Arrange
+        string title = "WorkItemThree";
+        string due_at = "invaliddate";
+
+        // Act
+        Assert.Throws<FormatException>(() => { work_item.Create(title, due_at ); });
+    }
 }
