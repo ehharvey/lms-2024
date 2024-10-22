@@ -1,5 +1,7 @@
 using Lms;
 using Lms.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace db_tests;
 

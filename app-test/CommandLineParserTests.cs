@@ -38,6 +38,15 @@ public class CommandLineParserTests
     }
 
     [Fact]
+    public void TestParseWorkItem()
+    {
+        string[] args = { "workitem", "list" };
+        (Noun noun, Verb verb) = parser.Parse(args);
+        Assert.Equal(Noun.WorkItem, noun);
+        Assert.Equal(Verb.List, verb);
+    }
+
+    [Fact]
     public void TestCommandLineArgs()
     {
         string[] args = { "credits", "list" };
@@ -70,4 +79,6 @@ public class CommandLineParserTests
         Assert.Equal(Verb.List, verb);
         Assert.Equal(new string[] { "abc" }, commandLineArgs);
     }
+
+
 }
