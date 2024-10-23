@@ -38,7 +38,7 @@ public class CommandLineParserTests
     public void TestParseCredits()
     {
         string[] args = { "credits", "list" };
-        (Noun noun, Verb verb, string[] commandArgs) = parser.ParseWithArgs(args);
+        ((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
         Assert.Equal(Noun.Credits, noun);
         Assert.Equal(Verb.List, verb);
     }
