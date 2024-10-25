@@ -8,8 +8,9 @@
     which is responsible for displaying, editing, deleting and creating progress information in a formatted manner.
 
  */
-using ConsoleTables;
 using Lms;
+using ConsoleTables;
+
 using Lms.Models;
 
 
@@ -77,7 +78,68 @@ class Progresses : ICommand {
         }
     }
 
-   
+
+    public void Execute(Verb verb, string[] command_args)
+    {
+        switch (verb)
+        {
+            case Verb.List:
+                Execute(verb);
+                break;
+            //case Verb.Delete:
+            //    if (command_args.Count() < 1)
+            //    {
+            //        throw new ArgumentException("Delete requires an ID!");
+            //    }
+
+            //    var delete_result = Delete(command_args[0]);
+
+            //    Console.WriteLine("----------------");
+            //    Console.WriteLine($"ID: {delete_result.Id}");
+            //    Console.WriteLine($"Title: {delete_result.Title}");
+            //    Console.WriteLine($"CreatedAt: {delete_result.CreatedAt}");
+            //    Console.WriteLine($"DueAt: {delete_result.DueAt}");
+            //    Console.WriteLine("----------------");
+            //    break;
+            //case Verb.Edit:
+            //    if (command_args.Count() < 3)
+            //    {
+            //        throw new ArgumentException("3 arguments: Id, Field, and Value!");
+            //    }
+
+            //    var edit_result = Edit(command_args[0], command_args[1], command_args[2]);
+
+            //    Console.WriteLine("------------------------");
+            //    Console.WriteLine($"Id: {edit_result.Id}");
+            //    Console.WriteLine($"Title: {edit_result.Title}");
+            //    Console.WriteLine($"CreatedAt: {edit_result.CreatedAt}");
+            //    Console.WriteLine($"DueAt: {edit_result.DueAt}");
+            //    Console.WriteLine("------------------------");
+
+            //    break;
+            //case Verb.Create:
+            //    if (command_args.Count() < 1)
+            //    {
+            //        throw new ArgumentException("Create requires at least a Title Arg");
+            //    }
+
+            //    var title = command_args[0];
+            //    string? due_at = command_args.ElementAtOrDefault(1);
+
+            //    var create_result = Create(title, due_at);
+
+            //    Console.WriteLine("----------------------");
+            //    Console.WriteLine($"Id: {create_result.Id}");
+            //    Console.WriteLine($"Title: {create_result.Title}");
+            //    Console.WriteLine($"CreatedAt: {create_result.CreatedAt}");
+            //    Console.WriteLine($"DueAt: {create_result.DueAt}");
+            //    break;
+
+            default:
+                throw new ArgumentException("Invalid Verb");
+        }
+    }
+
 
     /// <summary>
     /// Method to generate multiple Progress instances in a loop
