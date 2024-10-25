@@ -15,17 +15,10 @@ using Lms.Models;
 
 
 // This progresses class is responsible for displaying the progress information in a formatted manner.
-class Progresses : ICommand
-{
-    private LmsDbContext? db;
-    private List<Lms.Models.Progress> progresses;
-    /// <summary>
-    /// Initializes a new instance of the Progresses class.
-    /// </summary>
-    public Progresses()
-    {
-        this.db = null;
-    }
+class Progresses : ICommand {
+    private LmsDbContext db;
+    private List<Progress> progressList;
+  
 
     /// <summary>
     /// Initializes a new instance of the Progresses class with the specified LmsDbContext.
@@ -92,9 +85,9 @@ class Progresses : ICommand
     /// <inheritdoc/>
     public List<Lms.Models.Progress> GetProgresses()
     {
-        
+
         // this is for temporary data
-        progresses = new List<Lms.Models.Progress>
+        progressList = new List<Lms.Models.Progress>
         {
             new Lms.Models.Progress
             {
@@ -104,7 +97,7 @@ class Progresses : ICommand
             }
         };
 
-        return progresses;
+        return progressList;
     }
 
 
@@ -114,14 +107,14 @@ class Progresses : ICommand
     public void DisplayProgressSummary()
     {
 
-        List<Progress> progresses = GetProgresses();
+        List<Progress> progressList = GetProgresses();
 
 
         var table = new ConsoleTable("Id", "Description", "WorkItem", "CreatedAt");
 
 
 
-        foreach (var progress in progresses)
+        foreach (var progress in progressList)
         {
             // string workItems = string.Join(", ", progress.WorkItems.Select(w => w.Title));
 
