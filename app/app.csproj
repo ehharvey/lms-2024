@@ -14,12 +14,12 @@
       <_Parameter1>app-test</_Parameter1>
     </AssemblyAttribute>
     <PackageReference Include="ConsoleTables" Version="2.6.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
   </ItemGroup>
 
 </Project>

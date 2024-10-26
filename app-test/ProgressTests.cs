@@ -7,6 +7,7 @@
         which is responsible for testing the ProgressList class.
  */
 
+using Lms;
 using Lms.Models;
 
 namespace progress_tests;
@@ -18,15 +19,15 @@ namespace progress_tests;
 /// </summary>
 public class ProgressTests
 {
-    Progresses progresses = new Progresses();
-
+    static LmsDbContext db = new LmsDbContext(DbDriver.Memory, "ProgressTests");
+    Progresses progresses = new Progresses(db);
     /// <summary>
     /// Method to get the first progress.
     /// </summary>
     /// <returns>The first progress.</returns>
     public Lms.Models.Progress GetFirstProgress()
     {
-        var progressList = progresses.GetProgresses();
+        var progressList = progresses.GetProgresses().ToList();
 
         if (progressList == null || progressList.Count == 0)
         {
@@ -45,7 +46,7 @@ public class ProgressTests
     [Fact]
     public void TestGetProgressViewType()
     {
-        Assert.True(typeof(List<Lms.Models.Progress>) == progresses.GetProgresses().GetType());
+        Assert.True(typeof(List<Lms.Models.Progress>) == progresses.GetProgresses().ToList().GetType());
     }
 
     /// <summary>

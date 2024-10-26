@@ -16,7 +16,8 @@ using Lms.Models;
 
 
 // This progresses class is responsible for displaying the progress information in a formatted manner.
-class Progresses : ICommand {
+class Progresses : ICommand 
+{
     private LmsDbContext db;
     private List<Progress> progressList;
   
@@ -28,7 +29,7 @@ class Progresses : ICommand {
     public Progresses(LmsDbContext db)
     {
         this.db = db;
-        //  List<Progress> progresses = db.Progresses.Include(p => p.WorkItem).ToList();
+        progressList = db.Progresses.AsEnumerable().ToList();// Include(p => p.WorkItem).ToList();
     }
 
     /// <summary>
