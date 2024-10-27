@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/app/bin/Debug/net8.0/app.dll",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
             "args": [],
             "cwd": "${workspaceFolder}/app",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -21,6 +21,149 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        }
-    ]
+        },
+        {
+            "name": "Run test",     // for app-test
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "dotnet",
+            "args": ["test"],
+            "cwd": "${workspaceFolder}/app-test",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Progress list",        //lms progress list
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["progress", "list"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Progress create",      //lms progress create "MyDescription" w1
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["progress", "create", "\"MyDescription\"", "w1"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Progress edit",        //lms progress edit 0 description "NewDescription"
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["progress", "edit", "0", "description", "\"NewDescription\""],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Progress delete",      //lms progress delete 0
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["progress", "delete", "0"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Block list",        //lms block list
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["block", "list"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Block create",     //lms block create NotReleased w2
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["block", "create", "NotReleased", "w2"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Block edit",       //lms block edit 0 workitem w0
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["block", "edit", "0", "workitem", "w0"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Block delete",     //lms block delete 0
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["block", "delete", "0'"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Workitem list",    //lms workitem list
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["workitem", "list"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Workitem create",  //lms workitem create "Assignment 2" 2024-10-10 "Research Poster"
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["workitem", "create", "\"Assignment 2\"", "2024-10-10", "\"Research Poster\""],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Workitem edit",    //lms workitem edit 0 title "New Title"
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["workitem", "edit", "0", "title", "\"New Title\""],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Workitem delete",  //lms workitem delete 0
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/bin/Debug/net8.0/lms.dll",
+            "args": ["workitem", "delete", "0"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+    ],
 }
