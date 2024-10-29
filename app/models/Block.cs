@@ -1,11 +1,13 @@
+using lms.models;
+
 namespace Lms.Models;
 
-public class Block
+public class Block : Item
 {
-    public int Id { get; set; }
+    // Fields
 
-    public DateTime CreatedAt { get; } = DateTime.Now;
 
+    // Id and Created At Implemented in Items
     public string? Description { get; set; }
 
     public List<WorkItem> WorkItems { get; set; } = new List<WorkItem>();

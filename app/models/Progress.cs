@@ -1,13 +1,14 @@
+using lms.models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lms.Models;
 
-public class Progress
+public class Progress : Item
 {
-    public int Id { get; set; }
+    
+    // Common Fields
 
-    public DateTime CreatedAt { get;  } = DateTime.Now;
-
+    // Id and Created At Implemented in Items
     public string? Description { get; set; }
     
     [ForeignKey("WorkItemId")]

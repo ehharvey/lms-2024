@@ -1,11 +1,13 @@
+using lms.models;
+using System.Security.Cryptography;
+
 namespace Lms.Models;
 
-public class WorkItem
+public class WorkItem : Item
 {
-    public int Id { get; set; }
+    // Fields
 
-    public DateTime CreatedAt { get; } = DateTime.Now;
-
+    // Id and Created At Implemented in Items
     public DateTime? DueAt { get; set; }
     public required string Title { get; set; }
 

@@ -1,9 +1,5 @@
+using lms.models;
 using Lms;
-
-enum Field {
-    Title,
-    DueAt
-}
 
 class WorkItem : ICommand {
     private LmsDbContext db;
@@ -78,6 +74,7 @@ class WorkItem : ICommand {
         }
 
         Lms.Models.WorkItem result = new Lms.Models.WorkItem { Title = title, DueAt = parsed_due_at };
+
 
         db.Add(result);
 
@@ -160,16 +157,16 @@ class WorkItem : ICommand {
             throw new ArgumentException("Invalid Id -- WorkItem does not exist");
         }
 
-        Field f;
-        if (!Enum.TryParse<Field>(field, out f)) {
+        Item.Field f;
+        if (!Enum.TryParse<Item.Field>(field, out f)) {
             throw new ArgumentException("Invalid field");
         }
 
         switch (f) {
-            case Field.Title:
+            case Item.Field.Title:
                 result.Title = value;
                 break;
-            case Field.DueAt:
+            case Item.Field.DueAt:
                 DateTime parsed_due_at;
 
                 if (DateTime.TryParse(value, out parsed_due_at))

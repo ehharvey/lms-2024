@@ -16,7 +16,7 @@ public enum DbDriver
 
 public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    public DbSet<Progress> Progresses { get; set; }
+    public DbSet<Models.Progress> Progresses { get; set; }
     public DbSet<Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }
 
