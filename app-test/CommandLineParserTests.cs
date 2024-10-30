@@ -51,7 +51,7 @@ public class CommandLineParserTests
     {
         string[] args = { "progress", "list" };
         (Noun noun, Verb verb) = parser.Parse(args);
-        Assert.Equal(Noun.WorkItem, noun);
+        Assert.Equal(Noun.Progress, noun);
         Assert.Equal(Verb.List, verb);
     }
 
