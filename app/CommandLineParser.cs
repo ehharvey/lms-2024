@@ -7,6 +7,7 @@ enum Noun
 {
     Credits, // Represents the "credits" noun.
     WorkItem, // Represents work item
+    Progress, // Represents Progerss item
     Invalid // Represents an invalid noun.
 }
 

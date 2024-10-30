@@ -1,5 +1,7 @@
+using ConsoleTables;
 using lms.models;
 using Lms;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 
@@ -61,14 +63,13 @@ class Progress : ICommand {
         switch (verb) {
             case Verb.List:
                 var progresses = GetProgresses();
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("| id | Description         | WorkItem       | CreatedAt       |");
+                ConsoleTable itemTable = new ConsoleTable("ID", "Description", "WorkItem", "CreatedAt");
                 progresses.ToList().ForEach(
                     (p) => {
-                        Console.WriteLine($"| w{p.Id} | {p.Description} | {p.WorkItem.Id} | {p.CreatedAt:yyyy-MM-dd} |");
+                        itemTable.AddRow(p.Id, p.Description, p.WorkItem.Id, p.CreatedAt.ToString("yyyy-MM-dd"));
                     }
                 );
-                Console.WriteLine("------------------------------");
+                itemTable.Write();
                 break;
             default:
                 throw new ArgumentException("Invalid Verb");
@@ -100,7 +101,7 @@ class Progress : ICommand {
 
 
 
-    // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> -> lms Progress Delete 0, lms Progress Edit 3
+    // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms Progress Delete 0, lms Progress Edit 3
     public void Execute(Verb verb, string[] command_args)
     {
         switch (verb) 

@@ -3,6 +3,7 @@ This module is responsible for the credits screen.
 It was created to fulfill #16
 */
 
+using ConsoleTables;
 using Lms;
 
 class Credits : ICommand {
@@ -96,11 +97,11 @@ class Credits : ICommand {
     }
 
     public void DisplayCredits() {
-        Console.WriteLine("Credits");
-        Console.WriteLine("-------");
+        ConsoleTable creditTable = new ConsoleTable("Credits");
         foreach (string credit in GetCredits()) {
-            Console.WriteLine(credit);
+            creditTable.AddRow(credit);
         }
+        creditTable.Write(Format.Minimal);
     }
 
     public void Execute(Verb verb) {

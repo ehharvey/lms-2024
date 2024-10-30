@@ -6,7 +6,6 @@ public class Block : Item
 {
     // Fields
 
-
     // Id and Created At Implemented in Items
     public string? Description { get; set; }
 
