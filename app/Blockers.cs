@@ -64,87 +64,53 @@ class Blockers : ICommand {
 
             // creating a new block
             case Verb.Create:
-                // when user enter invalid command just throw excpetion
-                if(args.Length == 3 || args.Length > 4) {
-                    throw new ArgumentException("Invalid options.");
-                }
-
-                Block newBlock = new Block();
-
-                // args.Length == 4 means user enters right command
-                if(args.Length == 4) {
-                    // to check if the description is null
-                    if(args[2] != "-") {
-                        newBlock.Description = args[2];
-                    }
-
-                    // to check if the work item id is null
-                    if(args[3] != "-") {
-                        newBlock.WorkItems = ConvertWorkItemList(args, 3);
-                    }
-                }
-                db.Blockers.Add(newBlock);
-                db.SaveChanges();
+                Block newBlock = Create(args);
                 Console.WriteLine($"The new block with id({newBlock.Id}) has been created successfully.");
                 break;
+            
+            // editing the existing block
             case Verb.Edit:
-                // when user enter invalid command just throw excpetion
-                if(args.Length != 5) {
-                    throw new ArgumentException("Invalid options.");
-                }
-
-                // when user enter invalid type for blockId
-                if(!int.TryParse(args[2], out int blockId)) {
-                    throw new ArgumentException("Invalid block id.");
-                }
-
-                // when user enter non-existing blockId
-                Block existBlock = db.Blockers.Where(b => b.Id == blockId).FirstOrDefault();
-                if(existBlock == null) {
-                    throw new ArgumentException("Invalid block id.");
-                }
-
-                // to check if the description is null
-                if(args[3] == "-") {
-                    existBlock.Description = null;
-                }else {
-                    existBlock.Description = args[3];
-                }
-
-                // to check if the work item id is null
-                if(args[4] == "-") {
-                    existBlock.WorkItems = new List<Lms.Models.WorkItem>();
-                }else {
-                    existBlock.WorkItems = ConvertWorkItemList(args, 4);
-                }
-                db.SaveChanges();
+                Block existBlock = Edit(args);
                 Console.WriteLine($"The block with id({existBlock.Id}) has been updated successfully.");
                 break;
+
+            // deleting the existing block
             case Verb.Delete:
-                // when user enter invalid command just throw excpetion
-                if(args.Length != 3) {
-                    throw new ArgumentException("Invalid options.");
-                }
-
-                // when user enter invalid type for blockId
-                if(!int.TryParse(args[2], out int blockIdToRemove)) {
-                    throw new ArgumentException("Invalid block id.");
-                }
-
-                // when user enter non-existing blockId
-                Block blockToRemove = db.Blockers.Where(b => b.Id == blockIdToRemove).FirstOrDefault();
-                if(blockToRemove == null) {
-                    throw new ArgumentException("Invalid block id.");
-                }
-
-                db.Blockers.Remove(blockToRemove);
-                db.SaveChanges();
+                Block blockToRemove = Delete(args);
                 Console.WriteLine($"The block with id({blockToRemove.Id}) has been deleted successfully.");
                 break;
             default:
                 throw new ArgumentException("Invalid verb.");
         }
     }
+
+    public Block Create(string[] args) {
+        // when user enter invalid command just throw excpetion
+        if(args.Length == 1 || args.Length > 2) {
+            throw new ArgumentException("Invalid options.");
+        }
+
+        Block newBlock = new Block();
+
+        // args.Length == 2 means user enters right command
+        // user also enter without args which means args.Length == 0
+        if(args.Length == 2) {
+            // to check if the description is null
+            if(args[0] != "-") {
+                newBlock.Description = args[0];
+            }
+
+            // to check if the work item id is null
+            if(args[1] != "-") {
+                newBlock.WorkItems = ConvertWorkItemList(args, 1);
+            }
+        }
+        db.Blockers.Add(newBlock);
+        db.SaveChanges();
+
+        return newBlock;
+    }
+
     private List<Lms.Models.WorkItem> ConvertWorkItemList(string[] args, int argumentIndex) {
         List<string> workItemIds = args[argumentIndex].Split(',').ToList();
         List<Lms.Models.WorkItem> workItems = new List<Lms.Models.WorkItem>();
@@ -162,7 +128,71 @@ class Blockers : ICommand {
         return workItems;
     }
 
+    public Block Edit(string[] args) {
+        // when user enter invalid command just throw excpetion
+        if(args.Length != 3) {
+            throw new ArgumentException("Invalid options.");
+        }
+
+        // when user enter invalid type for blockId
+        if(!int.TryParse(args[0], out int blockId)) {
+            throw new ArgumentException("Invalid block id.");
+        }
+
+        // when user enter non-existing blockId
+        Block existBlock = db.Blockers.Where(b => b.Id == blockId).FirstOrDefault();
+        if(existBlock == null) {
+            throw new ArgumentException("Invalid block id.");
+        }
+
+        // to check if the description is null
+        if(args[1] == "-") {
+            existBlock.Description = null;
+        }else {
+            existBlock.Description = args[1];
+        }
+
+        // to check if the work item id is null
+        if(args[2] == "-") {
+            existBlock.WorkItems = new List<Lms.Models.WorkItem>();
+        }else {
+            existBlock.WorkItems = ConvertWorkItemList(args, 2);
+        }
+        db.SaveChanges();
+
+        return existBlock;
+    }
+
+    public Block Delete(string[] args) {
+        // when user enter invalid command just throw excpetion
+        Console.WriteLine(args.Length);
+        if(args.Length != 1) {
+            throw new ArgumentException("Invalid options.");
+        }
+
+        // when user enter invalid type for blockId
+        if(!int.TryParse(args[0], out int blockIdToRemove)) {
+            throw new ArgumentException("Invalid block id.");
+        }
+
+        // when user enter non-existing blockId
+        Block blockToRemove = db.Blockers.Where(b => b.Id == blockIdToRemove).FirstOrDefault();
+        if(blockToRemove == null) {
+            throw new ArgumentException("Invalid block id.");
+        }
+
+        db.Blockers.Remove(blockToRemove);
+        db.SaveChanges();
+
+        return blockToRemove;
+    }
+
     public void Execute(Verb verb) {
         throw new NotImplementedException();
+    }
+
+    public IEnumerable<Block> GetBlockers()
+    {
+        return db.Blockers.AsEnumerable();
     }
 }

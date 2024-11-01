@@ -7,7 +7,7 @@ enum Noun
 {
     Credits, // Represents the "credits" noun.
     WorkItem, // Represents work item
-    Block, // Represents the "blockers" noun.
+    Block, // Represents the "block" noun.
     Invalid // Represents an invalid noun.
 }
 
@@ -21,8 +21,8 @@ enum Verb
 {
     List, // Represents the "list" verb. This should list all data items of the Noun.
     Create, // Represents the "Create" verb. This should create a new data item of the Noun.
-    Edit, // Represents the "Create" verb. This should edit the existing data item of the Noun.
-    Delete, // Represents the "Create" verb. This should delete the existing data item of the Noun.
+    Edit, // Represents the "Edit" verb. This should edit the existing data item of the Noun.
+    Delete, // Represents the "Delete" verb. This should delete the existing data item of the Noun.
     Invalid // Represents an invalid verb.
 
 }
