@@ -10,10 +10,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 class Blockers : ICommand {
     private LmsDbContext? db;
 
-    public Blockers() {
-        this.db =  null;
-    }
-
     public Blockers(LmsDbContext db) {
         this.db = db;
     }
