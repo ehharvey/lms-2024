@@ -57,21 +57,11 @@ class Progress : ICommand {
     }
 
 
-    // Execute Function without additional Arguments (Ex. List) -> lms Progress List
+    // Execute Function without additional Arguments
     public void Execute(Verb verb)
     {
         switch (verb) {
-            case Verb.List:
-                var progresses = GetProgresses();
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("| id | Description         | WorkItem       | CreatedAt        |");
-                progresses.ToList().ForEach(
-                    (p) => {
-                        Console.WriteLine($"| w{p.Id} | {p.Description} | {p.WorkItem} | {p.CreatedAt:yyyy-MM-dd} |");
-                    }
-                );
-                Console.WriteLine("------------------------------");
-                break;
+            
             default:
                 throw new ArgumentException("Invalid Verb");
         }
@@ -84,9 +74,7 @@ class Progress : ICommand {
     {
         switch (verb) 
         {
-            case Verb.List:
-                Execute(verb);
-                break;
+
             case Verb.Delete:
                 if (command_args.Count() < 1) {
                     throw new ArgumentException("Delete requires an ID!");
