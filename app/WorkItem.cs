@@ -1,28 +1,17 @@
-using Lms.Models;
 using Lms;
 
+enum Field {
+    Title,
+    DueAt
+}
+
 class WorkItem : ICommand {
-
-    public enum Field
-    {
-        // WorkItem
-        Title,
-        DueAt
-    }
-
-    // DBContext for Database Interactions (Add, Update, Remove, SaveChanges)
-
     private LmsDbContext db;
 
-    // Constructor - Set DB
     public WorkItem(LmsDbContext db) {
         this.db = db;
     }
 
-
-    // Command Documentation for CLI Application
-
-    // Main Command Documentation
     public string GetHelp() {
         return $"""
         WorkItem 
@@ -37,8 +26,6 @@ class WorkItem : ICommand {
         - delete: {GetHelp(Verb.Delete)}
         """;
     }
-
-    // Individual Commands with their Description
 
     public string GetHelp(Verb verb)
     {
@@ -61,8 +48,6 @@ class WorkItem : ICommand {
         return db.WorkItems.AsEnumerable();
     }
 
-
-    // Execute Function without additional Arguments (Ex. List) -> lms Progress List
     public void Execute(Verb verb)
     {
         switch (verb) {
@@ -82,8 +67,6 @@ class WorkItem : ICommand {
         }
     }
 
-    
-    // Create new WorkItem
     public Lms.Models.WorkItem Create(string title, string? due_at) {
         DateTime? parsed_due_at;
 
@@ -96,7 +79,6 @@ class WorkItem : ICommand {
 
         Lms.Models.WorkItem result = new Lms.Models.WorkItem { Title = title, DueAt = parsed_due_at };
 
-
         db.Add(result);
 
         db.SaveChanges();
@@ -104,8 +86,6 @@ class WorkItem : ICommand {
         return result;
     }
 
-
-    // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms WorkItem Delete 0, lms WorkItem Edit 3
     public void Execute(Verb verb, string[] command_args)
     {
         switch (verb) 
@@ -165,7 +145,6 @@ class WorkItem : ICommand {
         }
     }
 
-    // Edit WorkItem
     public Lms.Models.WorkItem Edit(string id, string field, string value) {
         int parsed_id = -1;
         
@@ -210,8 +189,6 @@ class WorkItem : ICommand {
 
         return result;      
     }
-
-    // Delete WorkItem by Id
     public Lms.Models.WorkItem Delete(string id) {
         int parsed_id;
         if (!int.TryParse(id, out parsed_id)) {

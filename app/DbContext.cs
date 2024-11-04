@@ -4,10 +4,6 @@ using Lms.Models;
 
 namespace Lms;
 
-
-// DB Context for Handling Database
-
-// DB Drivers
 public enum DbDriver
 {
     Sqlite,
@@ -17,23 +13,18 @@ public enum DbDriver
     Memory
 };
 
-// Custom DBContext that implements base DBContext class
+
 public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-
-    // DB Sets (Tables in Database)
-    public DbSet<Models.Progress> Progresses { get; set; }
+    public DbSet<Progress> Progresses { get; set; }
     public DbSet<Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }
 
-    // set database to SQLite
     public DbDriver Driver { get; private set; } = DbDriver.Sqlite;
 
-    // Connection String for database connection
+
     public string DbPath { get; private set; } = "Data Source=lms.db";
 
-
-    // Cunstructors
     public LmsDbContext()
     {
         
@@ -55,13 +46,12 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
         this.DbPath = dbPath;
     }
 
-    // Overriding OnConfigring Method to manage Database connections
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         switch (Driver)
         {
             case DbDriver.Sqlite:
-                optionsBuilder.UseSqlite(DbPath);       // Connect DBContext to SQLite Database with connection string(DbPath) 
+                optionsBuilder.UseSqlite(DbPath);
                 break;
             case DbDriver.Postgres:
                 throw new NotImplementedException();

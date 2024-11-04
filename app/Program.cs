@@ -19,7 +19,7 @@ if (verb == Verb.Invalid)
     return 400;
 }
 
-// Initialize DBContext
+
 var dbContext = new LmsDbContext();
 
 switch (noun)
@@ -34,10 +34,6 @@ switch (noun)
     case Noun.WorkItem:
         WorkItem work_item = new WorkItem(dbContext);
         work_item.Execute(verb, command_args);
-        return 200;
-    case Noun.Progress:
-        Progress progress = new Progress(dbContext);
-        progress.Execute(verb, command_args);
         return 200;
     default:
         Console.WriteLine(
