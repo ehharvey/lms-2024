@@ -63,7 +63,7 @@ class CommandLineParser : ICommandLineParser
         // Credits supports just the List verb.
         { Noun.Credits, new HashSet<Verb> { Verb.List } },
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
-        { Noun.Progress, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete} },
+        { Noun.Progress, new HashSet<Verb> { Verb.List, Verb.Edit, Verb.Delete} },
         // Add more Nuons and Verbs here to support more commands.
     };
 

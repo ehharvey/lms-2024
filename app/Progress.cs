@@ -1,11 +1,17 @@
-using ConsoleTables;
-using lms.models;
 using Lms;
+using Lms.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 
 class Progress : ICommand {
+
+
+    public enum Field
+    {
+        Description,
+        WorkItem // WorkItem(Id)
+    }
 
     // DBContext for Database Interactions (Add, Update, Remove, SaveChanges)
     private LmsDbContext db;
@@ -27,9 +33,7 @@ class Progress : ICommand {
         Tracks Progress of Work Items for the program.
 
         Verbs:
-        - list: {GetHelp(Verb.List)}
         - edit: {GetHelp(Verb.Edit)}
-        - create: {GetHelp(Verb.Create)}
         - delete: {GetHelp(Verb.Delete)}
         """;
     }
@@ -38,12 +42,8 @@ class Progress : ICommand {
     public string GetHelp(Verb verb)
     {
         switch (verb) {
-            case Verb.Create:
-                return "Create a new Progress";
             case Verb.Edit:
                 return "Edit an existing Progress";
-            case Verb.List:
-                return "List the Progress recorded previously.";
             case Verb.Delete:
                 return "Delete an exising Progress";
             default:
@@ -63,41 +63,19 @@ class Progress : ICommand {
         switch (verb) {
             case Verb.List:
                 var progresses = GetProgresses();
-                ConsoleTable itemTable = new ConsoleTable("ID", "Description", "WorkItem", "CreatedAt");
+                Console.WriteLine("------------------------------");
+                Console.WriteLine("| id | Description         | WorkItem       | CreatedAt        |");
                 progresses.ToList().ForEach(
                     (p) => {
-                        itemTable.AddRow(p.Id, p.Description, p.WorkItem.Id, p.CreatedAt.ToString("yyyy-MM-dd"));
+                        Console.WriteLine($"| w{p.Id} | {p.Description} | {p.WorkItem} | {p.CreatedAt:yyyy-MM-dd} |");
                     }
                 );
-                itemTable.Write();
+                Console.WriteLine("------------------------------");
                 break;
             default:
                 throw new ArgumentException("Invalid Verb");
         }
     }
-
-    // Not Implemented Yet
-
-    // Create Method Implementation of WorkItem for Reference
-
-    //public Lms.Models.WorkItem Create(string title, string? due_at) {
-    //    DateTime? parsed_due_at;
-
-    //    if (due_at != null) {
-    //        parsed_due_at = DateTime.Parse(due_at);
-    //    }
-    //    else {
-    //        parsed_due_at = null;
-    //    }
-
-    //    Lms.Models.WorkItem result = new Lms.Models.WorkItem { Title = title, DueAt = parsed_due_at };
-
-    //    db.Add(result);
-
-    //    db.SaveChanges();
-
-    //    return result;
-    //}
 
 
 
@@ -138,26 +116,6 @@ class Progress : ICommand {
                 Console.WriteLine("----------------");
 
                 break;
-            // Not Impletemented Yet
-
-            // WorkItem Create case Implementation for Reference
-            //case Verb.Create:
-            //    if (command_args.Count() < 1)
-            //    {
-            //        throw new ArgumentException("Create requires at least a Title Arg");
-            //    }
-
-            //    var title = command_args[0];
-            //    string? due_at = command_args.ElementAtOrDefault(1);
-
-            //    var create_result = Create(title, due_at);
-
-            //    Console.WriteLine("----------------------");
-            //    Console.WriteLine($"Id: {create_result.Id}");
-            //    Console.WriteLine($"Title: {create_result.Title}");
-            //    Console.WriteLine($"CreatedAt: {create_result.CreatedAt}");
-            //    Console.WriteLine($"DueAt: {create_result.DueAt}");
-            //    break;
                 
             default:
                 throw new ArgumentException("Invalid Verb");
@@ -180,16 +138,16 @@ class Progress : ICommand {
             throw new ArgumentException("Invalid Id -- Progress does not exist");
         }
 
-        Item.Field f;
-        if (!Enum.TryParse<Item.Field>(field, out f)) {
+        Field f;
+        if (!Enum.TryParse<Field>(field, out f)) {
             throw new ArgumentException("Invalid field");
         }
 
         switch (f) {
-            case Item.Field.Description:
+            case Field.Description:
                 result.Description = value;
                 break;
-            case Item.Field.WorkItem:
+            case Field.WorkItem:
                 int parsed_work_item_id;
                 if (int.TryParse(value, out parsed_work_item_id))
                 {

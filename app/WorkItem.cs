@@ -1,8 +1,14 @@
-using ConsoleTables;
-using lms.models;
+using Lms.Models;
 using Lms;
 
 class WorkItem : ICommand {
+
+    public enum Field
+    {
+        // WorkItem
+        Title,
+        DueAt
+    }
 
     // DBContext for Database Interactions (Add, Update, Remove, SaveChanges)
 
@@ -62,13 +68,14 @@ class WorkItem : ICommand {
         switch (verb) {
             case Verb.List:
                 var work_items = GetWorkItems();
-                ConsoleTable itemTable = new ConsoleTable("ID", "Title", "CreatedAt", "DueAt");
+                Console.WriteLine("------------------------------");
+                Console.WriteLine("| id | Title         | CreatedAt       | DueAt        | Description                       |");
                 work_items.ToList().ForEach(
                     (wi) => {
-                        itemTable.AddRow(wi.Id, wi.Title, wi.CreatedAt.ToString("yyyy-MM-dd"), wi.DueAt.Value.ToString("yyyy-MM-dd"));
+                        Console.WriteLine($"| w{wi.Id} | {wi.Title} | {wi.CreatedAt:yyyy-MM-dd} | {wi.DueAt:yyyy-MM-dd} |");
                     }
                 );
-                itemTable.Write();
+                Console.WriteLine("------------------------------");
                 break;
             default:
                 throw new ArgumentException("Invalid Verb");
@@ -174,16 +181,16 @@ class WorkItem : ICommand {
             throw new ArgumentException("Invalid Id -- WorkItem does not exist");
         }
 
-        Item.Field f;
-        if (!Enum.TryParse<Item.Field>(field, out f)) {
+        Field f;
+        if (!Enum.TryParse<Field>(field, out f)) {
             throw new ArgumentException("Invalid field");
         }
 
         switch (f) {
-            case Item.Field.Title:
+            case Field.Title:
                 result.Title = value;
                 break;
-            case Item.Field.DueAt:
+            case Field.DueAt:
                 DateTime parsed_due_at;
 
                 if (DateTime.TryParse(value, out parsed_due_at))
