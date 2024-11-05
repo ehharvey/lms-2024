@@ -3,7 +3,7 @@ using Lms;
 
 CommandLineParser parser = new CommandLineParser();
 
-((Noun noun, Verb verb), string[] command_args) = parser.ParseWithArgs(args);
+((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
 
 if (noun == Noun.Invalid)
 {
@@ -29,15 +29,20 @@ switch (noun)
         return 400; // 400 Bad Request
     case Noun.Credits:
         Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
-        credits.Execute(verb);
+        credits.Execute(verb, commandArgs);
+        return 200; // 200 OK
+    case Noun.Block:
+        Blockers blockers = new Blockers(dbContext);
+        blockers.Execute(verb, commandArgs);
+        
         return 200; // 200 OK
     case Noun.WorkItem:
         WorkItem work_item = new WorkItem(dbContext);
-        work_item.Execute(verb, command_args);
+        work_item.Execute(verb, commandArgs);
         return 200;
     case Noun.Progress:
         Progress progress = new Progress(dbContext);
-        progress.Execute(verb, command_args);
+        progress.Execute(verb, commandArgs);
         return 200;
     default:
         Console.WriteLine(
