@@ -71,7 +71,7 @@ class CommandLineParser : ICommandLineParser
     {
         { Noun.Credits, new HashSet<Verb> { Verb.List } },
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
-        { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } }
+        { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Progress, new HashSet<Verb> { Verb.Edit, Verb.Delete} },
         // Add more Nuons and Verbs here to support more commands.
     };
