@@ -42,7 +42,7 @@ switch (noun)
         return 200;
     case Noun.Progress:
         Progress progress = new Progress(dbContext);
-        progress.Execute(verb, command_args);
+        progress.Execute(verb, commandArgs);
         return 200;
     default:
         Console.WriteLine(
