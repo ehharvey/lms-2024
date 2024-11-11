@@ -27,8 +27,8 @@ switch (noun)
     case Noun.Invalid:
         Console.WriteLine("Invalid noun.");
         return 400; // 400 Bad Request
-    case Noun.Credits:
-        Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
+    case Noun.Credit:
+        Credit credits = new Credit(dbContext); // initialize here to avoid unnecessary instantiation
         credits.Execute(verb);
         return 200; // 200 OK
     case Noun.WorkItem:

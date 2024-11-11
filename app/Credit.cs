@@ -5,14 +5,14 @@ It was created to fulfill #16
 
 using Lms;
 
-class Credits : ICommand {
+class Credit : ICommand {
     private LmsDbContext? db;
 
-    public Credits() {
+    public Credit() {
         this.db =  null;
     }
 
-    public Credits(LmsDbContext db) {
+    public Credit(LmsDbContext db) {
         this.db = db;
     }
 
