@@ -21,7 +21,7 @@ As an overview:
 ## CLI
 I completed #48. This adds super basic CLI (command-line interface) functionality for this project. At a super high level, the app works with a `noun verb` pattern. For example:
 ```
-$ dotnet run credits list
+$ dotnet run credit list
 Credits
 -------
 Emil Harvey

@@ -5,7 +5,7 @@
 /// </summary>
 enum Noun
 {
-    Credits, // Represents the "credits" noun.
+    Credit, // Represents the "credit" noun.
     WorkItem, // Represents work item
     Block, // Represents the "block" noun.
     Progress, // Represents Progerss item
@@ -69,7 +69,8 @@ class CommandLineParser : ICommandLineParser
 {
     private readonly Dictionary<Noun, HashSet<Verb>> ValidVerbs = new Dictionary<Noun, HashSet<Verb>>
     {
-        { Noun.Credits, new HashSet<Verb> { Verb.List } },
+        // Credit supports just the List verb.
+        { Noun.Credit, new HashSet<Verb> { Verb.List } },
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Progress, new HashSet<Verb> { Verb.Edit, Verb.Delete} },

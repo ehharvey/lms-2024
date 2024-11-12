@@ -27,14 +27,13 @@ switch (noun)
     case Noun.Invalid:
         Console.WriteLine("Invalid noun.");
         return 400; // 400 Bad Request
-    case Noun.Credits:
-        Credits credits = new Credits(dbContext); // initialize here to avoid unnecessary instantiation
-        credits.Execute(verb, commandArgs);
-        return 200; // 200 OK
+    case Noun.Credit:
+        Credit credits = new Credit(dbContext); // initialize here to avoid unnecessary instantiation
+        credits.Execute(verb);
+	return 200;
     case Noun.Block:
         Blockers blockers = new Blockers(dbContext);
         blockers.Execute(verb, commandArgs);
-        
         return 200; // 200 OK
     case Noun.WorkItem:
         WorkItem work_item = new WorkItem(dbContext);

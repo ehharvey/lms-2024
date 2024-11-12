@@ -9,9 +9,9 @@ Our CLI should adopt a "noun" "verb" pattern. This means that the first argument
 # Architecture
 The `CommandLineParser` class handles command line parsing. The `parse` function receives command line arguments (via the magic `args` variable). It has several functions that help you along.
 - `Parse` is a simple function that receives command line `args` and returns both the `Noun` and the `Verb`
-	- E.g., `credits list` -> `(Credits, List)`
+	- E.g., `credit list` -> `(Credit, List)`
 - `GetCommandLineArgs` returns the arguments *after* the `Noun` and `Verb`
-	- E.g., `credits list` -> `[]`
-	- E.g., `credits list abc` -> `["abc"]`
+	- E.g., `credit list` -> `[]`
+	- E.g., `credit list abc` -> `["abc"]`
 - `ParseWithArgs` is a combination of both `Parse` and `GetCommandLineArgs`
-	- E.g., `credits list abc` -> `((Credits, List), ["abc"]`
+	- E.g., `credit list abc` -> `((Credit, List), ["abc"]`

@@ -7,7 +7,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseNoun()
     {
-        Assert.Equal(Noun.Credits, parser.ParseNoun("credits"));
+        Assert.Equal(Noun.Credit, parser.ParseNoun("credit"));
     }
 
     [Fact]
@@ -19,7 +19,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseVerb()
     {
-        Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Credits));
+        Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Credit));
     }
 
     [Fact]
@@ -31,15 +31,15 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseVerbInvalidVerb()
     {
-        Assert.Equal(Verb.Invalid, parser.ParseVerb("abc", Noun.Credits));
+        Assert.Equal(Verb.Invalid, parser.ParseVerb("abc", Noun.Credit));
     }
 
     [Fact]
-    public void TestParseCredits()
+    public void TestParseCredit()
     {
-        string[] args = { "credits", "list" };
-        ((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
-        Assert.Equal(Noun.Credits, noun);
+        string[] args = { "credit", "list" };
+        (Noun noun, Verb verb) = parser.Parse(args);
+        Assert.Equal(Noun.Credit, noun);
         Assert.Equal(Verb.List, verb);
     }
 
@@ -64,7 +64,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestCommandLineArgs()
     {
-        string[] args = { "credits", "list" };
+        string[] args = { "credit", "list" };
         string[] commandLineArgs = parser.GetCommandLineArgs(args);
         Assert.Equal(new string[] {}, commandLineArgs);
     }
@@ -72,7 +72,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestCommandLineArgsMultiple()
     {
-        string[] args = { "credits", "list", "abc" };
+        string[] args = { "credit", "list", "abc" };
         string[] commandLineArgs = parser.GetCommandLineArgs(args);
         Assert.Equal(new string[] { "abc" }, commandLineArgs);
     }
@@ -80,7 +80,7 @@ public class CommandLineParserTests
     [Fact]
     public void TestCommandLineArgsInvalid()
     {
-        string[] args = { "credits" };
+        string[] args = { "credit" };
         string[] commandLineArgs = parser.GetCommandLineArgs(args);
         Assert.Equal(new string[] {}, commandLineArgs);
     }
@@ -88,9 +88,9 @@ public class CommandLineParserTests
     [Fact]
     public void TestParseWithArgs()
     {
-        string[] args = { "credits", "list", "abc" };
+        string[] args = { "credit", "list", "abc" };
         ((Noun noun, Verb verb), string[] commandLineArgs) = parser.ParseWithArgs(args);
-        Assert.Equal(Noun.Credits, noun);
+        Assert.Equal(Noun.Credit, noun);
         Assert.Equal(Verb.List, verb);
         Assert.Equal(new string[] { "abc" }, commandLineArgs);
     }
