@@ -98,7 +98,8 @@ class Credit : ICommand {
     public void DisplayCredits() {
         Console.WriteLine("Credits");
         Console.WriteLine("-------");
-        foreach (string credit in GetCredits()) {
+        foreach (string credit in GetCredits())
+        {
             Console.WriteLine(credit);
         }
     }

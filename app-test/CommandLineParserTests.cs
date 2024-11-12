@@ -11,6 +11,12 @@ public class CommandLineParserTests
     }
 
     [Fact]
+    public void TestParseNounWithBlock()
+    {
+        Assert.Equal(Noun.Block, parser.ParseNoun("block"));
+    }
+
+    [Fact]
     public void TestParseVerb()
     {
         Assert.Equal(Verb.List, parser.ParseVerb("list", Noun.Credit));
@@ -43,6 +49,15 @@ public class CommandLineParserTests
         string[] args = { "workitem", "list" };
         (Noun noun, Verb verb) = parser.Parse(args);
         Assert.Equal(Noun.WorkItem, noun);
+        Assert.Equal(Verb.List, verb);
+    }
+
+    [Fact]
+    public void TestParseBlock()
+    {
+        string[] args = { "block", "list" };
+        ((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
+        Assert.Equal(Noun.Block, noun);
         Assert.Equal(Verb.List, verb);
     }
 

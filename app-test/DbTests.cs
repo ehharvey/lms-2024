@@ -21,7 +21,7 @@ public class DbTests
     [Fact]
     public void TestAddProgress()
     {
-        Progress progress = new Progress();
+        Lms.Models.Progress progress = new Lms.Models.Progress();
         db.Progresses.Add(progress);
         db.SaveChanges();
         Assert.NotEqual(0, progress.Id);

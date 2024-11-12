@@ -7,6 +7,8 @@ enum Noun
 {
     Credit, // Represents the "credit" noun.
     WorkItem, // Represents work item
+    Block, // Represents the "block" noun.
+    Progress, // Represents Progerss item
     Invalid // Represents an invalid noun.
 }
 
@@ -19,9 +21,9 @@ enum Noun
 enum Verb
 {
     List, // Represents the "list" verb. This should list all data items of the Noun.
-    Create, // Represents the "create" verb. Creates a new entity of a noun and persists.
-    Edit,
-    Delete,
+    Create, // Represents the "Create" verb. This should create a new data item of the Noun.
+    Edit, // Represents the "Edit" verb. This should edit the existing data item of the Noun.
+    Delete, // Represents the "Delete" verb. This should delete the existing data item of the Noun.
     Invalid // Represents an invalid verb.
 
 }
@@ -35,6 +37,14 @@ interface ICommandLineParser
     /// <param name="args">The command line arguments.</param>
     /// <returns>The Noun and Verb that the command is acting on.</returns>
     (Noun noun, Verb verb) Parse(string[] args);
+
+    /// <summary>
+    /// Parses the command line arguments and returns the Noun and Verb
+    /// that the command is acting on.
+    /// </summary>
+    /// <param name="args">The command line arguments.</param>
+    /// <returns>The Noun and Verb that the command is acting on. Also return subsequent args</returns>
+    ((Noun noun, Verb verb), string[] commandLineArgs) ParseWithArgs(string[] args);
 
     /// <summary>
     /// Parses the Noun from the command line arguments.
@@ -62,6 +72,8 @@ class CommandLineParser : ICommandLineParser
         // Credit supports just the List verb.
         { Noun.Credit, new HashSet<Verb> { Verb.List } },
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
+        { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
+        { Noun.Progress, new HashSet<Verb> { Verb.Edit, Verb.Delete} },
         // Add more Nuons and Verbs here to support more commands.
     };
 
@@ -108,7 +120,7 @@ class CommandLineParser : ICommandLineParser
 
         Noun noun = ParseNoun(args[0]);
         Verb verb = ParseVerb(args[1], noun);
-
+    
         return (noun, verb);
     }
 

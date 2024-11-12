@@ -1,5 +1,7 @@
 interface ICommand
 {
+
+
     /// <summary>
     /// Gets the help text for the command.
     /// Should include the command name, description, and a list of valid verbs.
