@@ -78,39 +78,40 @@ class Progress : ICommand {
         switch (verb) 
         {
             case Verb.Create:
+
+                var create_result = new Lms.Models.Progress();
+
                 if (command_args.Count() == 2)
                 {
-                    var create_result = Create(command_args[0], command_args[1]);
-
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {create_result.Id}");
-                    Console.WriteLine($"Description: {create_result.Description}");
-                    Console.WriteLine($"WorkItem: {create_result.WorkItem}");
-                    Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+                    create_result = Create(command_args[0], command_args[1]);
                 }
-                
-                if (command_args.Count() == 1)
+                else if (command_args.Count() == 1)
                 {
-                    var create_result = Create(command_args[0], null);
-					Console.WriteLine("----------------");
-					Console.WriteLine($"ID: {create_result.Id}");
-					Console.WriteLine($"Description: {create_result.Description}");
-					Console.WriteLine($"WorkItem:");
-					Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
-				}
+                    int workItemId;
 
-                if (command_args.Count() == 0)
-                {
-                    var create_result = Create(null, null);
+                    bool isInt = int.TryParse(command_args[0], out workItemId);
+                    
+                    if (isInt)
                     {
-						Console.WriteLine("----------------");
-						Console.WriteLine($"ID: {create_result.Id}");
-						Console.WriteLine($"Description:");
-						Console.WriteLine($"WorkItem:");
-						Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+						create_result = Create(null, command_args[0]);
 					}
+                    else
+                    {
+						create_result = Create(command_args[0], null);
+					}
+                    
 				}
-                break;
+                else if (command_args.Count() == 0)
+                {
+                    create_result = Create(null, null);
+				}
+                
+				Console.WriteLine("----------------");
+				Console.WriteLine($"ID: {create_result.Id}");
+				Console.WriteLine($"Description: {create_result.Description}");
+				Console.WriteLine($"WorkItem: {create_result.WorkItem}");
+				Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+				break;
             case Verb.Delete:
                 if (command_args.Count() < 1) {
                     throw new ArgumentException("Delete requires an ID!");
