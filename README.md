@@ -3,7 +3,7 @@ Welcome to LearningManagementSystem 2024! This is an open source project designe
 
 - [Wiki Website](https://emilharvey.ca/lms-2024): Go here for instructions on setting up your dev environment, etc.
 - [Survey if you want to participate](https://forms.gle/vs4Xr4htJ4dswRCV8): Fill this out to let me know you want to contribute :)
-- [Slack](https://join.slack.com/t/lms-2024/shared_invite/zt-2r3ma5s1e-whiKySCz0qip3Nm5Uuifag): We can chat here 
+- [Slack](https://join.slack.com/t/lms-2024/shared_invite/zt-2r3ma5s1e-whiKySCz0qip3Nm5Uuifag): We can chat here. **Join our Slack and DM me to get added to this project :)**
 
 
 Also: be sure to check out the Issues (this is where you can find work to complete), Discussions (updates, polls) and our [GitHub project](https://github.com/users/ehharvey/projects/13/views/5)
