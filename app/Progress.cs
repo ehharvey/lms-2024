@@ -1,6 +1,7 @@
 using Lms;
 using Lms.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 
 
 
@@ -42,6 +43,8 @@ class Progress : ICommand {
     public string GetHelp(Verb verb)
     {
         switch (verb) {
+            case Verb.Create:
+                return "Create a new Progress";
             case Verb.Edit:
                 return "Edit an existing Progress";
             case Verb.Delete:
@@ -74,7 +77,40 @@ class Progress : ICommand {
     {
         switch (verb) 
         {
+            case Verb.Create:
+                if (command_args.Count() == 2)
+                {
+                    var create_result = Create(command_args[0], command_args[1]);
 
+                    Console.WriteLine("----------------");
+                    Console.WriteLine($"ID: {create_result.Id}");
+                    Console.WriteLine($"Description: {create_result.Description}");
+                    Console.WriteLine($"WorkItem: {create_result.WorkItem}");
+                    Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+                }
+                
+                if (command_args.Count() == 1)
+                {
+                    var create_result = Create(command_args[0], null);
+					Console.WriteLine("----------------");
+					Console.WriteLine($"ID: {create_result.Id}");
+					Console.WriteLine($"Description: {create_result.Description}");
+					Console.WriteLine($"WorkItem:");
+					Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+				}
+
+                if (command_args.Count() == 0)
+                {
+                    var create_result = Create(null, null);
+                    {
+						Console.WriteLine("----------------");
+						Console.WriteLine($"ID: {create_result.Id}");
+						Console.WriteLine($"Description:");
+						Console.WriteLine($"WorkItem:");
+						Console.WriteLine($"CreatedAt: {create_result.CreatedAt.ToString("yyyy-MMM-dd")}");
+					}
+				}
+                break;
             case Verb.Delete:
                 if (command_args.Count() < 1) {
                     throw new ArgumentException("Delete requires an ID!");
@@ -108,6 +144,42 @@ class Progress : ICommand {
             default:
                 throw new ArgumentException("Invalid Verb");
         }
+    }
+
+    // Create Progress
+    public Lms.Models.Progress Create(string? description, string? workItemId)
+    {
+        int parsed_id = -1;
+
+        if (workItemId != null)
+        {
+			try
+			{
+				parsed_id = int.Parse(workItemId);
+			}
+			catch
+			{
+				throw new ArgumentException("Invalid Id -- not an integer");
+			}
+		}
+    
+        var workItem = db.WorkItems.Find(parsed_id);
+
+        if (workItem == null)
+        {
+            throw new ArgumentException("Invalid Id -- work item not found");
+		}
+
+        var newProgress = new Lms.Models.Progress()
+        {
+            Description = description,
+            WorkItem = workItem
+        };
+
+        db.Add(newProgress);
+        db.SaveChanges();
+
+        return newProgress;
     }
 
     // Edit Progress
