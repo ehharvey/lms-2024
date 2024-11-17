@@ -1,8 +1,9 @@
 using System.Security.Cryptography;
 
+using Lms.Models.Abstract;
 namespace Lms.Models;
 
-public class WorkItem
+public class WorkItem : Taggable
 {
     // Fields
     public int Id { get; set; }
