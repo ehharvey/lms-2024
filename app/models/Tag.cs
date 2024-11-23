@@ -1,7 +1,9 @@
 using Lms.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lms.Models;
 
+[PrimaryKey(nameof(Id)), Index(nameof(Name), IsUnique = true)]
 public class Tag {
     // TODO: code standards doc
     public int Id;

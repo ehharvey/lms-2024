@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Lms.Models;
+using EntityFramework.Exceptions.Sqlite;
 
 namespace Lms;
 
@@ -25,6 +26,8 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<Models.Progress> Progresses { get; set; }
     public DbSet<Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }
+
+    public DbSet<Models.Tag> Tags { get; set; }
 
     // set database to SQLite
     public DbDriver Driver { get; private set; } = DbDriver.Sqlite;
@@ -75,5 +78,7 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
             default:
                 throw new NotImplementedException();
         }
+
+        optionsBuilder.UseExceptionProcessor();
     }
 }
