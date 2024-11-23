@@ -165,6 +165,7 @@ class Progress : ICommand {
     }
 
     // Delete Progress by Id
+    // TODO: move the parsing logic outside (maybe in CommandLineParser)
     public Lms.Models.Progress Delete(string id) {
         int parsed_id;
         if (!int.TryParse(id, out parsed_id)) {

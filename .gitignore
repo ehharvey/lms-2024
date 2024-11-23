@@ -42,3 +42,5 @@ msbuild.wrn
 
 # Sqlite
 *.db
+*.db-shm
+*.db-wal

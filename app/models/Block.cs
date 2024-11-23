@@ -1,6 +1,8 @@
 namespace Lms.Models;
 
-public class Block
+using Lms.Models.Abstract;
+
+public class Block : Taggable
 {
     // Fields
     public int Id { get; set; }
