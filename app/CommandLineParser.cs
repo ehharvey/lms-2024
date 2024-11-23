@@ -9,6 +9,7 @@ enum Noun
     WorkItem, // Represents work item
     Block, // Represents the "block" noun.
     Progress, // Represents Progerss item
+    Tag,
     Invalid // Represents an invalid noun.
 }
 
@@ -74,6 +75,7 @@ class CommandLineParser : ICommandLineParser
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Progress, new HashSet<Verb> { Verb.Edit, Verb.Delete} },
+        { Noun.Tag, new HashSet<Verb> { Verb.Create, Verb.List, Verb.Delete }}
         // Add more Nuons and Verbs here to support more commands.
     };
 

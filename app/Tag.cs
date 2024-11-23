@@ -60,7 +60,7 @@ class Tag : ICommand
             db.SaveChanges();
         }
         catch (UniqueConstraintException) {
-            throw new ArgumentException($"Tag with name ${name} already exists!");
+            throw new ArgumentException($"Tag with name {name} already exists!");
         }
 
         return tag;
@@ -87,13 +87,13 @@ class Tag : ICommand
         return result;
     }    
 
-    void ICommand.Execute(Verb verb)
+    public void Execute(Verb verb)
     {
         throw new NotImplementedException("Use Execute(verb, command_args)");
     }
 
 
-    void ICommand.Execute(Verb verb, string[] command_args)
+    public void Execute(Verb verb, string[] command_args)
     {
         switch (verb) {
             case Verb.List:

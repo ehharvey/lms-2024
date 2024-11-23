@@ -43,6 +43,10 @@ switch (noun)
         Progress progress = new Progress(dbContext);
         progress.Execute(verb, commandArgs);
         return 200;
+    case Noun.Tag:
+        Tag tag = new Tag(dbContext);
+        tag.Execute(verb, commandArgs);
+        return 200;
     default:
         Console.WriteLine(
             $"""
