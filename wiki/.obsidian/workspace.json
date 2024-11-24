@@ -13,10 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "announcements/Iteration 3 starting soon.md",
+                "file": "operations/Learning/Linux.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "Linux"
             }
           }
         ]
@@ -39,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -54,7 +58,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -62,7 +68,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -85,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "announcements/Iteration 3 starting soon.md",
+                "file": "operations/Learning/Linux.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +101,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Linux"
             }
           },
           {
@@ -102,10 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "announcements/Iteration 3 starting soon.md",
+                "file": "operations/Learning/Linux.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Linux"
             }
           },
           {
@@ -116,7 +128,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -125,8 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "announcements/Iteration 3 starting soon.md"
-              }
+                "file": "operations/Learning/Linux.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Linux"
             }
           }
         ]
@@ -148,8 +164,14 @@
   },
   "active": "c7ac859ec6905a17",
   "lastOpenFiles": [
-    "index.md",
+    "operations/LMS Project Structure.md",
+    "operations/Learning/Software Projects.md",
+    "operations/Learning/Linux.md",
+    "operations/quartz-wiki-dev/Modifying `quarts.config.ts`.md",
+    "operations/Learning/CI-CD.md",
+    "operations/Learning",
     "announcements/Iteration 3 starting soon.md",
+    "index.md",
     "GitHub CLI.md",
     "overview.md",
     "development/CLI Standards.md",
