@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Lms.Models;
+using lms.models;
 
 namespace Lms;
 
@@ -22,6 +23,8 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
 
     // DB Sets (Tables in Database)
+
+    public DbSet<User> Users { get; set; } 
     public DbSet<Models.Progress> Progresses { get; set; }
     public DbSet<Models.WorkItem> WorkItems { get; set; }
     public DbSet<Block> Blockers { get; set; }

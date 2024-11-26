@@ -8,5 +8,8 @@ namespace lms.models
 {
     public class User
     {
+        // Fields
+        public int Id { get; set; }
+        public string Username { get; set; }
     }
 }
