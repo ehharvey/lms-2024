@@ -16,6 +16,33 @@ public class ProgressTests: IDisposable
     }
 
     [Fact]
+    public void CreateProgressItemWithoutArgument()
+    {
+        // Arrange
+        string? description = null;
+        string? workItem = null;
+
+        // Act
+        var result = progress.Create(description, workItem);
+
+        // Assert
+        Assert.True(db.Progresses.Contains(result));
+    }
+
+    [Fact]
+	public void CreateProgressItemWithDescription()
+	{
+        // Arrange
+
+
+		// Act
+
+
+        // Assert
+
+	}
+
+	[Fact]
     public void TestDeleteItem() {
         // Arrange
         var description = "Delete Me!";
@@ -112,7 +139,6 @@ public class ProgressTests: IDisposable
         Assert.Equal(expected_one, actual.First());
         Assert.Equal(expected_two, actual.Skip(1).First());
     }
-
     
     [Fact]
     public void TestEditProgress() {

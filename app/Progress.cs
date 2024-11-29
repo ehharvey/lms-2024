@@ -34,6 +34,7 @@ class Progress : ICommand {
         Tracks Progress of Work Items for the program.
 
         Verbs:
+        - create: {GetHelp(Verb.Create)}
         - edit: {GetHelp(Verb.Edit)}
         - delete: {GetHelp(Verb.Delete)}
         """;
