@@ -71,8 +71,6 @@ class Progress : ICommand {
         }
     }
 
-
-
     // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms Progress Delete 0, lms Progress Edit 3
     public void Execute(Verb verb, string[] command_args)
     {
@@ -166,11 +164,6 @@ class Progress : ICommand {
 		}
     
         var workItem = db.WorkItems.Find(parsed_id);
-
-        if (workItem == null)
-        {
-            throw new ArgumentException("Invalid Id -- work item not found");
-		}
 
         var newProgress = new Lms.Models.Progress()
         {

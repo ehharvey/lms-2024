@@ -1,5 +1,6 @@
 using Lms;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace progress_tests;
 
@@ -20,27 +21,63 @@ public class ProgressTests: IDisposable
     {
         // Arrange
         string? description = null;
-        string? workItem = null;
+        string? workItemiD = null;
 
         // Act
-        var result = progress.Create(description, workItem);
+        var result = progress.Create(description, workItemiD);
 
         // Assert
-        Assert.True(db.Progresses.Contains(result));
+        Assert.IsType<Lms.Models.Progress>(result);
+        Assert.True(db.Progresses.Contains(result));    
     }
 
-    [Fact]
-	public void CreateProgressItemWithDescription()
+	[Fact]
+	public void CreateProgressItemWithValidWorkItemIdAndDescription()
 	{
-        // Arrange
+		// Arrange
+		string description = "description";
+		string workItemId = "1";
 
+		db.WorkItems.Add(new Lms.Models.WorkItem() { Id = 1, Title = "WorkItem1" });
 
-		// Act
+		// Action
+		var result = progress.Create(description, workItemId);
 
-
-        // Assert
-
+		// Assert
+		Assert.True(db.Progresses.Contains(result));
+		Assert.Equal(description, result.Description);
 	}
+
+	//[Fact]
+	//public void CreateProgressItemWithDescription()
+	//{
+	//    // Arrange
+	//    string description = "test";
+	//    string? workItemId = null;
+
+	//    // Act
+	//    var result = progress.Create(description, workItemId);
+
+	//    // Assert
+	//    Assert.Equal(description, result.Description);
+	//}
+
+
+	//[Fact]
+	//public void CreateProgressItemWithInvalidWorkItem()
+	//{
+	//    // Arrange
+	//    string description = "Test";
+	//    string workItemId = "Invalid Id";
+
+	//    var exception = new ArgumentException("Invalid Id -- not an integer");
+
+	//    // Act
+	//    var actual = Assert.Throws<ArgumentException>(() => { progress.Create(description, workItemId); });
+
+	//    // Assert
+	//    Assert.Equal(exception.Message, actual.Message);
+	//}
 
 	[Fact]
     public void TestDeleteItem() {
