@@ -38,7 +38,7 @@ public class ProgressTests: IDisposable
 		string description = "description";
 		string workItemId = "1";
 
-		db.WorkItems.Add(new Lms.Models.WorkItem() { Id = 1, Title = "WorkItem1" });
+		//db.WorkItems.Add(new Lms.Models.WorkItem() { Id = 1, Title = "WorkItem1" });
 
 		// Action
 		var result = progress.Create(description, workItemId);
