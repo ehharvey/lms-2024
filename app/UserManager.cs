@@ -31,8 +31,8 @@ public class UserManager
         }
     }
 
-    // Set/Change Active User (Store Active User to the File)
-    public void SetActiveUser(User user)
+    // Update/Change Active User (Store Active User to the File)
+    public void UpdateActiveUser(User user)
     {
         ActiveUser = user;
         using (StreamWriter sw = new StreamWriter(ActiveUserFilePath))
@@ -53,6 +53,5 @@ public class UserManager
         string[] userProps = userString.Split(DELIMITER);
         return new User { Id = int.Parse(userProps[0]), Username = userProps[1] };
     }
-
 }
 
