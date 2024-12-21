@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using Lms;
 
+// Initialize the parser
 CommandLineParser parser = new CommandLineParser();
 
 ((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
@@ -21,6 +22,9 @@ if (verb == Verb.Invalid)
 
 // Initialize DBContext
 var dbContext = new LmsDbContext();
+
+// Initialize UserManager
+var userManager = new UserManager();
 
 switch (noun)
 {
