@@ -35,7 +35,7 @@ public class UserManager
     public void UpdateActiveUser(User user)
     {
         ActiveUser = user;
-        using (StreamWriter sw = new StreamWriter(ActiveUserFilePath))
+        using (StreamWriter sw = new StreamWriter(ActiveUserFilePath, false))   // Overwrites the file
         {
             sw.WriteLine(ComposeUser(user));
         }
