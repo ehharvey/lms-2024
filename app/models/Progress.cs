@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Lms.Models.Abstract;
 namespace Lms.Models;
 
-public class Progress
+public class Progress : Taggable
 {
     // Fields
     public int Id { get; set; }
