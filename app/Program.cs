@@ -24,7 +24,7 @@ if (verb == Verb.Invalid)
 var dbContext = new LmsDbContext();
 
 // Initialize UserManager
-var userManager = new UserManager();
+var userManager = new UserManager(dbContext);
 
 switch (noun)
 {
