@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Lms.Models;
-using lms.models;
+using EntityFramework.Exceptions.Sqlite;
 
 namespace Lms;
 

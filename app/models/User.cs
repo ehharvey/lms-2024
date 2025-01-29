@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lms.models
+namespace Lms.Models
 {
     public class User
     {

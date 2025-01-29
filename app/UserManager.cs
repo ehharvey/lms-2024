@@ -1,5 +1,4 @@
-﻿using lms.models;
-
+﻿using Lms.Models;
 
 public class UserManager
 {
