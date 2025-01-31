@@ -1,5 +1,11 @@
 ﻿using System.Dynamic;
 using Lms;
+using Newtonsoft.Json;
+
+if (Global.config.PrintConfiguration) {
+    Console.WriteLine(JsonConvert.SerializeObject(Global.config));
+}
+
 
 CommandLineParser parser = new CommandLineParser();
 
