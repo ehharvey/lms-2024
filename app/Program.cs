@@ -1,9 +1,13 @@
-﻿using System.Dynamic;
-using Lms;
-using Newtonsoft.Json;
+﻿using Lms;
 
 if (Global.config.PrintConfiguration) {
-    Console.WriteLine(JsonConvert.SerializeObject(Global.config));
+    Console.WriteLine("################ CONFIGURATION #############");
+    Global.config.GetType().GetProperties().ToList().ForEach((p) => {
+        var propertyName = p.Name;
+        var propertyValue = p.GetValue(Global.config);
+        Console.WriteLine($"{propertyName}: {propertyValue}");
+    });
+    Console.WriteLine("############################################");
 }
 
 
