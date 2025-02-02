@@ -1,5 +1,15 @@
-﻿using System.Dynamic;
-using Lms;
+﻿using Lms;
+
+if (Global.config.PrintConfiguration) {
+    Console.WriteLine("################ CONFIGURATION #############");
+    Global.config.GetType().GetProperties().ToList().ForEach((p) => {
+        var propertyName = p.Name;
+        var propertyValue = p.GetValue(Global.config);
+        Console.WriteLine($"{propertyName}: {propertyValue}");
+    });
+    Console.WriteLine("############################################");
+}
+
 
 CommandLineParser parser = new CommandLineParser();
 
