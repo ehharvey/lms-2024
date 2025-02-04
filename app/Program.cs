@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using Lms;
+using Lms.Models;
 
 // Initialize the parser
 CommandLineParser parser = new CommandLineParser();
@@ -50,6 +51,10 @@ switch (noun)
     case Noun.Tag:
         Tag tag = new Tag(dbContext);
         tag.Execute(verb, commandArgs);
+        return 200;
+    case Noun.User:
+        
+        userManager.Execute(verb, commandArgs);
         return 200;
     default:
         Console.WriteLine(

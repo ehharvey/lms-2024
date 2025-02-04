@@ -3,6 +3,13 @@ using Lms.Models;
 
 public class UserManager : ICommand
 {
+    // Fields for fetching parameters from CLI args
+    public enum Field
+    {
+        Username
+        // Add more fields here.
+    }
+
     // Properties
     private const string ActiveUserFilePath = "activeUser.txt"; // Path to Active User File
 
@@ -13,15 +20,7 @@ public class UserManager : ICommand
         this.db = db;
     }
 
-    public User CreateUser(string username)
-    {
-        var user = new User{Username = username};
-
-        db.Users.Add(user);
-        db.SaveChanges();
-
-        return user;
-    }
+    
 
     // Get Active User from File 
     public User? FetchActiveUser(StreamReader sr)
@@ -57,12 +56,234 @@ public class UserManager : ICommand
 
     public string GetHelp()
     {
-        throw new NotImplementedException();
+        return $"""
+        User
+
+        Description:
+        Represents the User. A User is a person who uses the program.
+
+        Verbs:
+        - list: {GetHelp(Verb.List)}
+        - edit: {GetHelp(Verb.Edit)}
+        - create: {GetHelp(Verb.Create)}
+        - delete: {GetHelp(Verb.Delete)}
+        - login: {GetHelp(Verb.Login)}
+        """;
     }
 
+    // ICommand Yells at me if I remove this.
     string ICommand.GetHelp(Verb verb)
     {
         throw new NotImplementedException();
+    }
+
+    // 
+    string GetHelp(Verb verb)
+    {
+        switch (verb)
+        {
+            case Verb.Create:
+                return "Create a new User";
+            case Verb.Edit:
+                return "Edit an existing User";
+            case Verb.List:
+                return "List the Users recorded previously.";
+            case Verb.Delete:
+                return "Delete an User";
+            case Verb.Login:
+                return "Login as an User";
+            default:
+                throw new ArgumentException("Invalid Verb");
+        }
+    }
+
+    void Execute(Verb verb)
+    {
+        switch (verb)
+        {
+            case Verb.List:
+                var users = GetUsers();
+                Console.WriteLine("------------------------------");
+                Console.WriteLine("| id | Username         |");
+                users.ToList().ForEach(
+                    (u) => {
+                        Console.WriteLine($"| w{u.Id} | {u.Username} |");
+                    }
+                );
+                Console.WriteLine("------------------------------");
+                break;
+            default:
+                throw new ArgumentException("Invalid Verb");
+        }
+    }
+
+    void Execute(Verb verb, string[] command_args)
+    {
+        switch (verb)
+        {
+            case Verb.List:
+                Execute(verb);
+                break;
+            case Verb.Delete:
+                if (command_args.Count() < 1)
+                {
+                    throw new ArgumentException("Delete requires an ID!");
+                }
+
+                var delete_result = DeleteUser(command_args[0]);
+
+                Console.WriteLine("----------------");
+                Console.WriteLine($"ID: {delete_result.Id}");
+                Console.WriteLine($"Title: {delete_result.Username}");
+                Console.WriteLine("----------------");
+                break;
+            case Verb.Edit:
+                if (command_args.Count() < 3)
+                {
+                    throw new ArgumentException("3 arguments: Id, Field, and Value!");
+                }
+
+                var edit_result = EditUser(command_args[0], command_args[1], command_args[2]);
+
+                Console.WriteLine("------------------------");
+                Console.WriteLine($"Id: {edit_result.Id}");
+                Console.WriteLine($"Title: {edit_result.Username}");
+                Console.WriteLine("------------------------");
+
+                break;
+            case Verb.Create:
+                if (command_args.Count() < 1)
+                {
+                    throw new ArgumentException("Create requires at least a Title Arg");
+                }
+
+                string username = command_args[0];
+
+                var create_result = CreateUser(username);
+
+                Console.WriteLine("----------------------");
+                Console.WriteLine($"Id: {create_result.Id}");
+                Console.WriteLine($"Title: {create_result.Username}");
+                Console.WriteLine("------------------------");
+                break;
+            case Verb.Login:
+                if (command_args.Count() < 1)
+                {
+                    throw new ArgumentException("Login requires an ID!");
+                }
+                var login_result = Login(command_args[0]);
+                Console.WriteLine("----------------");
+                Console.WriteLine($"ID: {login_result.Id}");
+                Console.WriteLine($"Title: {login_result.Username}");
+                Console.WriteLine("----------------");
+                break;
+            default:
+                throw new ArgumentException("Invalid Verb");
+        }
+    }
+
+    // Functionalities (Create, Edit, Delete, Login, List)
+
+    // Get All Users
+    public IEnumerable<Lms.Models.User> GetUsers()
+    {
+        return db.Users.AsEnumerable();
+    }
+
+    // Login User
+    public User Login(string id)
+    {
+        int parsed_id;
+        if (!int.TryParse(id, out parsed_id))
+        {
+            throw new ArgumentException("Invalid Id -- not an integer");
+        }
+        var result = db.Users.Find(parsed_id);
+        
+        if (result == null)
+        {
+            throw new ArgumentException("Invalid Id -- WorkItem does not exist");
+        }
+
+        UpdateActiveUser(result);
+
+        return result;
+    }
+
+    // Create User
+    public User CreateUser(string username)
+    {
+        var user = new User { Username = username };
+
+        db.Users.Add(user);
+        db.SaveChanges();
+
+        return user;
+    }
+
+    // Edit User
+    public User EditUser(string id, string field, string value)
+    {
+        int parsed_id = -1;
+
+        try
+        {
+            parsed_id = int.Parse(id);
+        }
+        catch
+        {
+            throw new ArgumentException("Invalid Id -- not an integer");
+        }
+
+        var result = db.Users.Find(parsed_id);
+
+        if (result == null)
+        {
+            throw new ArgumentException("Invalid Id -- WorkItem does not exist");
+        }
+
+        Field f;
+        if (!Enum.TryParse<Field>(field, out f))
+        {
+            throw new ArgumentException("Invalid field");
+        }
+
+        switch (f)
+        {
+            case Field.Username:
+                result.Username = value;
+                break;
+            // Add more fields here.
+            default:
+                throw new ArgumentException("Invalid Field");
+        }
+
+        db.Users.Update(result);
+        db.SaveChanges();
+
+        return result;
+    }
+
+    // Delete User
+    public User DeleteUser(string id)
+    {
+        int parsed_id;
+        if (!int.TryParse(id, out parsed_id))
+        {
+            throw new ArgumentException("Invalid Id -- not an integer");
+        }
+
+        var result = db.Users.Find(parsed_id);
+
+        if (result == null)
+        {
+            throw new ArgumentException("Invalid Id -- WorkItem does not exist");
+        }
+
+        db.Users.Remove(result);
+        db.SaveChanges();
+
+        return result;
     }
 
     void ICommand.Execute(Verb verb)
