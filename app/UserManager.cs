@@ -1,8 +1,8 @@
-﻿using Lms;
 using Lms.Models;
+using Lms;
 
-public class UserManager : ICommand
-{
+class UserManager : ICommand {
+
     // Fields for fetching parameters from CLI args
     public enum Field
     {
@@ -20,42 +20,14 @@ public class UserManager : ICommand
         this.db = db;
     }
 
-    
 
-    // Get Active User from File 
-    public User? FetchActiveUser(StreamReader sr)
-    {
-        string userString = sr.ReadLine();
-        return ParseUser(userString);
-    }
+    // ICommand Functionalities
 
-    // Update/Change Active User (Store Active User to the File)
-    public void UpdateActiveUser(User user)
-    {
-        using (StreamWriter sw = new StreamWriter(ActiveUserFilePath, false))   // Overwrites the file
-        {
-            sw.WriteLine(ComposeUser(user));
-        }
-    }
 
-    // Compose User
-    public string ComposeUser(User user)
-    {
-        return $"{user.Id}";
-    }
+    // Command Documentation for CLI Application
 
-    // Parse User
-    public User? ParseUser(string userString)
-    {
-        var user_id = int.Parse(userString);
-
-        var result = db.Users.Find(user_id);
-
-        return result;
-    }
-
-    public string GetHelp()
-    {
+    // Main Command Documentation
+    public string GetHelp() {
         return $"""
         User
 
@@ -71,14 +43,9 @@ public class UserManager : ICommand
         """;
     }
 
-    // ICommand Yells at me if I remove this.
-    string ICommand.GetHelp(Verb verb)
-    {
-        throw new NotImplementedException();
-    }
+    // Individual Commands with their Description
 
-    // 
-    string GetHelp(Verb verb)
+    public string GetHelp(Verb verb)
     {
         switch (verb)
         {
@@ -97,7 +64,9 @@ public class UserManager : ICommand
         }
     }
 
-    void Execute(Verb verb)
+
+    // Execute Function without additional Arguments (Ex. List) -> lms User List
+    public void Execute(Verb verb)
     {
         switch (verb)
         {
@@ -117,7 +86,9 @@ public class UserManager : ICommand
         }
     }
 
-    void Execute(Verb verb, string[] command_args)
+
+    // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms User Delete 0, lms User Edit 3
+    public void Execute(Verb verb, string[] command_args)
     {
         switch (verb)
         {
@@ -190,7 +161,7 @@ public class UserManager : ICommand
         return db.Users.AsEnumerable();
     }
 
-    // Login User
+    // Login User (Currently only by ID)
     public User Login(string id)
     {
         int parsed_id;
@@ -199,7 +170,7 @@ public class UserManager : ICommand
             throw new ArgumentException("Invalid Id -- not an integer");
         }
         var result = db.Users.Find(parsed_id);
-        
+
         if (result == null)
         {
             throw new ArgumentException("Invalid Id -- WorkItem does not exist");
@@ -286,14 +257,56 @@ public class UserManager : ICommand
         return result;
     }
 
-    void ICommand.Execute(Verb verb)
+
+    // Active User Management
+
+    // Get Active User from File 
+    public User? FetchActiveUser(StreamReader sr)
     {
-        throw new NotImplementedException();
+        string userString = sr.ReadLine();
+
+        if (int.TryParse(userString, out int result))
+        {
+            Console.WriteLine("Invalid data in file");
+            return null;
+        }
+
+        return ParseUser(userString);
     }
 
-    void ICommand.Execute(Verb verb, string[] command_args)
+    // Update/Change Active User (Store Active User to the File)
+    public void UpdateActiveUser(User user)
     {
-        throw new NotImplementedException();
+        using (StreamWriter sw = new StreamWriter(ActiveUserFilePath, false))   // Overwrites the file
+        {
+            sw.WriteLine(ComposeUser(user));
+        }
+    }
+
+    // Compose User
+    public string ComposeUser(User user)
+    {
+        return $"{user.Id}";
+    }
+
+    // Parse User
+    public User? ParseUser(string userString)
+    {
+        var user_id = 0;
+
+        try
+        {
+            user_id = int.Parse(userString);
+            var result = db.Users.Find(user_id);
+
+            return result;
+        }
+        catch
+        {
+            Console.WriteLine("The input string 'foobar' was not in a correct format. Expected input: Integer");
+            return null;
+        }
+
+        
     }
 }
-

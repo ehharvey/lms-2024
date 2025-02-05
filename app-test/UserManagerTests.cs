@@ -67,8 +67,10 @@ public class TagTests: IDisposable
         sr_stream.Position = 0;
         var sr = new StreamReader(sr_stream);
 
+
         // Act
         manager.FetchActiveUser(sr); // Shouldn't crash
+        sr_stream.Dispose();
     }
 
     [Fact]
@@ -86,9 +88,77 @@ public class TagTests: IDisposable
 
         // Act
         var actual_user = manager.FetchActiveUser(sr);
-
+        sr.Dispose();
         // Assert
         Assert.Equal(expected_user, actual_user);
     }
+
+    // Delete Tests
+    [Fact]
+    public void TestDeleteUser()
+    {
+        // Arrange
+        var username = "Delete Me!";
+        var user = new Lms.Models.User { Username = username };
+        db.Users.Add(user);
+        db.SaveChanges();
+
+        // Act
+        var actual = manager.DeleteUser(user.Id.ToString());
+
+        // Assert
+        Assert.Equal(username, actual.Username);
+    }
+
+    [Fact]
+    public void TestDeleteStringId()
+    {
+        // Arrange
+        var username = "Delete Me!";
+        var user = new Lms.Models.User { Username = username };
+        db.Users.Add(user);
+        db.SaveChanges();
+
+        var exception = new ArgumentException("Invalid Id -- not an integer");
+
+        // Act
+        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser("invalid id"); });
+
+        // Assert
+        Assert.Equal(exception.Message, actual.Message);
+    }
+
+    [Fact]
+    public void TestDeleteNegativeId()
+    {
+        // Arrange
+        var username = "Delete Me!";
+        var user = new Lms.Models.User { Username = username };
+        db.Users.Add(user);
+        db.SaveChanges();
+
+        var exception = new ArgumentException("Invalid Id -- WorkItem does not exist");
+
+        // Act
+        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser("-1"); });
+
+        // Assert
+        Assert.Equal(exception.Message, actual.Message);
+    }
+
+    [Fact]
+    public void TestNoWorkItems()
+    {
+        // Arrange
+        var expected = new List<Lms.Models.User>();
+
+        // Act
+        var actual = manager.GetUsers().ToList();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+
 }
 
