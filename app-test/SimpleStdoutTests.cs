@@ -89,5 +89,56 @@ $@"| A | B | C |
             Assert.Equal(expected,actual);
 
         }
+
+        [Fact]
+        public void MultipleLongItemsTest()
+        {
+            // Arrange
+            var simpleStdout = new SimpleStdout();
+            var expected = 
+$@"| Abcdefg | B |
+| ------- | - |
+|       a | b |
+|       d | e |
+|       h | i |";
+            var foos = new List<FooWithLongPropertyNames> {
+                new FooWithLongPropertyNames {Abcdefg = "a", B = "b"},
+                new FooWithLongPropertyNames {Abcdefg = "d", B = "e"},
+                new FooWithLongPropertyNames {Abcdefg = "h", B = "i"}
+            };
+
+            // Act
+            var actual = simpleStdout.Stringify(foos);
+
+            // Assert
+            Assert.Equal(expected,actual);
+
+        }
+
+
+        [Fact]
+        public void MultipleLongItemsTestTwo()
+        {
+            // Arrange
+            var simpleStdout = new SimpleStdout();
+            var expected = 
+$@"| Abcdefg | B               |
+| ------- | --------------- |
+|       a | badhuwahduwhadu |
+|       d |               e |
+|       h |               i |";
+            var foos = new List<FooWithLongPropertyNames> {
+                new FooWithLongPropertyNames {Abcdefg = "a", B = "badhuwahduwhadu"},
+                new FooWithLongPropertyNames {Abcdefg = "d", B = "e"},
+                new FooWithLongPropertyNames {Abcdefg = "h", B = "i"}
+            };
+
+            // Act
+            var actual = simpleStdout.Stringify(foos);
+
+            // Assert
+            Assert.Equal(expected,actual);
+
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Reflection;
 namespace Lms.Views {
     public class SimpleStdout : IView
     {
+        // Stringify a single object, suitable for stdout
         public string Stringify(object o)
         {
             var objectName = o.GetType().Name;
@@ -13,6 +14,8 @@ namespace Lms.Views {
             
             // The wonky (lack of) tabbing is because we want to return a 
             // multiline string that has no extra spaces!
+            //
+            // Format: see tests
             return 
 $@"#### {objectName} ####
 {string.Join("\n", properties.Select(
@@ -21,6 +24,8 @@ $@"#### {objectName} ####
 {"".PadLeft(objectName.Length + 10, '#')}";
 }
 
+        // Stringifys multiple objects in a table-like view
+        // Possibly compliant with markdown :p
         public string Stringify<T>(IEnumerable<T> objs)
         {
             // Assert that all objects are of same type
@@ -44,17 +49,18 @@ $@"#### {objectName} ####
                     return p.GetValue(o)?.ToString()?.Length ?? 0;
                 })?.Append(p.Name.Length)?.Max() ?? 1
             );
-            var header = $"| {string.Join(" | ", properties.Select((p) => p.Name.PadLeft(propertyPaddings[p.Name])))} |";
-            var headerSeperator = $"| {string.Join(" | ", properties.Select(_ => "-".PadLeft(propertyPaddings[_.Name])))} |";
+            var header = $"| {string.Join(" | ", properties.Select((p) => p.Name.PadRight(propertyPaddings[p.Name])))} |";
+            var headerSeperator = $"| {string.Join(" | ", properties.Select(_ => "-".PadRight(propertyPaddings[_.Name], '-')))} |";
 
             // The wonky (lack of) tabbing is because we want to return a 
             // multiline string that has no extra spaces!
+            // Format: see tests
             return 
 $@"{header}
 {headerSeperator}
 | {string.Join(" |\n| ", objs.Select(
     (o) => string.Join(" | ", properties.Select(
-        (p) => p.GetValue(o)?.ToString()?.PadRight(propertyPaddings[p.Name])
+        (p) => p.GetValue(o)?.ToString()?.PadLeft(propertyPaddings[p.Name])
         ))
 ))} |";
         }
