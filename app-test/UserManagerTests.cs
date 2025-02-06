@@ -65,12 +65,15 @@ public class TagTests: IDisposable
         sr_writer.Write("foobar");
         sr_writer.Flush();
         sr_stream.Position = 0;
-        var sr = new StreamReader(sr_stream);
+        // var sr = new StreamReader(sr_stream);
 
+        using(StreamReader sr = new StreamReader(sr_stream))
+        {
+            // Act
+            var user = manager.FetchActiveUser(sr); // Shouldn't crash
+        }
 
-        // Act
-        manager.FetchActiveUser(sr); // Shouldn't crash
-        sr_stream.Dispose();
+        
     }
 
     [Fact]
@@ -88,7 +91,6 @@ public class TagTests: IDisposable
 
         // Act
         var actual_user = manager.FetchActiveUser(sr);
-        sr.Dispose();
         // Assert
         Assert.Equal(expected_user, actual_user);
     }
@@ -147,7 +149,7 @@ public class TagTests: IDisposable
     }
 
     [Fact]
-    public void TestNoWorkItems()
+    public void TestNoUsers()
     {
         // Arrange
         var expected = new List<Lms.Models.User>();
@@ -158,6 +160,94 @@ public class TagTests: IDisposable
         // Assert
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void TestOneUser()
+    {
+        // Arrange
+        var expected = new Lms.Models.User { Username = "TestOneUser" };
+
+        // Act
+        db.Users.Add(expected);
+        db.SaveChanges();
+        var actual = manager.GetUsers().ToList();
+
+        // Assert
+        Assert.Equal(1, actual.Count());
+        Assert.Equal(expected, actual.First());
+    }
+
+    [Fact]
+    public void TestTwoUsers()
+    {
+        // Arrange
+        var expected_one = new Lms.Models.User { Username = "TestTwoUserOne" };
+        var expected_two = new Lms.Models.User { Username = "TestTwoUserTwo" };
+
+
+        // Act
+        db.Users.Add(expected_one);
+        db.Users.Add(expected_two);
+        db.SaveChanges();
+        var actual = manager.GetUsers().ToList();
+
+        // Assert
+        Assert.Equal(2, actual.Count());
+        Assert.Equal(expected_one, actual.First());
+        Assert.Equal(expected_two, actual.Skip(1).First());
+    }
+
+    [Fact]
+    public void TestEditUser()
+    {
+        // Arrange
+        var edit = new Lms.Models.User { Username = "User" };
+        db.Users.Add(edit);
+        db.SaveChanges();
+
+        var expected_username = "edited_Username";
+
+        // Act
+        var actual = manager.EditUser(edit.Id.ToString(), "Username", expected_username);
+
+        // Assert
+        Assert.Equal(expected_username, actual.Username);
+    }
+
+    [Fact]
+    public void TestEditUserStringId()
+    {
+        // Arrange
+        var item = new Lms.Models.User { Username = "User" };
+        db.Users.Add(item);
+        db.SaveChanges();
+
+        var expected = new ArgumentException("Invalid Id -- not an integer");
+
+        // Act
+        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser("asd", "Title", "new title"); });
+
+        // Assert
+        Assert.Equal(expected.Message, actual.Message);
+    }
+
+    [Fact]
+    public void TestEditWorkItemNegatiVeId()
+    {
+        // Arrange
+        var item = new Lms.Models.User { Username = "User" };
+        db.Users.Add(item);
+        db.SaveChanges();
+
+        var expected = new ArgumentException("Invalid Id -- WorkItem does not exist");
+
+        // Act
+        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser("-1", "Title", "new title"); });
+
+        // Assert
+        Assert.Equal(expected.Message, actual.Message);
+    }
+
 
 
 }

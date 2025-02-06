@@ -265,7 +265,7 @@ class UserManager : ICommand {
     {
         string userString = sr.ReadLine();
 
-        if (int.TryParse(userString, out int result))
+        if (!int.TryParse(userString, out int result))
         {
             Console.WriteLine("Invalid data in file");
             return null;
@@ -292,21 +292,15 @@ class UserManager : ICommand {
     // Parse User
     public User? ParseUser(string userString)
     {
-        var user_id = 0;
+        var user_id = -1;
 
-        try
-        {
-            user_id = int.Parse(userString);
-            var result = db.Users.Find(user_id);
-
-            return result;
-        }
-        catch
+        if(!int.TryParse(userString, out user_id))
         {
             Console.WriteLine("The input string 'foobar' was not in a correct format. Expected input: Integer");
             return null;
         }
 
-        
+        var result = db.Users.Find(user_id);
+        return result;
     }
 }
