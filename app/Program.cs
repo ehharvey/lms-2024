@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Lms;
+using Lms.Controllers;
 
 [ExcludeFromCodeCoverage]
 partial class Program

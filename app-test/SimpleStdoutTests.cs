@@ -1,5 +1,5 @@
 using Lms.Views;
-
+using Lms.Controllers;
 namespace SimpleStdoutTests
 {
     public class SimpleStdoutTests
@@ -23,11 +23,11 @@ namespace SimpleStdoutTests
             // Arrange
             var simpleStdout = new SimpleStdout();
             var expected = 
-$@"#### Foo ####
+$@"---- Foo ----
 A: b
 B: c
 C: d
-#############";
+-------------";
             var obj = new Foo {
                 A = "b",
                 B = "c",
@@ -48,10 +48,10 @@ C: d
             // Arrange
             var simpleStdout = new SimpleStdout();
             var expected = 
-$@"#### FooWithLongPropertyNames ####
+$@"---- FooWithLongPropertyNames ----
 Abcdefg: hello
       B: haha
-##################################";
+----------------------------------";
             var obj = new FooWithLongPropertyNames {
                 Abcdefg = "hello",
                 B = "haha"
