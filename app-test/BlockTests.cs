@@ -1,5 +1,6 @@
 using Lms;
 using Lms.Models;
+using Lms.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace block_test;

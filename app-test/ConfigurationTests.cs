@@ -1,5 +1,5 @@
 namespace configuration_tests;
-
+using Lms.Controllers;
 using Lms;
 
 public class ConfigurationTests {

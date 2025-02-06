@@ -1,5 +1,5 @@
 namespace credit_tests;
-
+using Lms.Controllers;
 public class CreditTests
 {
     Credit credits = new Credit();
