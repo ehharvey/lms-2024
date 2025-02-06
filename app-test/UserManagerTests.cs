@@ -248,7 +248,23 @@ public class TagTests: IDisposable
         Assert.Equal(expected.Message, actual.Message);
     }
 
+    [Fact]
+    public void TestEditUserInvalidField()
+    {
+        // Arrange
+        var item = new Lms.Models.User { Username = "User" };
+        db.Users.Add(item);
+        db.SaveChanges();
 
+        var expected = new ArgumentException("Invalid field");
 
+        // Act
+        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser(item.Id.ToString(), "invalid field", "new username"); });
+
+        // Assert
+        Assert.Equal(expected.Message, actual.Message);
+    }
+
+    
 }
 
