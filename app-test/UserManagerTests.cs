@@ -1,6 +1,7 @@
 using EntityFramework.Exceptions.Common;
 using Lms;
 using Lms.Models;
+using Lms.Controllers;
 
 namespace user_manager_tests;
 
