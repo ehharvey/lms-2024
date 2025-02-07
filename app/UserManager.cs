@@ -296,7 +296,7 @@ class UserManager : ICommand {
 
         if(!int.TryParse(userString, out user_id))
         {
-            Console.WriteLine("The input string 'foobar' was not in a correct format. Expected input: Integer");
+            Console.WriteLine($"The input string {userString} was not in a correct format. Expected input: Integer");
             return null;
         }
 
