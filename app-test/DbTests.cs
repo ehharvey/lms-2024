@@ -2,7 +2,7 @@ using Lms;
 using Lms.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
+using Lms.Controllers;
 namespace db_tests;
 
 public class DbTests

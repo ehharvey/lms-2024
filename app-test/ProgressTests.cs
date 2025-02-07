@@ -1,6 +1,6 @@
 using Lms;
 using Microsoft.EntityFrameworkCore;
-
+using Lms.Controllers;
 namespace progress_tests;
 
 public class ProgressTests: IDisposable
