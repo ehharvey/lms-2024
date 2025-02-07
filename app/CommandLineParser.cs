@@ -10,6 +10,7 @@ enum Noun
     Block, // Represents the "block" noun.
     Progress, // Represents Progerss item
     Tag,
+    User,     // Represents the "user" noun.
     Invalid // Represents an invalid noun.
 }
 
@@ -25,7 +26,8 @@ enum Verb
     Create, // Represents the "Create" verb. This should create a new data item of the Noun.
     Edit, // Represents the "Edit" verb. This should edit the existing data item of the Noun.
     Delete, // Represents the "Delete" verb. This should delete the existing data item of the Noun.
-    Invalid // Represents an invalid verb.
+    Login, // Represents the "Login" verb. This should login the user.
+    Invalid, // Represents an invalid verb.
 
 }
 
@@ -75,7 +77,8 @@ class CommandLineParser : ICommandLineParser
         { Noun.WorkItem, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Block, new HashSet<Verb> { Verb.List, Verb.Create, Verb.Edit, Verb.Delete } },
         { Noun.Progress, new HashSet<Verb> { Verb.Edit, Verb.Delete} },
-        { Noun.Tag, new HashSet<Verb> { Verb.Create, Verb.List, Verb.Delete }}
+        { Noun.Tag, new HashSet<Verb> { Verb.Create, Verb.List, Verb.Delete }},
+        { Noun.User, new HashSet<Verb> { Verb.List, Verb.Edit, Verb.Create, Verb.Delete, Verb.Login } }
         // Add more Nuons and Verbs here to support more commands.
     };
 

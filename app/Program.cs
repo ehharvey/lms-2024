@@ -66,6 +66,10 @@ partial class Program
                 Tag tag = new Tag(dbContext);
                 tag.Execute(verb, commandArgs);
                 return 200;
+            case Noun.User:
+                var userManager = new UserManager(dbContext);
+                userManager.Execute(verb, commandArgs);
+                return 200;
             default:
                 Console.WriteLine(
                     $"""
