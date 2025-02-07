@@ -70,7 +70,7 @@ partial class Program
                 var userManager = new UserManager(dbContext);
                 userManager.Execute(verb, commandArgs);
                 return 200;
-    default:
+            default:
                 Console.WriteLine(
                     $"""
                     Invalid noun.
