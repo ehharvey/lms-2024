@@ -13,6 +13,10 @@ namespace Lms {
         // Causes the program to print its own configuration on startup
         public bool PrintConfiguration {get; init;} = false;
 
+        // EnabledControllers define which controllers are enabled
+        // and usable
+        public readonly string[] EnabledControllers {get; init;} = [];
+
         // Add more config parameters here. For example, add
         // DB credentials
         // URLs (to external dependencies like DBs, APIs, etc.)

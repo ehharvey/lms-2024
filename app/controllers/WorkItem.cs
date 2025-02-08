@@ -2,7 +2,7 @@ using Lms.Models;
 using Lms;
 namespace Lms.Controllers
 {
-    class WorkItem : ICommand
+    class WorkItem : IController
     {
 
         public enum Field

@@ -4,7 +4,7 @@ using EntityFramework.Exceptions.Common;
 
 namespace Lms.Controllers
 {
-    class Tag : ICommand
+    class Tag : IController
     {
         private LmsDbContext db;
 

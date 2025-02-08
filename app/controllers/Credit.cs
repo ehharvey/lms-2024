@@ -7,7 +7,8 @@ using Lms;
 
 namespace Lms.Controllers
 {
-    class Credit : ICommand
+    [Cli.Controller]
+    class Credit : IController
     {
         private LmsDbContext? db;
 

@@ -10,40 +10,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Lms.Controllers
 {
-    class Blockers : ICommand {
+    [Cli.Controller]
+    class Blockers {
         private LmsDbContext? db;
 
         public Blockers(LmsDbContext db) {
             this.db = db;
-        }
-
-        public string GetHelp() {
-            return $"""
-            Blockers
-
-            Description:
-            The blockers for assignments.
-            Verbs:
-            - list: {GetHelp(Verb.List)}
-            - create: {GetHelp(Verb.Create)}
-            - edit: {GetHelp(Verb.Edit)}
-            - delete: {GetHelp(Verb.Delete)}
-            """;
-        }
-
-        public string GetHelp(Verb verb) {
-            switch (verb) {
-                case Verb.List:
-                    return "Lists the blockers for assignments.";
-                case Verb.Create:
-                    return "Create a new blocker for a assignment.";
-                case Verb.Edit:
-                    return "Edit the existing blocker for the assignment.";
-                case Verb.Delete:
-                    return "Delete the existing blocker for the assignment.";
-                default:
-                    throw new ArgumentException("Invalid verb.");
-            }
         }
 
         public void Execute(Verb verb, string[] args) {
@@ -83,6 +55,7 @@ namespace Lms.Controllers
             }
         }
 
+        [Cli.Command]
         public Block Create(string[] args) {
             // when user enter invalid command just throw excpetion
             if(args.Length == 1 || args.Length > 2) {
@@ -127,6 +100,7 @@ namespace Lms.Controllers
             return workItems;
         }
 
+        [Cli.Command]
         public Block Edit(string[] args) {
             // when user enter invalid command just throw excpetion
             if(args.Length != 3) {
@@ -162,6 +136,7 @@ namespace Lms.Controllers
             return existBlock;
         }
 
+        [Cli.Command]
         public Block Delete(string[] args) {
             // when user enter invalid command just throw excpetion
             Console.WriteLine(args.Length);

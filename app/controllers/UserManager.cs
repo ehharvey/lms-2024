@@ -3,7 +3,7 @@ using Lms;
 
 namespace Lms.Controllers
 {
-    class UserManager : ICommand
+    class UserManager : IController
     {
 
         // Fields for fetching parameters from CLI args

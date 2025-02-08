@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Lms.Controllers
 {
 
-    class Progress : ICommand
+    [Cli.Controller]
+    class Progress : IController
     {
 
 
