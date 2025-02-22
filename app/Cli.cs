@@ -8,11 +8,6 @@ namespace Lms.Cli
     public class Controller : Attribute
     { }
 
-    public class Parameter : Attribute
-    {
-        public int Order { get; init; } = 0;
-    }
-
     public class Verb : Attribute
     { }
 

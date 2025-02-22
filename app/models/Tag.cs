@@ -8,7 +8,6 @@ public class Tag {
     // TODO: code standards doc
     public int Id;
 
-    [Cli.Parameter]
     public required string Name;
 
     public List<Lms.Models.Block> Blocks = new List<Lms.Models.Block>();
