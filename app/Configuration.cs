@@ -42,7 +42,18 @@ namespace Lms {
 
             var propertyType = GetPropertyType(property);
 
-            var convertResult = Convert.ChangeType(configPropertyValueString, propertyType);
+            object configPropertyValueObject;
+
+            if (propertyType == typeof(string[]))
+            {
+                configPropertyValueObject = configPropertyValueString.Split("\n");
+            }
+            else
+            {
+                configPropertyValueObject = configPropertyValueString;
+            }
+
+            var convertResult = Convert.ChangeType(configPropertyValueObject, propertyType);
             return (T)convertResult;
         }
 

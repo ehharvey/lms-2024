@@ -7,29 +7,29 @@ public class CreditTests
     [Fact]
     public void TestGetCreditsType()
     {
-        Assert.True(typeof(string[]) == credits.GetCredits().GetType());
+        Assert.True(typeof(List<object>) == credits.List().GetType());
     }
 
     [Fact]
     public void TestGetCreditsLength()
     {
-        Assert.Equal(12, credits.GetCredits().Length);
+        Assert.Equal(12, credits.List().Count());
     }
 
     [Fact]
     public void TestGetCreditsContent()
     {
-        Assert.Equal("Emil Harvey", credits.GetCredits()[0]);
-        Assert.Equal("Parth Gajjar", credits.GetCredits()[1]);
-        Assert.Equal("Boa Im", credits.GetCredits()[2]);
-        Assert.Equal("Nimeshkumar Chaudhari", credits.GetCredits()[3]);
-        Assert.Equal("Daphne Duong", credits.GetCredits()[4]);
-        Assert.Equal("Shaik Mathar Syed", credits.GetCredits()[5]);
-        Assert.Equal("Bharat Chauhan", credits.GetCredits()[6]);
-        Assert.Equal("Prabhdeep Singh", credits.GetCredits()[7]);
-        Assert.Equal("Tao Boyce", credits.GetCredits()[8]);
-        Assert.Equal("Zumhliansang Lung Ler", credits.GetCredits()[9]);
-        Assert.Equal("Daeseong Yu", credits.GetCredits()[10]);
-        Assert.Equal("Tian Yang", credits.GetCredits()[11]);
+        Assert.Equivalent(new { Name = "Emil Harvey" }, credits.List()[0]);
+        Assert.Equivalent(new { Name = "Parth Gajjar" }, credits.List()[1]);
+        Assert.Equivalent(new { Name = "Boa Im"}, credits.List()[2]);
+        Assert.Equivalent(new { Name = "Nimeshkumar Chaudhari" }, credits.List()[3]);
+        Assert.Equivalent(new { Name = "Daphne Duong" }, credits.List()[4]);
+        Assert.Equivalent(new { Name = "Shaik Mathar Syed" }, credits.List()[5]);
+        Assert.Equivalent(new { Name = "Bharat Chauhan" }, credits.List()[6]);
+        Assert.Equivalent(new { Name = "Prabhdeep Singh" }, credits.List()[7]);
+        Assert.Equivalent(new { Name = "Tao Boyce" }, credits.List()[8]);
+        Assert.Equivalent(new { Name = "Zumhliansang Lung Ler" }, credits.List()[9]);
+        Assert.Equivalent(new { Name = "Daeseong Yu" }, credits.List()[10]);
+        Assert.Equivalent(new { Name = "Tian Yang" }, credits.List()[11]);
     }
 }

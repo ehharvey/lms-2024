@@ -3,7 +3,8 @@ using Lms;
 
 namespace Lms.Controllers
 {
-    class UserManager : IController
+    [Cli.Controller]
+    class UserManager
     {
 
         // Fields for fetching parameters from CLI args
@@ -24,151 +25,21 @@ namespace Lms.Controllers
         }
 
 
-        // ICommand Functionalities
-
-
-        // Command Documentation for CLI Application
-
-        // Main Command Documentation
-        public string GetHelp()
-        {
-            return $"""
-        User
-
-        Description:
-        Represents the User. A User is a person who uses the program.
-
-        Verbs:
-        - list: {GetHelp(Verb.List)}
-        - edit: {GetHelp(Verb.Edit)}
-        - create: {GetHelp(Verb.Create)}
-        - delete: {GetHelp(Verb.Delete)}
-        - login: {GetHelp(Verb.Login)}
-        """;
-        }
-
-        // Individual Commands with their Description
-
-        public string GetHelp(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.Create:
-                    return "Create a new User";
-                case Verb.Edit:
-                    return "Edit an existing User";
-                case Verb.List:
-                    return "List the Users recorded previously.";
-                case Verb.Delete:
-                    return "Delete an User";
-                case Verb.Login:
-                    return "Login as an User";
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-
-        // Execute Function without additional Arguments (Ex. List) -> lms User List
-        public void Execute(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    var users = GetUsers();
-                    Console.WriteLine("------------------------------");
-                    Console.WriteLine("| id | Username         |");
-                    users.ToList().ForEach(
-                        (u) =>
-                        {
-                            Console.WriteLine($"| w{u.Id} | {u.Username} |");
-                        }
-                    );
-                    Console.WriteLine("------------------------------");
-                    break;
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-
-        // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms User Delete 0, lms User Edit 3
-        public void Execute(Verb verb, string[] command_args)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    Execute(verb);
-                    break;
-                case Verb.Delete:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Delete requires an ID!");
-                    }
-
-                    var delete_result = DeleteUser(command_args[0]);
-
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {delete_result.Id}");
-                    Console.WriteLine($"Title: {delete_result.Username}");
-                    Console.WriteLine("----------------");
-                    break;
-                case Verb.Edit:
-                    if (command_args.Count() < 3)
-                    {
-                        throw new ArgumentException("3 arguments: Id, Field, and Value!");
-                    }
-
-                    var edit_result = EditUser(command_args[0], command_args[1], command_args[2]);
-
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine($"Id: {edit_result.Id}");
-                    Console.WriteLine($"Title: {edit_result.Username}");
-                    Console.WriteLine("------------------------");
-
-                    break;
-                case Verb.Create:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Create requires at least a Title Arg");
-                    }
-
-                    string username = command_args[0];
-
-                    var create_result = CreateUser(username);
-
-                    Console.WriteLine("----------------------");
-                    Console.WriteLine($"Id: {create_result.Id}");
-                    Console.WriteLine($"Title: {create_result.Username}");
-                    Console.WriteLine("------------------------");
-                    break;
-                case Verb.Login:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Login requires an ID!");
-                    }
-                    var login_result = Login(command_args[0]);
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {login_result.Id}");
-                    Console.WriteLine($"Title: {login_result.Username}");
-                    Console.WriteLine("----------------");
-                    break;
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-        // Functionalities (Create, Edit, Delete, Login, List)
-
         // Get All Users
-        public IEnumerable<Lms.Models.User> GetUsers()
+        [Cli.Verb]
+        public List<Lms.Models.User> List()
         {
-            return db.Users.AsEnumerable();
+            return db.Users.ToList();
         }
 
-        // Login User (Currently only by ID)
-        public User Login(string id)
+        [Cli.Verb]
+        public User Login(string[] args)
         {
+            if (args.Count() < 1)
+            {
+                throw new ArgumentException("Id not passed");
+            }
+            string id = args[0];
             int parsed_id;
             if (!int.TryParse(id, out parsed_id))
             {
@@ -186,9 +57,15 @@ namespace Lms.Controllers
             return result;
         }
 
-        // Create User
-        public User CreateUser(string username)
+
+        [Cli.Verb]
+        public User Create(string[] args)
         {
+            if (args.Count() < 1)
+            {
+                throw new ArgumentException("Username not passed");
+            }
+            string username = args[0];
             var user = new User { Username = username };
 
             db.Users.Add(user);
@@ -197,9 +74,17 @@ namespace Lms.Controllers
             return user;
         }
 
-        // Edit User
-        public User EditUser(string id, string field, string value)
+        
+        [Cli.Verb]
+        public User Edit(string[] args)
         {
+            if (args.Count() < 3)
+            {
+                throw new ArgumentException("3 arguments required: id, field to modify, and new value");
+            }
+            string id = args[0];
+            string field = args[1];
+            string value = args[2];
             int parsed_id = -1;
 
             try
@@ -240,9 +125,15 @@ namespace Lms.Controllers
             return result;
         }
 
-        // Delete User
-        public User DeleteUser(string id)
+        
+        [Cli.Verb]
+        public User DeleteUser(string[] args)
         {
+            if (args.Count() < 1)
+            {
+                throw new ArgumentException("Id not passed");
+            }
+            string id = args[0];
             int parsed_id;
             if (!int.TryParse(id, out parsed_id))
             {
@@ -263,9 +154,6 @@ namespace Lms.Controllers
         }
 
 
-        // Active User Management
-
-        // Get Active User from File 
         public User? FetchActiveUser(StreamReader sr)
         {
             string userString = sr.ReadLine();

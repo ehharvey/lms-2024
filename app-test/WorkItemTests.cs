@@ -24,7 +24,7 @@ public class WorkItemTests: IDisposable
         db.SaveChanges();
 
         // Act
-        var actual = work_item.Delete(item.Id.ToString());
+        var actual = work_item.Delete([item.Id.ToString()]);
 
         // Assert
         Assert.Equal(title, actual.Title);
@@ -41,7 +41,7 @@ public class WorkItemTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Delete("invalid id"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Delete(["invalid id"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -58,7 +58,7 @@ public class WorkItemTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- WorkItem does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Delete("-1"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Delete(["-1"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -71,7 +71,7 @@ public class WorkItemTests: IDisposable
         var expected = new List<Lms.Models.WorkItem>();
 
         // Act
-        var actual = work_item.GetWorkItems().ToList();
+        var actual = work_item.List().ToList();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -86,7 +86,7 @@ public class WorkItemTests: IDisposable
         // Act
         db.WorkItems.Add(expected);
         db.SaveChanges();
-        var actual = work_item.GetWorkItems().ToList();
+        var actual = work_item.List().ToList();
 
         // Assert
         Assert.Equal(1, actual.Count());
@@ -105,7 +105,7 @@ public class WorkItemTests: IDisposable
         db.WorkItems.Add(expected_one);
         db.WorkItems.Add(expected_two);
         db.SaveChanges();
-        var actual = work_item.GetWorkItems().ToList();
+        var actual = work_item.List().ToList();
 
         // Assert
         Assert.Equal(2, actual.Count());
@@ -121,7 +121,7 @@ public class WorkItemTests: IDisposable
         string? due_at = null;
 
         // Act
-        var actual = work_item.Create(title, due_at);
+        var actual = work_item.Create([title, due_at]);
 
         // Assert
         Assert.Equal(title, actual.Title);
@@ -136,7 +136,7 @@ public class WorkItemTests: IDisposable
         DateTime expected_parsed_due_at = DateTime.Parse(due_at);
 
         // Act
-        var actual = work_item.Create(title, due_at);
+        var actual = work_item.Create([title, due_at]);
 
         // Assert
         Assert.Equal(title, actual.Title);
@@ -151,7 +151,7 @@ public class WorkItemTests: IDisposable
         string due_at = "invaliddate";
 
         // Act
-        Assert.Throws<FormatException>(() => { work_item.Create(title, due_at ); });
+        Assert.Throws<FormatException>(() => { work_item.Create([title, due_at]); });
     }
 
     [Fact]
@@ -164,7 +164,7 @@ public class WorkItemTests: IDisposable
         var expected_title = "edited_title";
 
         // Act
-        var actual = work_item.Edit(edit.Id.ToString(), "Title", expected_title);
+        var actual = work_item.Edit([edit.Id.ToString(), "Title", expected_title]);
 
         // Assert
         Assert.Equal(expected_title, actual.Title);
@@ -180,7 +180,7 @@ public class WorkItemTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit("asd", "Title", "new title"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit(["asd", "Title", "new title"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -196,7 +196,7 @@ public class WorkItemTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- WorkItem does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit("-1", "Title", "new title"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit(["-1", "Title", "new title"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -212,7 +212,7 @@ public class WorkItemTests: IDisposable
         var expected = new ArgumentException("Invalid field");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit(item.Id.ToString(), "invalid field", "new title"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit([item.Id.ToString(), "invalid field", "new title"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -228,7 +228,7 @@ public class WorkItemTests: IDisposable
         var expected = new ArgumentException("Invalid DueAt value provided");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit(item.Id.ToString(), "DueAt", "Invalid Date"); });
+        var actual = Assert.Throws<ArgumentException>(() => { work_item.Edit([item.Id.ToString(), "DueAt", "Invalid Date"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -245,7 +245,7 @@ public class WorkItemTests: IDisposable
         var expected_date = DateTime.Parse(date);
 
         // Act
-        var actual = work_item.Edit(item.Id.ToString(), "DueAt", date);
+        var actual = work_item.Edit([item.Id.ToString(), "DueAt", date]);
 
         // Assert
         Assert.Equal(expected_date, actual.DueAt);
@@ -262,7 +262,7 @@ public class WorkItemTests: IDisposable
         var expected_date = DateTime.Parse(date);
 
         // Act
-        var actual = work_item.Edit(item.Id.ToString(), "DueAt", date);
+        var actual = work_item.Edit([item.Id.ToString(), "DueAt", date]);
 
         // Assert
         Assert.Equal(expected_date, actual.DueAt);

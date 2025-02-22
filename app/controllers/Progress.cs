@@ -6,10 +6,8 @@ namespace Lms.Controllers
 {
 
     [Cli.Controller]
-    class Progress : IController
+    class Progress
     {
-
-
         public enum Field
         {
             Description,
@@ -25,104 +23,23 @@ namespace Lms.Controllers
             this.db = db;
         }
 
-
-        // Command Documentation for CLI Application
-
-        // Main Command Documentation
-        public string GetHelp()
+        [Cli.Verb]
+        public List<Lms.Models.Progress> List()
         {
-            return $"""
-        Progress 
-
-        Description:
-        Tracks Progress of Work Items for the program.
-
-        Verbs:
-        - edit: {GetHelp(Verb.Edit)}
-        - delete: {GetHelp(Verb.Delete)}
-        """;
+            return db.Progresses.ToList();
         }
 
-        // Individual Commands with their Description
-        public string GetHelp(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.Edit:
-                    return "Edit an existing Progress";
-                case Verb.Delete:
-                    return "Delete an exising Progress";
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-        public IEnumerable<Lms.Models.Progress> GetProgresses()
-        {
-            return db.Progresses.AsEnumerable();
-        }
-
-
-        // Execute Function without additional Arguments
-        public void Execute(Verb verb)
-        {
-            switch (verb)
-            {
-
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-
-
-        // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms Progress Delete 0, lms Progress Edit 3
-        public void Execute(Verb verb, string[] command_args)
-        {
-            switch (verb)
-            {
-
-                case Verb.Delete:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Delete requires an ID!");
-                    }
-
-                    var delete_result = Delete(command_args[0]);
-
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {delete_result.Id}");
-                    Console.WriteLine($"Description: {delete_result.Description}");
-                    Console.WriteLine($"WorkItem: {delete_result.WorkItem.Id}");
-                    Console.WriteLine($"CreatedAt: {delete_result.CreatedAt}");
-                    Console.WriteLine("----------------");
-                    break;
-                case Verb.Edit:
-                    if (command_args.Count() < 3)
-                    {
-                        throw new ArgumentException("3 arguments: Id, Field, and Value!");
-                    }
-
-                    var edit_result = Edit(command_args[0], command_args[1], command_args[2]);
-
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {edit_result.Id}");
-                    Console.WriteLine($"Description: {edit_result.Description}");
-                    Console.WriteLine($"WorkItem: {edit_result.WorkItem.Id}");
-                    Console.WriteLine($"CreatedAt: {edit_result.CreatedAt}");
-                    Console.WriteLine("----------------");
-
-                    break;
-
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-        // Edit Progress
-        public Lms.Models.Progress Edit(string id, string field, string value)
+        [Cli.Verb]
+        public Models.Progress Edit(string[] args)
         {
             int parsed_id = -1;
+            if (args.Count() < 3)
+            {
+                throw new ArgumentException("3 arguments: Id, Field, and Value!");
+            }
+            string id = args[0];
+            string field = args[1];
+            string value = args[2];
 
             try
             {
@@ -180,10 +97,16 @@ namespace Lms.Controllers
             return result;
         }
 
-        // Delete Progress by Id
-        // TODO: move the parsing logic outside (maybe in CommandLineParser)
-        public Lms.Models.Progress Delete(string id)
+
+        [Cli.Verb]
+        public Models.Progress Delete(string[] args)
         {
+            if (args.Length < 1)
+            {
+                throw new ArgumentException("Id required");
+            }
+
+            string id = args[0];
             int parsed_id;
             if (!int.TryParse(id, out parsed_id))
             {

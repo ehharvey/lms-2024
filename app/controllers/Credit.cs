@@ -8,7 +8,7 @@ using Lms;
 namespace Lms.Controllers
 {
     [Cli.Controller]
-    class Credit : IController
+    class Credit
     {
         private LmsDbContext? db;
 
@@ -20,30 +20,6 @@ namespace Lms.Controllers
         public Credit(LmsDbContext db)
         {
             this.db = db;
-        }
-
-        public string GetHelp()
-        {
-            return $"""
-        Credits
-
-        Description:
-        The credits for the program.
-
-        Verbs:
-        - list: {GetHelp(Verb.List)}
-        """;
-        }
-
-        public string GetHelp(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    return "Lists the credits for the program.";
-                default:
-                    throw new ArgumentException("Invalid verb.");
-            }
         }
 
         private String EhharveyCredits()
@@ -96,49 +72,34 @@ namespace Lms.Controllers
         {
             return "Tian Yang";
         }
-        public String[] GetCredits()
+
+        [Cli.Verb]
+        public List<object> List()
         {
-            return new string[] {
-            EhharveyCredits(),
-            GhostCredits(),
-            BoaCredits(),
-            NimeshCredits(),
-            DaphneCredits(),
-            SyedCredits(),
-            BharatCredits(),
-            PrabhdeepSinghCredits(),
-            TaoBoyceCredits(),
-            ZumhliansangLungLerCredits(),
-            DaeseongCredits(),
-            TianYangCredits()
-        };
+            return new List<object> {
+                new { Name = EhharveyCredits() },
+                new { Name = GhostCredits() },
+                new { Name = BoaCredits() },
+                new { Name = NimeshCredits() },
+                new { Name = DaphneCredits() },
+                new { Name = SyedCredits() },
+                new { Name = BharatCredits() },
+                new { Name = PrabhdeepSinghCredits() },
+                new { Name = TaoBoyceCredits() },
+                new { Name = ZumhliansangLungLerCredits() },
+                new { Name = DaeseongCredits() },
+                new { Name = TianYangCredits() }
+            };
         }
 
         public void DisplayCredits()
         {
             Console.WriteLine("Credits");
             Console.WriteLine("-------");
-            foreach (string credit in GetCredits())
+            foreach (string credit in List())
             {
                 Console.WriteLine(credit);
             }
-        }
-
-        public void Execute(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    DisplayCredits();
-                    break;
-                default:
-                    throw new ArgumentException("Invalid verb.");
-            }
-        }
-
-        public void Execute(Verb verb, string[] command_args)
-        {
-            Execute(verb);
         }
     }
 }

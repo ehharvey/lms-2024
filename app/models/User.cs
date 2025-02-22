@@ -14,6 +14,7 @@ namespace Lms.Models
         // Fields
         public int Id { get; set; }
 
+        [Cli.Parameter]
         public required string Username { get; set; }
     }
 }

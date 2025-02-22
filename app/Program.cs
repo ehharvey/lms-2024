@@ -5,81 +5,27 @@ using Lms.Controllers;
 [ExcludeFromCodeCoverage]
 partial class Program
 {
-    public static int Main(String[] args)
+    public static int Main(string[] args)
     {
-        if (Global.config.PrintConfiguration)
-        {
-            Console.WriteLine("################ CONFIGURATION #############");
-            Global.config.GetType().GetProperties().ToList().ForEach((p) =>
-            {
-                var propertyName = p.Name;
-                var propertyValue = p.GetValue(Global.config);
-                Console.WriteLine($"{propertyName}: {propertyValue}");
-            });
-            Console.WriteLine("############################################");
-        }
+        var view = new Lms.Views.SimpleStdout();
 
+        var dbContext = new LmsDbContext();
+        
+        var cli = new Lms.Cli.Router(view, dbContext);
 
         CommandLineParser parser = new CommandLineParser();
 
         ((Noun noun, Verb verb), string[] commandArgs) = parser.ParseWithArgs(args);
 
-        if (noun == Noun.Invalid)
+        if (Global.config.PrintConfiguration)
         {
-            Console.WriteLine("Invalid noun.");
-            return 400; // 400 Bad Request
+            Console.WriteLine("################ CONFIGURATION #############");
+            Console.WriteLine(view.Stringify(Global.config));
+            Console.WriteLine("############################################");
         }
 
-        if (verb == Verb.Invalid)
-        {
-            Console.WriteLine($"""
-            Invalid verb for {noun}.
-            """);
-            return 400;
-        }
+        cli.Execute(noun.ToString(), verb.ToString(), commandArgs);
 
-        // Initialize DBContext
-        var dbContext = new LmsDbContext();
-
-        switch (noun)
-        {
-            case Noun.Invalid:
-                Console.WriteLine("Invalid noun.");
-                return 400; // 400 Bad Request
-            case Noun.Credit:
-                Credit credits = new Credit(dbContext); // initialize here to avoid unnecessary instantiation
-                credits.Execute(verb);
-                return 200;
-            case Noun.Block:
-                Blockers blockers = new Blockers(dbContext);
-                blockers.Execute(verb, commandArgs);
-                return 200; // 200 OK
-            case Noun.WorkItem:
-                WorkItem work_item = new WorkItem(dbContext);
-                work_item.Execute(verb, commandArgs);
-                return 200;
-            case Noun.Progress:
-                Progress progress = new Progress(dbContext);
-                progress.Execute(verb, commandArgs);
-                return 200;
-            case Noun.Tag:
-                Tag tag = new Tag(dbContext);
-                tag.Execute(verb, commandArgs);
-                return 200;
-            case Noun.User:
-                var userManager = new UserManager(dbContext);
-                userManager.Execute(verb, commandArgs);
-                return 200;
-            default:
-                Console.WriteLine(
-                    $"""
-                    Invalid noun.
-                    
-                    Valid nouns:
-                    {string.Join(", ", Enum.GetNames(typeof(Noun)).Where(n => n != "Invalid"))}
-                    """
-                );
-                return 400; // 400 Bad Request
-        }
+        return 0;
     }
 }

@@ -1,8 +1,11 @@
 using Lms.Models;
 using Lms;
+
 namespace Lms.Controllers
 {
-    class WorkItem : IController
+
+    [Cli.Controller]
+    class WorkItem
     {
 
         public enum Field
@@ -13,7 +16,6 @@ namespace Lms.Controllers
         }
 
         // DBContext for Database Interactions (Add, Update, Remove, SaveChanges)
-
         private LmsDbContext db;
 
         // Constructor - Set DB
@@ -23,76 +25,24 @@ namespace Lms.Controllers
         }
 
 
-        // Command Documentation for CLI Application
-
-        // Main Command Documentation
-        public string GetHelp()
+        [Cli.Verb]
+        public List<Models.WorkItem> List()
         {
-            return $"""
-        WorkItem 
-
-        Description:
-        Tracks Work Items for the program. A Work Item is something like an assignment or quiz.
-
-        Verbs:
-        - list: {GetHelp(Verb.List)}
-        - edit: {GetHelp(Verb.Edit)}
-        - create: {GetHelp(Verb.Create)}
-        - delete: {GetHelp(Verb.Delete)}
-        """;
+            return db.WorkItems.ToList();
         }
-
-        // Individual Commands with their Description
-
-        public string GetHelp(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.Create:
-                    return "Create a new WorkItem";
-                case Verb.Edit:
-                    return "Edit an existing WorkItem";
-                case Verb.List:
-                    return "List the WorkItems recorded previously.";
-                case Verb.Delete:
-                    return "Delete a new WorkItem";
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
-        public IEnumerable<Lms.Models.WorkItem> GetWorkItems()
-        {
-            return db.WorkItems.AsEnumerable();
-        }
-
-
-        // Execute Function without additional Arguments (Ex. List) -> lms Progress List
-        public void Execute(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    var work_items = GetWorkItems();
-                    Console.WriteLine("------------------------------");
-                    Console.WriteLine("| id | Title         | CreatedAt       | DueAt        | Description                       |");
-                    work_items.ToList().ForEach(
-                        (wi) =>
-                        {
-                            Console.WriteLine($"| w{wi.Id} | {wi.Title} | {wi.CreatedAt:yyyy-MM-dd} | {wi.DueAt:yyyy-MM-dd} |");
-                        }
-                    );
-                    Console.WriteLine("------------------------------");
-                    break;
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
-        }
-
 
         // Create new WorkItem
-        public Lms.Models.WorkItem Create(string title, string? due_at)
+        [Cli.Verb]
+        public Models.WorkItem Create(string[] args)
         {
+            if (args.Count() < 1)
+            {
+                throw new ArgumentException("Create requires at least a Title Arg");
+            }
+
+            var title = args[0];
+            string? due_at = args.ElementAtOrDefault(1);
+
             DateTime? parsed_due_at;
 
             if (due_at != null)
@@ -114,72 +64,17 @@ namespace Lms.Controllers
             return result;
         }
 
-
-        // Overloaded Execute Function with additional Arguments (Ex. Delete, Edit, Create) -> lms WorkItem Delete 0, lms WorkItem Edit 3
-        public void Execute(Verb verb, string[] command_args)
+        [Cli.Verb]
+        public Models.WorkItem Edit(string[] args)
         {
-            switch (verb)
+            if (args.Count() < 3)
             {
-                case Verb.List:
-                    Execute(verb);
-                    break;
-                case Verb.Delete:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Delete requires an ID!");
-                    }
-
-                    var delete_result = Delete(command_args[0]);
-
-                    Console.WriteLine("----------------");
-                    Console.WriteLine($"ID: {delete_result.Id}");
-                    Console.WriteLine($"Title: {delete_result.Title}");
-                    Console.WriteLine($"CreatedAt: {delete_result.CreatedAt}");
-                    Console.WriteLine($"DueAt: {delete_result.DueAt}");
-                    Console.WriteLine("----------------");
-                    break;
-                case Verb.Edit:
-                    if (command_args.Count() < 3)
-                    {
-                        throw new ArgumentException("3 arguments: Id, Field, and Value!");
-                    }
-
-                    var edit_result = Edit(command_args[0], command_args[1], command_args[2]);
-
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine($"Id: {edit_result.Id}");
-                    Console.WriteLine($"Title: {edit_result.Title}");
-                    Console.WriteLine($"CreatedAt: {edit_result.CreatedAt}");
-                    Console.WriteLine($"DueAt: {edit_result.DueAt}");
-                    Console.WriteLine("------------------------");
-
-                    break;
-                case Verb.Create:
-                    if (command_args.Count() < 1)
-                    {
-                        throw new ArgumentException("Create requires at least a Title Arg");
-                    }
-
-                    var title = command_args[0];
-                    string? due_at = command_args.ElementAtOrDefault(1);
-
-                    var create_result = Create(title, due_at);
-
-                    Console.WriteLine("----------------------");
-                    Console.WriteLine($"Id: {create_result.Id}");
-                    Console.WriteLine($"Title: {create_result.Title}");
-                    Console.WriteLine($"CreatedAt: {create_result.CreatedAt}");
-                    Console.WriteLine($"DueAt: {create_result.DueAt}");
-                    break;
-
-                default:
-                    throw new ArgumentException("Invalid Verb");
+                throw new ArgumentException("3 arguments: Id, Field, and Value!");
             }
-        }
 
-        // Edit WorkItem
-        public Lms.Models.WorkItem Edit(string id, string field, string value)
-        {
+            string id = args[0];
+            string field = args[1];
+            string value = args[2];
             int parsed_id = -1;
 
             try
@@ -231,9 +126,15 @@ namespace Lms.Controllers
             return result;
         }
 
-        // Delete WorkItem by Id
-        public Lms.Models.WorkItem Delete(string id)
+        [Cli.Verb]
+        public Models.WorkItem Delete(string[] args)
         {
+            if (args.Count() < 1)
+            {
+                throw new ArgumentException("Delete requires an ID!");
+            }
+
+            string id = args[0];
             int parsed_id;
             if (!int.TryParse(id, out parsed_id))
             {

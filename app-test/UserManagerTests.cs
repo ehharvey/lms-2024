@@ -46,8 +46,8 @@ public class TagTests: IDisposable
         var expected_two = "user_two";
 
         // Act
-        var user_one = manager.CreateUser(expected_one);
-        var user_two = manager.CreateUser(expected_two);
+        var user_one = manager.Create([expected_one]);
+        var user_two = manager.Create([expected_two]);
 
         // Assert
         var actual_one = user_one.Username;
@@ -81,7 +81,7 @@ public class TagTests: IDisposable
     public void TestFetchActiveUserValid() {
         // Arrange
         var username = "mr. foo";
-        var expected_user = manager.CreateUser(username);
+        var expected_user = manager.Create([username]);
 
         var sr_stream = new MemoryStream();
         var sr_writer = new StreamWriter(sr_stream);
@@ -107,7 +107,7 @@ public class TagTests: IDisposable
         db.SaveChanges();
 
         // Act
-        var actual = manager.DeleteUser(user.Id.ToString());
+        var actual = manager.DeleteUser([user.Id.ToString()]);
 
         // Assert
         Assert.Equal(username, actual.Username);
@@ -125,7 +125,7 @@ public class TagTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser("invalid id"); });
+        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser(["invalid id"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -143,7 +143,7 @@ public class TagTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- WorkItem does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser("-1"); });
+        var actual = Assert.Throws<ArgumentException>(() => { manager.DeleteUser(["-1"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -156,7 +156,7 @@ public class TagTests: IDisposable
         var expected = new List<Lms.Models.User>();
 
         // Act
-        var actual = manager.GetUsers().ToList();
+        var actual = manager.List().ToList();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -171,7 +171,7 @@ public class TagTests: IDisposable
         // Act
         db.Users.Add(expected);
         db.SaveChanges();
-        var actual = manager.GetUsers().ToList();
+        var actual = manager.List().ToList();
 
         // Assert
         Assert.Equal(1, actual.Count());
@@ -190,7 +190,7 @@ public class TagTests: IDisposable
         db.Users.Add(expected_one);
         db.Users.Add(expected_two);
         db.SaveChanges();
-        var actual = manager.GetUsers().ToList();
+        var actual = manager.List().ToList();
 
         // Assert
         Assert.Equal(2, actual.Count());
@@ -209,7 +209,7 @@ public class TagTests: IDisposable
         var expected_username = "edited_Username";
 
         // Act
-        var actual = manager.EditUser(edit.Id.ToString(), "Username", expected_username);
+        var actual = manager.Edit([edit.Id.ToString(), "Username", expected_username]);
 
         // Assert
         Assert.Equal(expected_username, actual.Username);
@@ -226,7 +226,7 @@ public class TagTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser("asd", "Title", "new title"); });
+        var actual = Assert.Throws<ArgumentException>(() => { manager.Edit(["asd", "Title", "new title"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -243,7 +243,7 @@ public class TagTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- WorkItem does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser("-1", "Title", "new title"); });
+        var actual = Assert.Throws<ArgumentException>(() => { manager.Edit(["-1", "Title", "new title"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -260,7 +260,7 @@ public class TagTests: IDisposable
         var expected = new ArgumentException("Invalid field");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { manager.EditUser(item.Id.ToString(), "invalid field", "new username"); });
+        var actual = Assert.Throws<ArgumentException>(() => { manager.Edit([item.Id.ToString(), "invalid field", "new username"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
