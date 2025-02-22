@@ -13,6 +13,10 @@ namespace Lms {
         // Causes the program to print its own configuration on startup
         public bool PrintConfiguration {get; init;} = false;
 
+        // EnabledControllers define which controllers are enabled
+        // and usable
+        public readonly string[] EnabledControllers {get; init;} = [];
+
         // Add more config parameters here. For example, add
         // DB credentials
         // URLs (to external dependencies like DBs, APIs, etc.)
@@ -38,7 +42,18 @@ namespace Lms {
 
             var propertyType = GetPropertyType(property);
 
-            var convertResult = Convert.ChangeType(configPropertyValueString, propertyType);
+            object configPropertyValueObject;
+
+            if (propertyType == typeof(string[]))
+            {
+                configPropertyValueObject = configPropertyValueString.Split("\n");
+            }
+            else
+            {
+                configPropertyValueObject = configPropertyValueString;
+            }
+
+            var convertResult = Convert.ChangeType(configPropertyValueObject, propertyType);
             return (T)convertResult;
         }
 

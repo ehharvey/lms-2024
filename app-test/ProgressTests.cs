@@ -24,7 +24,7 @@ public class ProgressTests: IDisposable
         db.SaveChanges();
 
         // Act
-        var actual = progress.Delete(item.Id.ToString());
+        var actual = progress.Delete([item.Id.ToString()]);
 
         // Assert
         Assert.Equal(description, actual.Description);
@@ -41,7 +41,7 @@ public class ProgressTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Delete("invalid id"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Delete(["invalid id"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -58,7 +58,7 @@ public class ProgressTests: IDisposable
         var exception = new ArgumentException("Invalid Id -- Progress does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Delete("-1"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Delete(["-1"]); });
 
         // Assert
         Assert.Equal(exception.Message, actual.Message);
@@ -71,7 +71,7 @@ public class ProgressTests: IDisposable
         var expected = new List<Lms.Models.Progress>();
 
         // Act
-        var actual = progress.GetProgresses().ToList();
+        var actual = progress.List().ToList();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -86,7 +86,7 @@ public class ProgressTests: IDisposable
         // Act
         db.Progresses.Add(expected);
         db.SaveChanges();
-        var actual = progress.GetProgresses().ToList();
+        var actual = progress.List().ToList();
 
         // Assert
         Assert.Equal(1, actual.Count());
@@ -105,7 +105,7 @@ public class ProgressTests: IDisposable
         db.Progresses.Add(expected_one);
         db.Progresses.Add(expected_two);
         db.SaveChanges();
-        var actual = progress.GetProgresses().ToList();
+        var actual = progress.List().ToList();
 
         // Assert
         Assert.Equal(2, actual.Count());
@@ -124,7 +124,7 @@ public class ProgressTests: IDisposable
         var expected_description = "edited_Description";
 
         // Act
-        var actual = progress.Edit(edit.Id.ToString(), "Description", expected_description);
+        var actual = progress.Edit([edit.Id.ToString(), "Description", expected_description]);
 
         // Assert
         Assert.Equal(expected_description, actual.Description);
@@ -140,7 +140,7 @@ public class ProgressTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- not an integer");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit("asd", "Description", "new description"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit(["asd", "Description", "new description"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -156,7 +156,7 @@ public class ProgressTests: IDisposable
         var expected = new ArgumentException("Invalid Id -- Progress does not exist");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit("-1", "Description", "new description"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit(["-1", "Description", "new description"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -172,7 +172,7 @@ public class ProgressTests: IDisposable
         var expected = new ArgumentException("Invalid field");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit(item.Id.ToString(), "invalid field", "new description"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit([item.Id.ToString(), "invalid field", "new description"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -188,7 +188,7 @@ public class ProgressTests: IDisposable
         var expected = new ArgumentException("Invalid WorkItem Id value provided");
 
         // Act
-        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit(item.Id.ToString(), "WorkItem", "Invalid Id"); });
+        var actual = Assert.Throws<ArgumentException>(() => { progress.Edit([item.Id.ToString(), "WorkItem", "Invalid Id"]); });
 
         // Assert
         Assert.Equal(expected.Message, actual.Message);
@@ -207,7 +207,7 @@ public class ProgressTests: IDisposable
         var expected_workItem = int.Parse(workItem);
 
         // Act
-        var actual = progress.Edit(item.Id.ToString(), "WorkItem", workItem);
+        var actual = progress.Edit([item.Id.ToString(), "WorkItem", workItem]);
 
         // Assert
         Assert.Equal(expected_workItem, actual.WorkItem.Id);
@@ -224,7 +224,7 @@ public class ProgressTests: IDisposable
         var expected_workItem = workItem_edited;
 
         // Act
-        var actual = progress.Edit(item.Id.ToString(), "WorkItem", workItem_edited);
+        var actual = progress.Edit([item.Id.ToString(), "WorkItem", workItem_edited]);
 
         // Assert
         Assert.Equal(expected_workItem, actual.WorkItem.Id.ToString());

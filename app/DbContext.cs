@@ -27,7 +27,7 @@ public class LmsDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<User> Users { get; set; } 
     public DbSet<Models.Progress> Progresses { get; set; }
     public DbSet<Models.WorkItem> WorkItems { get; set; }
-    public DbSet<Block> Blockers { get; set; }
+    public DbSet<Block> Block { get; set; }
 
     public DbSet<Models.Tag> Tags { get; set; }
 

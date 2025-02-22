@@ -24,7 +24,7 @@ public class TagTests: IDisposable
         db.SaveChanges();
 
         // Act
-        var actual = tag.DeleteTag([item.Id.ToString()]);
+        var actual = tag.Delete([item.Id.ToString()]);
 
         // Assert
         Assert.Equal(name, actual.Name);
@@ -36,7 +36,7 @@ public class TagTests: IDisposable
         var name = "New Tag";
         
         // Act
-        var createdTag = tag.CreateTag([name]);
+        var createdTag = tag.Create([name]);
 
         // Assert
         Assert.Equal(name, createdTag.Name);

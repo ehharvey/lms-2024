@@ -10,86 +10,22 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Lms.Controllers
 {
-    class Blockers : ICommand {
+    [Cli.Controller]
+    class Block {
         private LmsDbContext? db;
 
-        public Blockers(LmsDbContext db) {
+        public Block(LmsDbContext db) {
             this.db = db;
         }
 
-        public string GetHelp() {
-            return $"""
-            Blockers
-
-            Description:
-            The blockers for assignments.
-            Verbs:
-            - list: {GetHelp(Verb.List)}
-            - create: {GetHelp(Verb.Create)}
-            - edit: {GetHelp(Verb.Edit)}
-            - delete: {GetHelp(Verb.Delete)}
-            """;
-        }
-
-        public string GetHelp(Verb verb) {
-            switch (verb) {
-                case Verb.List:
-                    return "Lists the blockers for assignments.";
-                case Verb.Create:
-                    return "Create a new blocker for a assignment.";
-                case Verb.Edit:
-                    return "Edit the existing blocker for the assignment.";
-                case Verb.Delete:
-                    return "Delete the existing blocker for the assignment.";
-                default:
-                    throw new ArgumentException("Invalid verb.");
-            }
-        }
-
-        public void Execute(Verb verb, string[] args) {
-            switch (verb) {
-                // listing all blockers using ConsoleTable
-                case Verb.List:
-                    var table = new ConsoleTable("Id", "Description", "WorkItems", "CreatedAt");
-
-                    List<Block> blockers = db.Blockers.Include(b => b.WorkItems).ToList();
-                    foreach (var block in blockers)
-                    {
-                        string workItems = string.Join(", ", block.WorkItems.Select(w => w.Title));
-                        table.AddRow(block.Id, block.Description, workItems, block.CreatedAt);
-                    }
-                    table.Configure(o => o.NumberAlignment = Alignment.Right).Write(Format.Alternative);
-                    break;
-
-                // creating a new block
-                case Verb.Create:
-                    Block newBlock = Create(args);
-                    Console.WriteLine($"The new block with id({newBlock.Id}) has been created successfully.");
-                    break;
-                
-                // editing the existing block
-                case Verb.Edit:
-                    Block existBlock = Edit(args);
-                    Console.WriteLine($"The block with id({existBlock.Id}) has been updated successfully.");
-                    break;
-
-                // deleting the existing block
-                case Verb.Delete:
-                    Block blockToRemove = Delete(args);
-                    Console.WriteLine($"The block with id({blockToRemove.Id}) has been deleted successfully.");
-                    break;
-                default:
-                    throw new ArgumentException("Invalid verb.");
-            }
-        }
-
-        public Block Create(string[] args) {
+        [Cli.Verb]
+        public Models.Block Create(string[] args) {
             // when user enter invalid command just throw excpetion
             if(args.Length == 1 || args.Length > 2) {
                 throw new ArgumentException("Invalid options.");
             }
 
-            Block newBlock = new Block();
+            Models.Block newBlock = new Models.Block();
 
             // args.Length == 2 means user enters right command
             // user also enter without args which means args.Length == 0
@@ -104,10 +40,16 @@ namespace Lms.Controllers
                     newBlock.WorkItems = ConvertWorkItemList(args, 1);
                 }
             }
-            db.Blockers.Add(newBlock);
+
+            db.Block.Add(newBlock);
             db.SaveChanges();
 
             return newBlock;
+        }
+
+        [Cli.Verb]
+        public IEnumerable<Models.Block> List() {
+            return db.Block.ToList();
         }
 
         private List<Lms.Models.WorkItem> ConvertWorkItemList(string[] args, int argumentIndex) {
@@ -127,7 +69,8 @@ namespace Lms.Controllers
             return workItems;
         }
 
-        public Block Edit(string[] args) {
+        [Cli.Verb]
+        public Models.Block Edit(string[] args) {
             // when user enter invalid command just throw excpetion
             if(args.Length != 3) {
                 throw new ArgumentException("Invalid options.");
@@ -139,7 +82,7 @@ namespace Lms.Controllers
             }
 
             // when user enter non-existing blockId
-            Block existBlock = db.Blockers.Where(b => b.Id == blockId).FirstOrDefault();
+            Models.Block existBlock = db.Block.Where(b => b.Id == blockId).FirstOrDefault();
             if(existBlock == null) {
                 throw new ArgumentException("Invalid block id.");
             }
@@ -162,7 +105,8 @@ namespace Lms.Controllers
             return existBlock;
         }
 
-        public Block Delete(string[] args) {
+        [Cli.Verb]
+        public Models.Block Delete(string[] args) {
             // when user enter invalid command just throw excpetion
             Console.WriteLine(args.Length);
             if(args.Length != 1) {
@@ -175,24 +119,20 @@ namespace Lms.Controllers
             }
 
             // when user enter non-existing blockId
-            Block blockToRemove = db.Blockers.Where(b => b.Id == blockIdToRemove).FirstOrDefault();
+            Models.Block blockToRemove = db.Block.Where(b => b.Id == blockIdToRemove).FirstOrDefault();
             if(blockToRemove == null) {
                 throw new ArgumentException("Invalid block id.");
             }
 
-            db.Blockers.Remove(blockToRemove);
+            db.Block.Remove((Models.Block)blockToRemove);
             db.SaveChanges();
 
             return blockToRemove;
         }
 
-        public void Execute(Verb verb) {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Block> GetBlockers()
+        public IEnumerable<Models.Block> GetBlockers()
         {
-            return db.Blockers.AsEnumerable();
+            return db.Block.AsEnumerable();
         }
     }
 }

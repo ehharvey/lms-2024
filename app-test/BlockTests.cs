@@ -8,12 +8,12 @@ namespace block_test;
 public class BlockTests: IDisposable
  {
     static LmsDbContext db = new LmsDbContext(DbDriver.Memory, "BlockTests");
-    Blockers block = new Blockers(db);
+    Lms.Controllers.Block block = new Lms.Controllers.Block(db);
 
 
     public void Dispose()
     {
-        db.Blockers.RemoveRange(db.Blockers);
+        db.Block.RemoveRange(db.Block);
         db.SaveChanges();
     }
 
@@ -21,8 +21,8 @@ public class BlockTests: IDisposable
     public void TestDeleteBlock() {
         // Arrange
         var description = "Delete Me!";
-        var item = new Block { Description = description };
-        db.Blockers.Add(item);
+        var item = new Lms.Models.Block { Description = description };
+        db.Block.Add(item);
         db.SaveChanges();
         string[] args = {item.Id.ToString()};
 
@@ -63,7 +63,7 @@ public class BlockTests: IDisposable
     public void TestNoWorkItems()
     {
         // Arrange
-        var expected = new List<Block>();
+        var expected = new List<Lms.Models.Block>();
 
         // Act
         var actual = block.GetBlockers().ToList();
@@ -76,10 +76,10 @@ public class BlockTests: IDisposable
     public void TestOneBlock()
     {
         // Arrange
-        var expected = new Block { Description = "TestOneBlock", WorkItems = []};
+        var expected = new Lms.Models.Block { Description = "TestOneBlock", WorkItems = []};
 
         // Act
-        db.Blockers.Add(expected);
+        db.Block.Add(expected);
         db.SaveChanges();
         var actual = block.GetBlockers().ToList();
 
@@ -92,13 +92,13 @@ public class BlockTests: IDisposable
     public void TestTwoBlockers()
     {
         // Arrange
-        var expected_one = new Block { Description = "TestTwoBlockOne", WorkItems = []};
-        var expected_two = new Block { Description = "TestTwoBlockTwo", WorkItems = []};
+        var expected_one = new Lms.Models.Block { Description = "TestTwoBlockOne", WorkItems = []};
+        var expected_two = new Lms.Models.Block { Description = "TestTwoBlockTwo", WorkItems = []};
 
 
         // Act
-        db.Blockers.Add(expected_one);
-        db.Blockers.Add(expected_two);
+        db.Block.Add(expected_one);
+        db.Block.Add(expected_two);
         db.SaveChanges();
         var actual = block.GetBlockers().ToList();
 
@@ -124,8 +124,8 @@ public class BlockTests: IDisposable
     [Fact]
     public void TestBlockItem() {
         // Arrange
-        var edit = new Block { Description = "description" };
-        db.Blockers.Add(edit);
+        var edit = new Lms.Models.Block { Description = "description" };
+        db.Block.Add(edit);
         db.SaveChanges();
 
         string[] args = {edit.Id.ToString(), "edited_description", "-"};

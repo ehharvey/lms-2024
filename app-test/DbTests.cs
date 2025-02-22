@@ -12,8 +12,8 @@ public class DbTests
     [Fact]
     public void TestAddBlock()
     {
-        Block block = new Block();
-        db.Blockers.Add(block);
+        Lms.Models.Block block = new Lms.Models.Block();
+        db.Block.Add(block);
         db.SaveChanges();
         Assert.NotEqual(0, block.Id);
     }
@@ -40,7 +40,7 @@ public class DbTests
     public void TestAddWorkItemWithBlock()
     {
         Lms.Models.WorkItem workItem = new Lms.Models.WorkItem { Title = "Test Work Item" };
-        Block block = new Block();
+        Lms.Models.Block block = new Lms.Models.Block();
         workItem.Blocks.Add(block);
         db.WorkItems.Add(workItem);
         db.SaveChanges();

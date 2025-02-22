@@ -4,7 +4,8 @@ using EntityFramework.Exceptions.Common;
 
 namespace Lms.Controllers
 {
-    class Tag : ICommand
+    [Cli.Controller]
+    class Tag
     {
         private LmsDbContext db;
 
@@ -13,47 +14,14 @@ namespace Lms.Controllers
             this.db = db;
         }
 
-        public string GetHelp()
-        {
-            return $"""
-        Tag 
-
-        Description:
-        Tags are things applied to all other entities.
-        This command managed the existence of tags and applies
-        them to other entities (e.g., WorkItem Tags, etc.)
-
-        Verbs:
-        - create: {GetHelp(Verb.Create)}
-        - list: {GetHelp(Verb.List)}
-        - edit: {GetHelp(Verb.Edit)}
-        - delete: {GetHelp(Verb.Delete)}
-        """;
-        }
-
-        public string GetHelp(Verb verb)
-        {
-            switch (verb)
-            {
-                case Verb.Create:
-                    return "Create a tag. Requires 1 additional argument";
-                case Verb.List:
-                    return "List currently created tags";
-                case Verb.Edit:
-                    return "Edit the name of a tag";
-                case Verb.Delete:
-                    return "Delete a tag";
-                default:
-                    throw new ArgumentException("Unsupported Tag");
-            }
-        }
-
-        public List<Lms.Models.Tag> GetTags()
+        [Cli.Verb]
+        public List<Models.Tag> List()
         {
             return db.Tags.AsEnumerable().ToList();
         }
 
-        public Lms.Models.Tag CreateTag(string[] command_args)
+        [Cli.Verb]
+        public Models.Tag Create(string[] command_args)
         {
             if (command_args.Count() < 1)
             {
@@ -75,7 +43,8 @@ namespace Lms.Controllers
             return tag;
         }
 
-        public Lms.Models.Tag DeleteTag(string[] command_args)
+        [Cli.Verb]
+        public Models.Tag Delete(string[] command_args)
         {
             // First argument should be
             var string_id = command_args[0];
@@ -97,38 +66,6 @@ namespace Lms.Controllers
             db.SaveChanges();
 
             return result;
-        }
-
-        public void Execute(Verb verb)
-        {
-            throw new NotImplementedException("Use Execute(verb, command_args)");
-        }
-
-
-        public void Execute(Verb verb, string[] command_args)
-        {
-            switch (verb)
-            {
-                case Verb.List:
-                    List<Lms.Models.Tag> tags = GetTags();
-                    tags.ForEach(
-                        (l) =>
-                        {
-                            Console.WriteLine(l.Name);
-                        }
-                    );
-                    break;
-                case Verb.Create:
-                    var createdTag = CreateTag(command_args);
-                    Console.WriteLine(createdTag.Name);
-                    break;
-                case Verb.Delete:
-                    var deletedTag = DeleteTag(command_args);
-                    Console.WriteLine(deletedTag.Name);
-                    break;
-                default:
-                    throw new ArgumentException("Invalid Verb");
-            }
         }
     }
 }
