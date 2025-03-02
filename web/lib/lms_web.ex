@@ -1,12 +1,12 @@
-defmodule WebWeb do
+defmodule LmsWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use WebWeb, :controller
-      use WebWeb, :html
+      use LmsWeb, :controller
+      use LmsWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -21,7 +21,7 @@ defmodule WebWeb do
 
   def router do
     quote do
-      use Phoenix.Router, helpers: false
+      use Phoenix.Router, helpers: true
 
       # Import common connection and controller functions to use in pipelines
       import Plug.Conn
@@ -40,9 +40,9 @@ defmodule WebWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: WebWeb.Layouts]
+        layouts: [html: LmsWeb.Layouts]
 
-      use Gettext, backend: WebWeb.Gettext
+      use Gettext, backend: LmsWeb.Gettext
 
       import Plug.Conn
 
@@ -53,7 +53,7 @@ defmodule WebWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {WebWeb.Layouts, :app}
+        layout: {LmsWeb.Layouts, :app}
 
       unquote(html_helpers())
     end
@@ -83,12 +83,12 @@ defmodule WebWeb do
   defp html_helpers do
     quote do
       # Translation
-      use Gettext, backend: WebWeb.Gettext
+      use Gettext, backend: LmsWeb.Gettext
 
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components
-      import WebWeb.CoreComponents
+      import LmsWeb.CoreComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -101,9 +101,9 @@ defmodule WebWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: WebWeb.Endpoint,
-        router: WebWeb.Router,
-        statics: WebWeb.static_paths()
+        endpoint: LmsWeb.Endpoint,
+        router: LmsWeb.Router,
+        statics: LmsWeb.static_paths()
     end
   end
 

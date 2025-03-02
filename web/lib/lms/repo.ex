@@ -1,5 +1,5 @@
-defmodule Web.Repo do
+defmodule Lms.Repo do
   use Ecto.Repo,
-    otp_app: :web,
+    otp_app: :lms,
     adapter: Ecto.Adapters.SQLite3
 end

@@ -1,5 +1,5 @@
-defmodule WebWeb.PageControllerTest do
-  use WebWeb.ConnCase
+defmodule LmsWeb.PageControllerTest do
+  use LmsWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

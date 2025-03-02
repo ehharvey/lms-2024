@@ -7,20 +7,20 @@
 # General application configuration
 import Config
 
-config :web,
-  ecto_repos: [Web.Repo],
+config :lms,
+  ecto_repos: [Lms.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :web, WebWeb.Endpoint,
+config :lms, LmsWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: WebWeb.ErrorHTML, json: WebWeb.ErrorJSON],
+    formats: [html: LmsWeb.ErrorHTML, json: LmsWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Web.PubSub,
-  live_view: [signing_salt: "rMSr0p4d"]
+  pubsub_server: Lms.PubSub,
+  live_view: [signing_salt: "oN8EnFQo"]
 
 # Configures the mailer
 #
@@ -29,12 +29,12 @@ config :web, WebWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :web, Web.Mailer, adapter: Swoosh.Adapters.Local
+config :lms, Lms.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  web: [
+  lms: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  web: [
+  lms: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
@@ -64,3 +64,18 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+
+config :kaffy,
+  # required keys
+  otp_app: :lms, # required
+  ecto_repo: Lms.Repo, # required
+  router: LmsWeb.Router, # required
+  # optional keys
+  admin_title: "LMS Admin Page",
+  # admin_logo: [
+  #   url: "https://example.com/img/logo.png",
+  #   style: "width:200px;height:66px;"
+  # ],
+  # admin_logo_mini: "/images/logo-mini.png",
+  enable_context_dashboards: true, # since v0.10.0
+  admin_footer: "Kaffy &copy; 2023" # since v0.10.0

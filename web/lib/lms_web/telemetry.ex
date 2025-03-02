@@ -1,4 +1,4 @@
-defmodule WebWeb.Telemetry do
+defmodule LmsWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -53,23 +53,23 @@ defmodule WebWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("web.repo.query.total_time",
+      summary("lms.repo.query.total_time",
         unit: {:native, :millisecond},
         description: "The sum of the other measurements"
       ),
-      summary("web.repo.query.decode_time",
+      summary("lms.repo.query.decode_time",
         unit: {:native, :millisecond},
         description: "The time spent decoding the data received from the database"
       ),
-      summary("web.repo.query.query_time",
+      summary("lms.repo.query.query_time",
         unit: {:native, :millisecond},
         description: "The time spent executing the query"
       ),
-      summary("web.repo.query.queue_time",
+      summary("lms.repo.query.queue_time",
         unit: {:native, :millisecond},
         description: "The time spent waiting for a database connection"
       ),
-      summary("web.repo.query.idle_time",
+      summary("lms.repo.query.idle_time",
         unit: {:native, :millisecond},
         description:
           "The time the connection spent waiting before being checked out for the query"
@@ -87,7 +87,7 @@ defmodule WebWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {WebWeb, :count_users, []}
+      # {LmsWeb, :count_users, []}
     ]
   end
 end

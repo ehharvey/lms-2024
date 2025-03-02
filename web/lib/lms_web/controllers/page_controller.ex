@@ -1,5 +1,5 @@
-defmodule WebWeb.PageController do
-  use WebWeb, :controller
+defmodule LmsWeb.PageController do
+  use LmsWeb, :controller
 
   def home(conn, _params) do
     # The home page is often custom made,
