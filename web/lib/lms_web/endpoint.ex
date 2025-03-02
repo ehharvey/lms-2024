@@ -1,13 +1,13 @@
-defmodule WebWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :web
+defmodule LmsWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :lms
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_web_key",
-    signing_salt: "x62ACUFf",
+    key: "_lms_key",
+    signing_salt: "gukHTWI6",
     same_site: "Lax"
   ]
 
@@ -21,9 +21,9 @@ defmodule WebWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :web,
+    from: :lms,
     gzip: false,
-    only: WebWeb.static_paths()
+    only: LmsWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -31,7 +31,7 @@ defmodule WebWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :web
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :lms
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -46,8 +46,14 @@ defmodule WebWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug Plug.Static,
+    at: "/kaffy", # or "/path/to/your/static/kaffy"
+    from: :kaffy,
+    gzip: false,
+    only: ~w(assets)
+
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug WebWeb.Router
+  plug LmsWeb.Router
 end

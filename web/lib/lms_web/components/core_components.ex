@@ -1,4 +1,4 @@
-defmodule WebWeb.CoreComponents do
+defmodule LmsWeb.CoreComponents do
   @moduledoc """
   Provides core UI components.
 
@@ -15,7 +15,7 @@ defmodule WebWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
-  use Gettext, backend: WebWeb.Gettext
+  use Gettext, backend: LmsWeb.Gettext
 
   alias Phoenix.LiveView.JS
 
@@ -661,9 +661,9 @@ defmodule WebWeb.CoreComponents do
     # with our gettext backend as first argument. Translations are
     # available in the errors.po file (as we use the "errors" domain).
     if count = opts[:count] do
-      Gettext.dngettext(WebWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(LmsWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(WebWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(LmsWeb.Gettext, "errors", msg, opts)
     end
   end
 

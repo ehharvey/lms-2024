@@ -1,9 +1,9 @@
-defmodule Web.MixProject do
+defmodule Lms.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :web,
+      app: :lms,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule Web.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Web.Application, []},
+      mod: {Lms.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -57,7 +57,8 @@ defmodule Web.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:kaffy, "~> 0.10.3"}
     ]
   end
 
@@ -74,10 +75,10 @@ defmodule Web.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind web", "esbuild web"],
+      "assets.build": ["tailwind lms", "esbuild lms"],
       "assets.deploy": [
-        "tailwind web --minify",
-        "esbuild web --minify",
+        "tailwind lms --minify",
+        "esbuild lms --minify",
         "phx.digest"
       ]
     ]

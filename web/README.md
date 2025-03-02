@@ -1,4 +1,4 @@
-# Web
+# Lms
 
 To start your Phoenix server:
 

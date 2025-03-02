@@ -1,4 +1,4 @@
-defmodule WebWeb.Gettext do
+defmodule LmsWeb.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 
@@ -6,7 +6,7 @@ defmodule WebWeb.Gettext do
   that you can use in your application. To use this Gettext backend module,
   call `use Gettext` and pass it as an option:
 
-      use Gettext, backend: WebWeb.Gettext
+      use Gettext, backend: LmsWeb.Gettext
 
       # Simple translation
       gettext("Here is the string to translate")
@@ -21,5 +21,5 @@ defmodule WebWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext.Backend, otp_app: :web
+  use Gettext.Backend, otp_app: :lms
 end

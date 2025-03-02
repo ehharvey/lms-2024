@@ -1,8 +1,8 @@
 import Config
 
 # Configure your database
-config :web, Web.Repo,
-  database: Path.expand("../web_dev.db", __DIR__),
+config :lms, Lms.Repo,
+  database: Path.expand("../lms_dev.db", __DIR__),
   pool_size: 5,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
@@ -13,7 +13,7 @@ config :web, Web.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :web, WebWeb.Endpoint,
+config :lms, LmsWeb.Endpoint,
   # Bind to 0.0.0.0 to expose the server to the docker host machine.
   # This makes make the service accessible from any network interface.
   # Change to `ip: {127, 0, 0, 1}` to allow access only from the server machine.
@@ -21,10 +21,10 @@ config :web, WebWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "F4HJsDSGtWB17BOa0Rmgazm4Nrh+9imX0Agk6C3MSYYw5acGmcLxNIF8n9GD+FMu",
+  secret_key_base: "lU9mtIHO/nX722yhiwbrepikYohLFgNawMxBcmPwcDYaAZ92UhDST9SoDOSdbmUK",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:web, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:web, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:lms, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:lms, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -51,17 +51,17 @@ config :web, WebWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :web, WebWeb.Endpoint,
+config :lms, LmsWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/web_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/lms_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :web, dev_routes: true
+config :lms, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
