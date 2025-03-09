@@ -19,8 +19,7 @@ config :lms, LmsWeb.Endpoint,
     formats: [html: LmsWeb.ErrorHTML, json: LmsWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Lms.PubSub,
-  live_view: [signing_salt: "oN8EnFQo"]
+  pubsub_server: Lms.PubSub
 
 # Configures the mailer
 #
@@ -59,7 +58,7 @@ config :kaffy,
   ecto_repo: Lms.Repo, # required
   router: LmsWeb.Router, # required
   # optional keys
-  admin_title: "LMS Admin Page",
+  admin_title: "LMS Admin",
   # admin_logo: [
   #   url: "https://example.com/img/logo.png",
   #   style: "width:200px;height:66px;"
