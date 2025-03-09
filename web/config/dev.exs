@@ -24,7 +24,6 @@ config :lms, LmsWeb.Endpoint,
   secret_key_base: "lU9mtIHO/nX722yhiwbrepikYohLFgNawMxBcmPwcDYaAZ92UhDST9SoDOSdbmUK",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:lms, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:lms, ~w(--watch)]}
   ]
 
 # ## SSL Support
