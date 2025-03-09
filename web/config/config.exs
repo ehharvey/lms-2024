@@ -19,8 +19,7 @@ config :lms, LmsWeb.Endpoint,
     formats: [html: LmsWeb.ErrorHTML, json: LmsWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Lms.PubSub,
-  live_view: [signing_salt: "oN8EnFQo"]
+  pubsub_server: Lms.PubSub
 
 # Configures the mailer
 #
@@ -36,21 +35,9 @@ config :esbuild,
   version: "0.17.11",
   lms: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(--bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
-  ]
-
-# Configure tailwind (the version is required)
-config :tailwind,
-  version: "3.4.3",
-  lms: [
-    args: ~w(
-      --config=tailwind.config.js
-      --input=css/app.css
-      --output=../priv/static/assets/app.css
-    ),
-    cd: Path.expand("../assets", __DIR__)
   ]
 
 # Configures Elixir's Logger
@@ -71,7 +58,7 @@ config :kaffy,
   ecto_repo: Lms.Repo, # required
   router: LmsWeb.Router, # required
   # optional keys
-  admin_title: "LMS Admin Page",
+  admin_title: "LMS Admin",
   # admin_logo: [
   #   url: "https://example.com/img/logo.png",
   #   style: "width:200px;height:66px;"

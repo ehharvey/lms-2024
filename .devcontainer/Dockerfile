@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/devcontainers/base:bookworm
 
 RUN apt update
 RUN apt upgrade -y
-RUN apt install -y build-essential autoconf automake m4 libncurses-dev libwxgtk3.2-dev libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev openjdk-17-jdk
+RUN apt install -y inotify-tools build-essential autoconf automake m4 libncurses-dev libwxgtk3.2-dev libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils libncurses-dev openjdk-17-jdk
 
 RUN mkdir -p /opt/asdf/bin
 
