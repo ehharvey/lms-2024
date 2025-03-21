@@ -20,6 +20,13 @@ defmodule LmsWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/courses", LmsWeb do
+    pipe_through :browser
+
+    get "/", CourseController, :home
+    get "/:id", CourseController, :single
+  end
+
   if Application.compile_env(:lms, :dev_routes) do
     scope "/dev" do
       pipe_through :browser

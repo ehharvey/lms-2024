@@ -26,6 +26,19 @@ config :lms, LmsWeb.Endpoint,
     esbuild: {Esbuild, :install_and_run, [:lms, ~w(--sourcemap=inline --watch)]},
   ]
 
+
+# Watch static and templates for browser reloading.
+
+
+config :lms, LmsWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/lms_web/(controllers|live|components)/.*(ex|heex)$"
+    ]
+  ]
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -65,3 +78,10 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+
+config :phoenix_live_view,
+  # Include HEEx debug annotations as HTML comments in rendered markup
+  debug_heex_annotations: true,
+  # Enable helpful, but potentially expensive runtime checks
+  enable_expensive_runtime_checks: true
