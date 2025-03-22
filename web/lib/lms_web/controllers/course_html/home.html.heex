@@ -1,0 +1,22 @@
+<div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Course Title</th>
+                <th scope="col">Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%= for course <- @courses do %>
+                <tr>
+                    <th>
+                        <a href={"/courses/#{course.id}"}><%= course.title %></a>
+                    </th>
+                    <td>
+                        <%= course.tagline %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

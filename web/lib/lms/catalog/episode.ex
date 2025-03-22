@@ -1,9 +1,10 @@
-defmodule Lms.Episode do
+defmodule Lms.Catalog.Episode do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "episodes" do
     field :title, :string
+    field :description, :string
 
     timestamps(type: :utc_datetime)
   end
