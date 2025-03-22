@@ -22,4 +22,10 @@ defmodule Lms.Catalog do
         {:error, "Not Found"}
     end
   end
+
+  def create_course(attrs) do
+    %Course{}
+    |> Course.changeset(attrs)
+    |> Repo.insert()
+  end
 end
