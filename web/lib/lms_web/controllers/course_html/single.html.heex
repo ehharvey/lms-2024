@@ -38,10 +38,10 @@
     <div class="col-12 col-md-6 d-flex flex-column">
         <div class="container border rounded p-3">
             <h3 class="border-bottom">Contents</h3>
-            <dl class="row g-md-3">
+            <dl class="row">
                 <%= for c <- @course.episodes do %>
-                    <dt class="col-md-5 col-lg-3"><%= c.title %></dt>
-                    <dd class="col-md-7 col-lg-9"><%= c.description %></dd>
+                    <dt class="col-auto"><%= c.title %></dt>
+                    <dd class="col-auto"><%= c.description %></dd>
                 <% end %>
             </dl>
         </div>

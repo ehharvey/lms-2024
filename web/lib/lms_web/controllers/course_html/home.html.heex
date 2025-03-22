@@ -1,51 +1,22 @@
-<div class="row g-3">
-    <div class="col-md-8 col-12">
-        <div class="border rounded p-3">
-            <h3 class="text-center">Courses</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Course Title</th>
-                        <th scope="col">Summary</th>
-                        <%!-- <th scope="col">Categories</th> --%>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%= for course <- @courses do %>
-                        <tr>
-                            <th>
-                                <%= course.title %>
-                            </th>
-                            <td>
-                                <%= course.tagline %>
-                            </td>
-                            <%!-- <td class="col-2">
-                                <%= for category <- course.categories do %>
-                                    <a class="btn btn-outline-dark"><%= category.title %></a>
-                                <% end %>
-                            </td> --%>
-                            <td>
-                                <a href={"/courses/#{course.id}"} class="btn btn-primary">Details</a>
-                            </td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <div class="border rounded p-3">
-            <h3 class="text-center text-muted">Categories</h3>
-            <div class="row g-3 mt-3">
-                <ul class="list-group">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<div class="col-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Course Title</th>
+                <th scope="col">Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%= for course <- @courses do %>
+                <tr>
+                    <th>
+                        <a href={"/courses/#{course.id}"}><%= course.title %></a>
+                    </th>
+                    <td>
+                        <%= course.tagline %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
 </div>
